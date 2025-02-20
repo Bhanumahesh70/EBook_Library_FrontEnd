@@ -99,3 +99,75 @@ button:focus-visible {
   margin: 100px;
   padding: 10px;
 }
+
+/* Book Details Container CSS ***/
+
+.book-details-container {
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px; /* Adjust width as needed */
+  margin: 50px auto; /* Centers it horizontally */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers content inside */
+}
+.book-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.book-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+}
+
+.book-cover .book-image {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.book-info .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.book-info .form-group label {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 0.5rem;
+}
+
+.book-info .form-group .icon {
+  margin-right: 0.5rem;
+  color: #007bff;
+}
+
+.book-info .form-control {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.additional-details {
+  margin-top: 2rem;
+}
+.additional-details h4 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.additional-details p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}

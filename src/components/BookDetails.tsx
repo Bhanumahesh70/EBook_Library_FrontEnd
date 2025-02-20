@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { getBooksById } from '../services/bookDetailsService';
+
 interface BookDetailsProps {
   id: string;
   title: string;
@@ -27,10 +28,15 @@ function BookDetails() {
   console.log('book', book);
   if (!book) return <p>Loading...</p>;
   return (
-    <div className="container mt-5">
-      <h1>{book.title}-Details</h1>
-      <div className="row">
-        <div className="col-md-6">
+    <div className="book-details-container">
+      <h1>
+        {book.title} <span className="details-text">-Details</span>{' '}
+      </h1>
+      <div className="book-detail-grid">
+        <div className={'book-cover'}>
+          <img src="../assets/Book" alt={book.title} className="book-image" />
+        </div>
+        <div className="book-info">
           <div className="form-group">
             <label htmlFor="title">Title</label>
             <input
@@ -82,24 +88,23 @@ function BookDetails() {
             />
           </div>
 
-          <div className="col-md-6"></div>
-          <h4>Additional Details</h4>
+          <div className="additional-details">
+            <h4>Additional Details</h4>
 
-          <p>
-            <strong>Available Copies: </strong>
-            {book.availableCopies}
-          </p>
+            <p>
+              <strong>Available Copies: </strong>
+              {book.availableCopies}
+            </p>
 
-          <p>
-            <strong>Total Copies:</strong>
-            {book.totalCopies}
-          </p>
+            <p>
+              <strong>Total Copies:</strong>
+              {book.totalCopies}
+            </p>
 
-          <p>
-            <strong>Description:</strong>"description"
-          </p>
-
-          <img src="" alt={book.title} className="img-fluid mb-4" />
+            <p>
+              <strong>Description:</strong>"description"
+            </p>
+          </div>
         </div>
       </div>
     </div>

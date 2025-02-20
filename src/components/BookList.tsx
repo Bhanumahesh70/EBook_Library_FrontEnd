@@ -31,9 +31,6 @@ function BookList(books: bookProps) {
         <Link to={`books/${books.id}`} className="btn btn-primary">
           View Details
         </Link>
-        <a href="#" className="card-link">
-          Another link
-        </a>
       </div>
     </div>
   );

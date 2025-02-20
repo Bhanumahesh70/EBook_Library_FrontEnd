@@ -36,15 +36,15 @@ function App() {
   });
   return (
     <>
-      <Navbar />
-      <Header />
       <Router>
+        <Navbar />
+        <Header />
         <Routes>
           <Route
-            path='/'
-            element={<div className='bookContainer'>{bookElements}</div>}
+            path="/"
+            element={<div className="bookContainer">{bookElements}</div>}
           />
-          <Route path='/books/:id' element={<BookDetails />} />
+          <Route path="/books/:id" element={<BookDetails />} />
         </Routes>
       </Router>
     </>
