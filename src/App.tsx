@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Navbar from './components/Navbar';
 import Book from './components/BookList';
 import BookDetails from './components/BookDetails';
+import AddBookForm from './components/AddBookForm';
 
 type Book = {
   id: string;
@@ -45,6 +46,7 @@ function App() {
             element={<div className="bookContainer">{bookElements}</div>}
           />
           <Route path="/books/:id" element={<BookDetails />} />
+          <Route path="/books" element={<AddBookForm />} />
         </Routes>
       </Router>
     </>

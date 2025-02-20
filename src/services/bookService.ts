@@ -1,14 +1,31 @@
 import axios from "axios"
 
 const API_URL = "http://localhost:8080/books"
-
-export const getBooks = async ()=>{
+type Book = {
+    id: string;
+    title: string;
+    author: string;
+    language: string;
+    publicationYear: string;
+  };
+export const getBooks = async (): Promise<Book[]>=>{
     try {
-        const response = await axios.get(API_URL);
+        const response = await axios.get<Book[]>(API_URL);
         return response.data;
         
     } catch (error) {
         console.log("Error fetching the books: ", error);
         return [];
+    }
+};
+
+export const addBook = async(book:Omit<Book,"id">):Promise<Book|null>=>{
+    try {
+        const response = await axios.post<Book>(API_URL,book);
+        return response.data;
+        
+    } catch (error) {
+        console.log("Error fetching the books: ", error);
+        return null;
     }
 };
