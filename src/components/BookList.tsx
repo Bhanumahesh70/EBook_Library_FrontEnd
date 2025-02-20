@@ -1,6 +1,13 @@
 import React from "react";
 
-function BookList() {
+interface bookProps {
+  id: string;
+  title: string;
+  author: string;
+  language: string;
+  pusblished_year: string;
+}
+function BookList(books: bookProps) {
   return (
     <div className="card bookCard" style={{ width: "18rem" }}>
       <img className="card-img-top" src="..." alt="Card image cap" />
@@ -12,9 +19,12 @@ function BookList() {
         </p>
       </div>
       <ul className="list-group list-group-flush">
-        <li className="list-group-item">Author:</li>
-        <li className="list-group-item">Language:</li>
-        <li className="list-group-item"> Published Year:</li>
+        <li className="list-group-item">Author: {books.author}</li>
+        <li className="list-group-item">Language:{books.language}</li>
+        <li className="list-group-item">
+          {" "}
+          Published Year:{books.pusblished_year}
+        </li>
       </ul>
       <div className="card-body">
         <a href="#" className="card-link">
