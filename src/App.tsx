@@ -18,8 +18,18 @@ type Book = {
 function App() {
   const [books, setBooks] = useState<Book[]>([]);
 
+  function refreshBooks() {
+    try {
+      getBooks().then((data) => setBooks(data));
+      console.log('Books Fetched Sucessfully');
+    } catch (error) {
+      console.log('Failed to fetch book');
+      console.log('error', error);
+    }
+  }
+
   useEffect(() => {
-    getBooks().then((data) => setBooks(data));
+    refreshBooks();
   }, []);
   //console.log(books[0].author);
 
@@ -46,7 +56,10 @@ function App() {
             element={<div className="bookContainer">{bookElements}</div>}
           />
           <Route path="/books/:id" element={<BookDetails />} />
-          <Route path="/books" element={<AddBookForm />} />
+          <Route
+            path="/books"
+            element={<AddBookForm refreshBooks={refreshBooks} />}
+          />
         </Routes>
       </Router>
     </>

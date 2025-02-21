@@ -94,6 +94,7 @@ button:focus-visible {
   display: flex;
   justify-content: center;
   background-color: #d6d7ea;
+  flex-wrap: wrap;
 }
 .bookCard{
   margin: 100px;

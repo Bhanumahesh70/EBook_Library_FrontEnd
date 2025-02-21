@@ -1,6 +1,9 @@
 import React from 'react';
+interface Props {
+  refreshBooks: () => void;
+}
 import { addBook } from '../services/bookService';
-const AddBookForm = () => {
+const AddBookForm = ({ refreshBooks }: Props) => {
   const [book, setBook] = React.useState({
     id: ' ',
     title: '',
@@ -12,13 +15,20 @@ const AddBookForm = () => {
     availableCopies: '',
   });
 
+  const [message, setMessage] = React.useState(' ');
+  const [messageType, setMessageType] = React.useState('');
   async function addNewBook(e) {
     e.preventDefault();
     try {
       const addedBook = await addBook(book);
       console.log('Book added Successfully', addedBook);
+      setMessage('Book is added Successfully');
+      setMessageType('sucess');
+      refreshBooks();
     } catch (error) {
       console.error('Error adding book:', error);
+      setMessage('Failed to add Book. Error in adding book');
+      setMessageType('error');
     }
   }
 
@@ -118,6 +128,11 @@ const AddBookForm = () => {
           Submit
         </button>
       </form>
+      {message && (
+        <div className={`alert alert-${messageType}`} role="alert">
+          {message}
+        </div>
+      )}
     </div>
   );
 };

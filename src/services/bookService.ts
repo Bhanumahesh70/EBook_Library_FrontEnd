@@ -19,13 +19,13 @@ export const getBooks = async (): Promise<Book[]>=>{
     }
 };
 
-export const addBook = async(book:Omit<Book,"id">):Promise<Book|null>=>{
+export const addBook = async(book:Omit<Book,"id">):Promise<Book>=>{
     try {
         const response = await axios.post<Book>(API_URL,book);
         return response.data;
         
     } catch (error) {
-        console.log("Error fetching the books: ", error);
-        return null;
+        console.log("Failed to add book. Error in adding the books: ", error);
+        throw error;
     }
 };
