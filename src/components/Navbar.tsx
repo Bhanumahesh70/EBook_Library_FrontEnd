@@ -20,8 +20,11 @@ const Navbar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
+          <div
+            className="collapse navbar-collapse   "
+            id="navbarSupportedContent"
+          >
+            <ul className="navbar-nav mx-auto ">
               <li className="nav-item active">
                 <Link to={`/`} className="nav-link">
                   Home
@@ -64,20 +67,22 @@ const Navbar = () => {
                 </a>
               </li>
             </ul>
-            <form className="form-inline my-2 my-lg-0">
-              <input
-                className="form-control mr-sm-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button
-                className="btn btn-outline-success my-2 my-sm-0"
-                type="submit"
-              >
-                Search
-              </button>
-            </form>
+            <div className="ms-auto">
+              <form className="form-inline my-2 my-lg-0 d-flex">
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+                <button
+                  className="btn btn-outline-success my-2 my-sm-0"
+                  type="submit"
+                >
+                  Search
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </nav>

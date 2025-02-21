@@ -77,7 +77,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
     setBook((prevBook) => ({ ...prevBook, [id]: value }));
   }
   return (
-    <div>
+    <div className="container md-5 addBookFrom">
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
