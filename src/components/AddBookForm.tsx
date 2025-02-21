@@ -75,6 +75,10 @@ const AddBookForm = ({ refreshBooks }: Props) => {
     const { id, value } = e.target;
     setBook((prevBook) => ({ ...prevBook, [id]: value }));
   }
+
+  function handleCloseFeedBackModel() {
+    setShowModal(false);
+  }
   return (
     <div className="container md-5 addBookFrom">
       <form onSubmit={handleSubmit}>
@@ -167,9 +171,9 @@ const AddBookForm = ({ refreshBooks }: Props) => {
         </button>
       </form>
       <FeedBackModal
-        showModal={showModal}
-        displayTextInModal={displayTextInModal}
-        setShowModal={setShowModal}
+        showFeedBackModal={showModal}
+        displayTextInFeedbackModal={displayTextInModal}
+        close={handleCloseFeedBackModel}
       />
     </div>
   );

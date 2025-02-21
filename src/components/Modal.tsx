@@ -2,11 +2,11 @@ import React from 'react';
 
 interface Props {
   showModal: boolean;
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  close: () => void;
   submit: () => void;
 }
 
-const Modal = ({ showModal, setShowModal, submit }: Props) => {
+const Modal = ({ showModal, close, submit }: Props) => {
   return (
     <div
       className={showModal ? 'modal fade show' : 'modal fade'}
@@ -25,7 +25,7 @@ const Modal = ({ showModal, setShowModal, submit }: Props) => {
             <button
               type="button"
               className="btn-close"
-              onClick={() => setShowModal(false)}
+              onClick={() => close()}
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
@@ -36,7 +36,7 @@ const Modal = ({ showModal, setShowModal, submit }: Props) => {
               type="button"
               className="btn btn-secondary"
               data-bs-dismiss="modal"
-              onClick={() => setShowModal(false)}
+              onClick={() => close()}
             >
               Cancel
             </button>

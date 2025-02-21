@@ -45,6 +45,12 @@ function BookDetails() {
       setShowFeedbackModel(true);
     }
   }
+  function handleCloseFeedbackModel() {
+    setShowFeedbackModel(false);
+  }
+  function handleCloseModal() {
+    setShowModal(false);
+  }
   function displatTextInFeedbackModel() {
     return isError ? 'Error in Deleting book' : 'Book is deleted successfully';
   }
@@ -153,13 +159,13 @@ function BookDetails() {
       </div>
       <Modal
         showModal={showModal}
-        setShowModal={setShowModal}
+        close={handleCloseModal}
         submit={() => deleteBook(book.id)}
       />
       <FeedBackModal
-        showModal={showFeedbackModal}
-        displayTextInModal={displatTextInFeedbackModel}
-        setShowModal={setShowFeedbackModel}
+        showFeedBackModal={showFeedbackModal}
+        displayTextInFeedbackModal={displatTextInFeedbackModel}
+        close={handleCloseFeedbackModel}
       />
     </>
   );
