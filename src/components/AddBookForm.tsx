@@ -7,8 +7,6 @@ interface Props {
 }
 
 const AddBookForm = ({ refreshBooks }: Props) => {
-  const { id } = useParams<{ id: string }>();
-  const isEditing = Boolean(id);
   const [book, setBook] = React.useState({
     id: ' ',
     title: '',
@@ -19,9 +17,10 @@ const AddBookForm = ({ refreshBooks }: Props) => {
     totalCopies: '',
     availableCopies: '',
   });
-
-  const [message, setMessage] = React.useState(' ');
-  const [messageType, setMessageType] = React.useState('');
+  const { id } = useParams<{ id: string }>();
+  const isEditing = Boolean(id);
+  const [showModal, setShowModal] = React.useState(false);
+  const [isError, setIsError] = React.useState(false);
 
   React.useEffect(() => {
     if (id) {
@@ -41,29 +40,34 @@ const AddBookForm = ({ refreshBooks }: Props) => {
       });
     }
   }, [id]);
-  async function addNewBook(e: React.FormEvent<HTMLFormElement>) {
+  function displayTextInModal() {
+    if (!isError) {
+      return isEditing
+        ? 'Book is updated successfully'
+        : 'Book is added successfully';
+    } else {
+      return isEditing ? 'Error in updating Book' : 'Error in adding Book';
+    }
+  }
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
       if (isEditing) {
         const updatedBook = await updateBook(book, id);
         console.log('Book updated Successfully', updatedBook);
-        setMessage('Book is updated Successfully');
-        setMessageType('sucess');
+        setShowModal(true);
+        setIsError(false);
       } else {
         const addedBook = await addBook(book);
         console.log('Book added Successfully', addedBook);
-        setMessage('Book is added Successfully');
-        setMessageType('sucess');
+        setShowModal(true);
+        setIsError(false);
       }
       refreshBooks();
     } catch (error) {
       console.error('Error adding/updating book:', error);
-      setMessage(
-        isEditing
-          ? 'Failed to update Book. Error in updating book'
-          : 'Failed to add Book. Error in adding book'
-      );
-      setMessageType('error');
+      setIsError(true);
+      setShowModal(true);
     }
   }
 
@@ -74,7 +78,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
   }
   return (
     <div>
-      <form onSubmit={addNewBook}>
+      <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
             Titile
@@ -163,11 +167,30 @@ const AddBookForm = ({ refreshBooks }: Props) => {
           Submit
         </button>
       </form>
-      {message && (
-        <div className={`alert alert-${messageType}`} role="alert">
-          {message}
+      <div
+        className={`modal fade ${showModal ? 'show' : ''}`}
+        style={{ display: showModal ? 'block' : 'none' }}
+        id="exampleModal"
+        tabIndex={1}
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-body">{displayTextInModal()}</div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={() => setShowModal(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
