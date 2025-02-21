@@ -24,6 +24,8 @@ const AddBookForm = ({ refreshBooks }: Props) => {
   const [isError, setIsError] = React.useState(false);
 
   React.useEffect(() => {
+    //Here if id means if Editing. If we keep ieEditing Paramater here instead of id,
+    //getBooksByID() is not accepting id as there is type parameter error
     if (id) {
       getBooksById(id).then((data) => {
         setBook(data);
@@ -78,6 +80,18 @@ const AddBookForm = ({ refreshBooks }: Props) => {
 
   function handleCloseFeedBackModel() {
     setShowModal(false);
+    if (!isError) {
+      setBook({
+        id: '',
+        title: '',
+        author: '',
+        language: '',
+        publicationYear: '',
+        isbn: '',
+        totalCopies: '',
+        availableCopies: '',
+      });
+    }
   }
   return (
     <div className="container md-5 addBookFrom">
