@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getBooksById } from '../services/bookDetailsService';
 import { deleteBookById } from '../services/bookService';
+import Modal from './Modal';
 
 interface BookDetailsProps {
   id: string;
@@ -17,6 +18,8 @@ function BookDetails() {
   const { id } = useParams<{ id: string }>();
   const [book, setBook] = React.useState<BookDetailsProps | null>(null);
   const [showModal, setShowModal] = React.useState(false);
+  const [showFeedbackModal, setShowFeedbackModel] = React.useState(false);
+  const [isError, setIsError] = React.useState(false);
   //const [book, setBook] = React.useState([])
   React.useEffect(() => {
     if (id) {
@@ -34,8 +37,12 @@ function BookDetails() {
       const bookdelete = await deleteBookById(id);
       console.log('Book is deleted Successfully with Id:', id);
       setShowModal(false);
+      setShowFeedbackModel(true);
+      setIsError(false);
     } catch (error) {
       console.log('Error in deleteing book', error);
+      setShowFeedbackModel(true);
+      setIsError(true);
     }
   }
 
@@ -94,7 +101,7 @@ function BookDetails() {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="language">ISBN</label>
+              <label htmlFor="isbn">ISBN</label>
               <input
                 type="text"
                 className="form-control"
@@ -140,93 +147,12 @@ function BookDetails() {
             </div>
           </div>
         </div>
-        <div
-          className={showModal ? 'modal fade show' : 'modal fade'}
-          style={showModal ? { display: 'block' } : {}}
-          id="exampleModal"
-          tabIndex={1}
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">
-                  Confirmation
-                </h1>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => setShowModal(false)}
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body">Are you sure you want to delete</div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  onClick={() => setShowModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => deleteBook(book.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-      <div
-        className={showModal ? 'modal fade show' : 'modal fade'}
-        style={showModal ? { display: 'block' } : {}}
-        id="exampleModal"
-        tabIndex={1}
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">
-                Confirmation
-              </h1>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={() => setShowModal(false)}
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">Are you sure you want to delete</div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => deleteBook(book.id)}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        submit={() => deleteBook(book.id)}
+      />
     </>
   );
 }

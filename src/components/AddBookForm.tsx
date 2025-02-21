@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { addBook, updateBook } from '../services/bookService';
 import { getBooksById } from '../services/bookDetailsService';
+import FeedBackModal from './FeedBackModal';
 interface Props {
   refreshBooks: () => void;
 }
@@ -55,18 +56,16 @@ const AddBookForm = ({ refreshBooks }: Props) => {
       if (isEditing) {
         const updatedBook = await updateBook(book, id);
         console.log('Book updated Successfully', updatedBook);
-        setShowModal(true);
-        setIsError(false);
       } else {
         const addedBook = await addBook(book);
         console.log('Book added Successfully', addedBook);
-        setShowModal(true);
-        setIsError(false);
       }
       refreshBooks();
+      setIsError(false);
     } catch (error) {
       console.error('Error adding/updating book:', error);
       setIsError(true);
+    } finally {
       setShowModal(true);
     }
   }
@@ -167,30 +166,11 @@ const AddBookForm = ({ refreshBooks }: Props) => {
           Submit
         </button>
       </form>
-      <div
-        className={`modal fade ${showModal ? 'show' : ''}`}
-        style={{ display: showModal ? 'block' : 'none' }}
-        id="exampleModal"
-        tabIndex={1}
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-body">{displayTextInModal()}</div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-                onClick={() => setShowModal(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <FeedBackModal
+        showModal={showModal}
+        displayTextInModal={displayTextInModal}
+        setShowModal={setShowModal}
+      />
     </div>
   );
 };
