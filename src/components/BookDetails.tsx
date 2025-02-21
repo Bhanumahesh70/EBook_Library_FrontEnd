@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { getBooksById } from '../services/bookDetailsService';
 import { deleteBookById } from '../services/bookService';
 import Modal from './Modal';
@@ -14,7 +14,11 @@ interface BookDetailsProps {
   totalCopies: string;
   availableCopies: string;
 }
-function BookDetails() {
+interface Props {
+  refreshBooks: () => void;
+}
+
+function BookDetails({ refreshBooks }: Props) {
   const { id } = useParams<{ id: string }>();
   const [book, setBook] = React.useState<BookDetailsProps | null>(null);
   const [showModal, setShowModal] = React.useState(false);
@@ -28,7 +32,7 @@ function BookDetails() {
       });
     }
   }, [id]);
-
+  const navigate = useNavigate();
   function confirmDelete() {
     setShowModal(true);
   }
@@ -37,6 +41,7 @@ function BookDetails() {
       const bookdelete = await deleteBookById(id);
       console.log('Book is deleted Successfully with Id:', id);
       setIsError(false);
+      refreshBooks();
     } catch (error) {
       console.log('Error in deleteing book', error);
       setIsError(true);
@@ -47,6 +52,9 @@ function BookDetails() {
   }
   function handleCloseFeedbackModel() {
     setShowFeedbackModel(false);
+    if (!isError) {
+      navigate('/');
+    }
   }
   function handleCloseModal() {
     setShowModal(false);
