@@ -47,8 +47,19 @@ try {
     return response.data
 } catch (error) {
     console.log("Failed to update book. Error in updating the book: ",book);
-    console.log("link",`${API_URL}/${id}`)
         throw error;
 }
+}
+export const deleteBookById = async(id:string)=>{
+
+    try {
+        const response = await axios.delete(`${API_URL}/${id}`)
+        return response.data
+    } catch (error) {
+        console.log("Failed to Delete book. Error in deleting the book with id: ",id);
+        console.log("Error: ", error)
+        throw error;
+    }
 
 }
+

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getBooksById } from '../services/bookDetailsService';
+import { deleteBookById } from '../services/bookService';
 
 interface BookDetailsProps {
   id: string;
@@ -23,6 +24,15 @@ function BookDetails() {
       });
     }
   }, [id]);
+
+  async function deleteBook(id: string) {
+    try {
+      const bookdelete = await deleteBookById(id);
+      console.log('Book is deleted Successfully with Id:', id);
+    } catch (error) {
+      console.log('Error in deleteing book', error);
+    }
+  }
 
   console.log('id', id);
   console.log('book', book);
@@ -105,9 +115,17 @@ function BookDetails() {
               <strong>Description:</strong>"description"
             </p>
             <div>
-              <Link to={`/books/${id}/edit`} className="btn btn-primary">
+              <Link to={`/books/${id}/edit`} className="btn btn-primary button">
                 Edit Book
               </Link>
+            </div>
+            <div>
+              <button
+                className=" btn btn-danger button"
+                onClick={() => deleteBook(book.id)}
+              >
+                Delete Book
+              </button>
             </div>
           </div>
         </div>
