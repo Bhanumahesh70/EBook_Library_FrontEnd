@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { getBooksById } from '../services/bookDetailsService';
 import { deleteBookById } from '../services/bookService';
 import Modal from './Modal';
-
+import FeedBackModal from './FeedBackModal';
 interface BookDetailsProps {
   id: string;
   title: string;
@@ -36,14 +36,17 @@ function BookDetails() {
     try {
       const bookdelete = await deleteBookById(id);
       console.log('Book is deleted Successfully with Id:', id);
-      setShowModal(false);
-      setShowFeedbackModel(true);
       setIsError(false);
     } catch (error) {
       console.log('Error in deleteing book', error);
-      setShowFeedbackModel(true);
       setIsError(true);
+    } finally {
+      setShowModal(false);
+      setShowFeedbackModel(true);
     }
+  }
+  function displatTextInFeedbackModel() {
+    return isError ? 'Error in Deleting book' : 'Book is deleted successfully';
   }
 
   console.log('id', id);
@@ -152,6 +155,11 @@ function BookDetails() {
         showModal={showModal}
         setShowModal={setShowModal}
         submit={() => deleteBook(book.id)}
+      />
+      <FeedBackModal
+        showModal={showFeedbackModal}
+        displayTextInModal={displatTextInFeedbackModel}
+        setShowModal={setShowFeedbackModel}
       />
     </>
   );
