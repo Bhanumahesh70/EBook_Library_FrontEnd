@@ -55,9 +55,13 @@ function App() {
             path="/"
             element={<div className="bookContainer">{bookElements}</div>}
           />
-          <Route path="/books/:id" element={<BookDetails />} />
           <Route
             path="/books"
+            element={<AddBookForm refreshBooks={refreshBooks} />}
+          />
+          <Route path="/books/:id" element={<BookDetails />} />
+          <Route
+            path="/books/:id/edit"
             element={<AddBookForm refreshBooks={refreshBooks} />}
           />
         </Routes>

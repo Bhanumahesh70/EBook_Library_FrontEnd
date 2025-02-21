@@ -1,9 +1,14 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
+import { addBook, updateBook } from '../services/bookService';
+import { getBooksById } from '../services/bookDetailsService';
 interface Props {
   refreshBooks: () => void;
 }
-import { addBook } from '../services/bookService';
+
 const AddBookForm = ({ refreshBooks }: Props) => {
+  const { id } = useParams<{ id: string }>();
+  const isEditing = Boolean(id);
   const [book, setBook] = React.useState({
     id: ' ',
     title: '',
@@ -17,22 +22,52 @@ const AddBookForm = ({ refreshBooks }: Props) => {
 
   const [message, setMessage] = React.useState(' ');
   const [messageType, setMessageType] = React.useState('');
-  async function addNewBook(e) {
+
+  React.useEffect(() => {
+    if (id) {
+      getBooksById(id).then((data) => {
+        setBook(data);
+      });
+    } else {
+      setBook({
+        id: '',
+        title: '',
+        author: '',
+        language: '',
+        publicationYear: '',
+        isbn: '',
+        totalCopies: '',
+        availableCopies: '',
+      });
+    }
+  }, [id]);
+  async function addNewBook(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
-      const addedBook = await addBook(book);
-      console.log('Book added Successfully', addedBook);
-      setMessage('Book is added Successfully');
-      setMessageType('sucess');
+      if (isEditing) {
+        const updatedBook = await updateBook(book, id);
+        console.log('Book updated Successfully', updatedBook);
+        setMessage('Book is updated Successfully');
+        setMessageType('sucess');
+      } else {
+        const addedBook = await addBook(book);
+        console.log('Book added Successfully', addedBook);
+        setMessage('Book is added Successfully');
+        setMessageType('sucess');
+      }
       refreshBooks();
     } catch (error) {
-      console.error('Error adding book:', error);
-      setMessage('Failed to add Book. Error in adding book');
+      console.error('Error adding/updating book:', error);
+      setMessage(
+        isEditing
+          ? 'Failed to update Book. Error in updating book'
+          : 'Failed to add Book. Error in adding book'
+      );
       setMessageType('error');
     }
   }
 
-  function handleOnChange(e) {
+  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
     console.log(e);
     const { id, value } = e.target;
     setBook((prevBook) => ({ ...prevBook, [id]: value }));

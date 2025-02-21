@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getBooksById } from '../services/bookDetailsService';
 
 interface BookDetailsProps {
@@ -104,6 +104,11 @@ function BookDetails() {
             <p>
               <strong>Description:</strong>"description"
             </p>
+            <div>
+              <Link to={`/books/${id}/edit`} className="btn btn-primary">
+                Edit Book
+              </Link>
+            </div>
           </div>
         </div>
       </div>

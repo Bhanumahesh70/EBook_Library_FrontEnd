@@ -7,6 +7,8 @@ type Book = {
     author: string;
     language: string;
     publicationYear: string;
+    isbn: string;
+    totalCopies:string;
   };
 export const getBooks = async (): Promise<Book[]>=>{
     try {
@@ -15,7 +17,7 @@ export const getBooks = async (): Promise<Book[]>=>{
         
     } catch (error) {
         console.log("Error fetching the books: ", error);
-        return [];
+       throw error
     }
 };
 
@@ -29,3 +31,24 @@ export const addBook = async(book:Omit<Book,"id">):Promise<Book>=>{
         throw error;
     }
 };
+
+export const updateBook = async(book:Book,id:string|undefined):Promise<Book>=>{
+try {
+
+    const updateData={
+      title: book.title,
+      author: book.author,
+      isbn: book.isbn,
+      language: book.language,
+      totalCopies: book.totalCopies,
+      publicationYear: book.publicationYear,
+    }
+    const response = await axios.put<Book>(`${API_URL}/${id}`,updateData);
+    return response.data
+} catch (error) {
+    console.log("Failed to update book. Error in updating the book: ",book);
+    console.log("link",`${API_URL}/${id}`)
+        throw error;
+}
+
+}
