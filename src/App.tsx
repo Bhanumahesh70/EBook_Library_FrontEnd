@@ -41,7 +41,7 @@ function App() {
         title={book.title}
         author={book.author}
         language={book.language}
-        pusblished_year={book.publicationYear}
+        publicationYear={book.publicationYear}
       />
     );
   });

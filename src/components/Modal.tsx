@@ -14,7 +14,7 @@ const Modal = ({ showModal, close, submit }: Props) => {
       id="exampleModal"
       tabIndex={1}
       aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
+      aria-hidden={showModal ? 'true' : 'false'}
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">

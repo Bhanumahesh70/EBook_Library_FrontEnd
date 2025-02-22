@@ -9,7 +9,7 @@ interface BookDetailsProps {
   title: string;
   author: string;
   language: string;
-  published_year: string;
+  publicationYear: string;
   isbn: string;
   totalCopies: string;
   availableCopies: string;
@@ -112,7 +112,7 @@ function BookDetails({ refreshBooks }: Props) {
               <input
                 type="text"
                 className="form-control"
-                value={book.published_year}
+                value={book.publicationYear}
                 id="pusblished_year"
                 readOnly
               />

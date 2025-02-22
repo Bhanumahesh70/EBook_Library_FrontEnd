@@ -43,7 +43,7 @@ try {
       totalCopies: book.totalCopies,
       publicationYear: book.publicationYear,
     }
-    const response = await axios.put<Book>(`${API_URL}/${id}`,updateData);
+    const response = await axios.patch<Book>(`${API_URL}/${id}`,updateData);
     return response.data
 } catch (error) {
     console.log("Failed to update book. Error in updating the book: ",book);
