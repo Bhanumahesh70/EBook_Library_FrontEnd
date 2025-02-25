@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { addBook, updateBook } from '../services/bookService';
 import { getBooksById } from '../services/bookDetailsService';
 import FeedBackModal from './FeedBackModal';
@@ -22,6 +22,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
   const isEditing = Boolean(id);
   const [showModal, setShowModal] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     //Here if id means if Editing. If we keep ieEditing Paramater here instead of id,
@@ -81,6 +82,9 @@ const AddBookForm = ({ refreshBooks }: Props) => {
   function handleCloseFeedBackModel() {
     setShowModal(false);
     if (!isError) {
+      if (isEditing) {
+        navigate('/');
+      }
       setBook({
         id: '',
         title: '',
