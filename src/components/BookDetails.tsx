@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { getBooksById } from '../services/bookDetailsService';
-import { deleteBookById } from '../services/bookService';
+import { deleteBookById, getBooksById } from '../services/bookService';
 import Modal from './Modal';
 import FeedBackModal from './FeedBackModal';
 interface BookDetailsProps {
