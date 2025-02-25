@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Book from './components/BookList';
 import BookDetails from './components/BookDetails';
 import AddBookForm from './components/AddBookForm';
+import Categories from './components/Categories';
 
 type Book = {
   id: string;
@@ -66,6 +67,14 @@ function App() {
           <Route
             path="/books/:id/edit"
             element={<AddBookForm refreshBooks={refreshBooks} />}
+          />
+          <Route
+            path="/categories"
+            element={
+              <div className="bookContainer">
+                <Categories />
+              </div>
+            }
           />
         </Routes>
       </Router>

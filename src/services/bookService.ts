@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const API_URL = "http://localhost:8080/books"
-type Book = {
+type Book=  {
     id: string;
     title: string;
     author: string;

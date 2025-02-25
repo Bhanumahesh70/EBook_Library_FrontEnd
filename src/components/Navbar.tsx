@@ -36,6 +36,12 @@ const Navbar = () => {
                   Add Book
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to={`/categories`} className="nav-link">
+                  {' '}
+                  Categories
+                </Link>
+              </li>
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
