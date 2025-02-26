@@ -80,6 +80,7 @@ function App() {
           />
           <Route path="/categories/:id/books" element={<CategoryBooks />} />
           <Route path="/categories/form" element={<CategoryForm />} />
+          <Route path="/categories/:id/edit" element={<CategoryForm />} />
         </Routes>
       </Router>
     </>

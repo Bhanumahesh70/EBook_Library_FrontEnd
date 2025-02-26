@@ -51,3 +51,15 @@ export const addCategory = async (category: Category):Promise<Category>=>{
         throw error;
     }
 }
+
+export const updateCategoryById = async (id: String | undefined, category: Category):Promise<Category>=>{
+
+    try {
+        const response = await axios.patch<Category>(`${API_URL}/${id}`,category);
+        console.log("Category is updated with id:",id);
+        return response.data;
+    } catch (error) {
+        console.log(`Error in category with id(${id}). Error: `,error);
+        throw error;
+    }
+}

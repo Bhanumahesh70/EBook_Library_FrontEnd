@@ -1,6 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 const Navbar = () => {
+  const [openNavButton, setOpenNavButton] = React.useState(false);
+  const [openDropdown, setOpenDropdown] = React.useState(false);
+
+  function handleDropDownClick() {
+    setOpenDropdown((prev) => !prev);
+  }
+  function handleNavButtonClick() {
+    setOpenNavButton((prev) => !prev);
+  }
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark  ">
@@ -16,12 +25,15 @@ const Navbar = () => {
             aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            onClick={handleNavButtonClick}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
 
           <div
-            className="collapse navbar-collapse   "
+            className={`collapse navbar-collapse  ${
+              openNavButton ? 'show' : ''
+            }`}
             id="navbarSupportedContent"
           >
             <ul className="navbar-nav mx-auto ">
@@ -48,24 +60,37 @@ const Navbar = () => {
                   href="#"
                   id="navbarDropdown"
                   role="button"
-                  data-toggle="dropdown"
+                  data-bs-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
+                  onClick={handleDropDownClick}
                 >
-                  Dropdown
+                  Admin
                 </a>
-                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a className="dropdown-item" href="#">
-                    Action
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                  <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </div>
+                <ul className={`dropdown-menu  ${openDropdown ? 'show' : ''}`}>
+                  <li>
+                    <Link
+                      to={`/categories/form`}
+                      className="dropdown-item"
+                      onClick={handleDropDownClick}
+                    >
+                      Add Category
+                    </Link>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Another action
+                    </a>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Something else here
+                    </a>
+                  </li>
+                </ul>
               </li>
               <li className="nav-item">
                 <a className="nav-link disabled" href="#">
