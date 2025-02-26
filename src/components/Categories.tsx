@@ -1,5 +1,6 @@
 import React from 'react';
 import { getCategories } from '../services/categoryService';
+import { Link } from 'react-router-dom';
 type Category = {
   id: string;
   categoryName: string;
@@ -26,9 +27,13 @@ const Categories = () => {
           <div className="card-body">
             <h5 className="card-title">{category.categoryName}</h5>
             <p className="card-text">{category.description}</p>
-            <a href="#" className="btn btn-primary">
-              Go somewhere
-            </a>
+            <Link
+              to={`${category.id}/books`}
+              state={{ categoryName: category.categoryName }}
+              className="firsttn-primary"
+            >
+              Books
+            </Link>
           </div>
         </div>
       ))}
