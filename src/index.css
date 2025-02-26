@@ -184,7 +184,7 @@ h1{
   margin-bottom: 0.5rem;
 }
 
-.addBookFrom{
+.addBookFrom,.categoryForm{
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -199,4 +199,10 @@ h1{
 
 .ms-auto {
   margin-left: auto !important; 
+}
+
+.linkButton{
+  margin: 2px;
+  padding: 2px;
+  width: 6rem;
 }

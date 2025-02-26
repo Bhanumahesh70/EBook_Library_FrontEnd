@@ -97,7 +97,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
     }
   }
   return (
-    <div className="container md-5 addBookFrom">
+    <div className="container mb-5 addBookFrom">
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">

@@ -30,9 +30,12 @@ const Categories = () => {
             <Link
               to={`${category.id}/books`}
               state={{ categoryName: category.categoryName }}
-              className="firsttn-primary"
+              className="linkButton btn btn-primary"
             >
               Books
+            </Link>
+            <Link to={`form`} className="linkButton btn btn-primary">
+              Edit
             </Link>
           </div>
         </div>

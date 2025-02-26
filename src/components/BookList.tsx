@@ -25,7 +25,7 @@ function BookList({ id, title, author, language, publicationYear }: bookProps) {
         <li className="list-group-item">Published Year:{publicationYear}</li>
       </ul>
       <div className="card-body">
-        <Link to={`books/${id}`} className="btn btn-primary">
+        <Link to={`/books/${id}`} className="btn btn-primary">
           View Details
         </Link>
       </div>

@@ -39,3 +39,15 @@ export const getBooksForCategoryWithId = async (id: String | undefined):Promise<
         throw error;
     }
 }
+
+export const addCategory = async (category: Category):Promise<Category>=>{
+
+    try {
+        const response = await axios.post<Category>(API_URL,category);
+        console.log(`New category '${category.categoryName}' is added successfully`);
+        return response.data;
+    } catch (error) {
+        console.log(`Error in adding category '${category.categoryName}'. Error: `,error);
+        throw error;
+    }
+}

@@ -9,6 +9,7 @@ import BookDetails from './components/BookDetails';
 import AddBookForm from './components/AddBookForm';
 import Categories from './components/Categories';
 import CategoryBooks from './components/CategoryBooks';
+import CategoryForm from './components/CategoryForm';
 
 type Book = {
   id: string;
@@ -78,6 +79,7 @@ function App() {
             }
           />
           <Route path="/categories/:id/books" element={<CategoryBooks />} />
+          <Route path="/categories/form" element={<CategoryForm />} />
         </Routes>
       </Router>
     </>
