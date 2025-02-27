@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import BookImage from '../assets/Book.jpg';
 
 interface bookProps {
   id: string;
@@ -11,7 +12,7 @@ interface bookProps {
 function BookList({ id, title, author, language, publicationYear }: bookProps) {
   return (
     <div className="card bookCard" style={{ width: '18rem' }}>
-      <img className="card-img-top" src="..." alt="Card image cap" />
+      <img className="card-img-top" src={BookImage} alt="Card image cap" />
       <div className="card-body">
         <h5 className="card-title">{title}</h5>
         <p className="card-text">

@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { deleteBookById, getBooksById } from '../services/bookService';
 import Modal from './Modal';
 import FeedBackModal from './FeedBackModal';
+import BookImage from '../assets/Book.jpg';
 interface BookDetailsProps {
   id: string;
   title: string;
@@ -12,6 +13,12 @@ interface BookDetailsProps {
   isbn: string;
   totalCopies: string;
   availableCopies: string;
+  categories: Category;
+}
+interface Category {
+  id: string;
+  categoryName: string;
+  description: string;
 }
 interface Props {
   refreshBooks: () => void;
@@ -73,7 +80,7 @@ function BookDetails({ refreshBooks }: Props) {
         </h1>
         <div className="book-detail-grid">
           <div className={'book-cover'}>
-            <img src="../assets/Book" alt={book.title} className="book-image" />
+            <img src={BookImage} alt={book.title} className="bookImage" />
           </div>
           <div className="book-info">
             <div className="form-group">

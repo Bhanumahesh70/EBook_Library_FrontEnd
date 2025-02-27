@@ -10,6 +10,7 @@ import AddBookForm from './components/AddBookForm';
 import Categories from './components/Categories';
 import CategoryBooks from './components/CategoryBooks';
 import CategoryForm from './components/CategoryForm';
+import BookListGrid from './components/BookListGrid';
 
 type Book = {
   id: string;
@@ -38,7 +39,7 @@ function App() {
 
   const bookElements = books.map((book) => {
     return (
-      <Book
+      <BookListGrid
         key={book.id}
         id={book.id}
         title={book.title}
