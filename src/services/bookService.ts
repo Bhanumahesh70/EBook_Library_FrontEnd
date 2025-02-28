@@ -9,7 +9,13 @@ type Book=  {
     publicationYear: string;
     isbn: string;
     totalCopies:string;
+    categories: Category[];
   };
+  type Category={
+    id: string;
+    categoryName : string;
+    description: string;
+}
 export const getBooks = async (): Promise<Book[]>=>{
     try {
         const response = await axios.get<Book[]>(API_URL);

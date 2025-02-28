@@ -4,6 +4,14 @@ import { deleteBookById, getBooksById } from '../services/bookService';
 import Modal from './Modal';
 import FeedBackModal from './FeedBackModal';
 import BookImage from '../assets/Book.jpg';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+interface Category {
+  id: string;
+  categoryName: string;
+  description: string;
+}
+
 interface BookDetailsProps {
   id: string;
   title: string;
@@ -15,11 +23,7 @@ interface BookDetailsProps {
   availableCopies: string;
   categories: Category;
 }
-interface Category {
-  id: string;
-  categoryName: string;
-  description: string;
-}
+
 interface Props {
   refreshBooks: () => void;
 }
@@ -30,7 +34,7 @@ function BookDetails({ refreshBooks }: Props) {
   const [showModal, setShowModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModel] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
-  //const [book, setBook] = React.useState([])
+
   React.useEffect(() => {
     if (id) {
       getBooksById(id).then((data) => {
@@ -38,139 +42,101 @@ function BookDetails({ refreshBooks }: Props) {
       });
     }
   }, [id]);
+
   const navigate = useNavigate();
+
   function confirmDelete() {
     setShowModal(true);
   }
+
   async function deleteBook(id: string) {
     try {
-      const bookdelete = await deleteBookById(id);
-      console.log('Book is deleted Successfully with Id:', id);
+      await deleteBookById(id);
       setIsError(false);
       refreshBooks();
     } catch (error) {
-      console.log('Error in deleteing book', error);
+      console.log('Error deleting book', error);
       setIsError(true);
     } finally {
       setShowModal(false);
       setShowFeedbackModel(true);
     }
   }
+
   function handleCloseFeedbackModel() {
     setShowFeedbackModel(false);
-    if (!isError) {
-      navigate('/');
-    }
+    if (!isError) navigate('/');
   }
+
   function handleCloseModal() {
     setShowModal(false);
   }
-  function displatTextInFeedbackModel() {
-    return isError ? 'Error in Deleting book' : 'Book is deleted successfully';
+
+  function displayTextInFeedbackModel() {
+    return isError ? 'Error in deleting book' : 'Book deleted successfully';
   }
 
-  console.log('id', id);
-  console.log('book', book);
-  if (!book) return <p>Loading...</p>;
+  if (!book) return <p className="text-center mt-5">Loading book details...</p>;
+
   return (
     <>
-      <div className="book-details-container">
-        <h1>
-          {book.title} <span className="details-text">-Details</span>{' '}
-        </h1>
-        <div className="book-detail-grid">
-          <div className={'book-cover'}>
-            <img src={BookImage} alt={book.title} className="bookImage" />
-          </div>
-          <div className="book-info">
-            <div className="form-group">
-              <label htmlFor="title">Title</label>
-              <input
-                type="text"
-                className="from-control"
-                value={book.title}
-                id="title"
-                readOnly
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="author">Author</label>
-              <input
-                type="text"
-                className="form-control"
-                value={book.author}
-                id="author"
-                readOnly
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="language">Language</label>
-              <input
-                type="text"
-                className="form-control"
-                value={book.language}
-                id="language"
-                readOnly
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="pusblished_year">Published Year</label>
-              <input
-                type="text"
-                className="form-control"
-                value={book.publicationYear}
-                id="pusblished_year"
-                readOnly
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="isbn">ISBN</label>
-              <input
-                type="text"
-                className="form-control"
-                value={book.isbn}
-                id="isbn"
-                readOnly
+      <div className="container mt-5">
+        <div className="card shadow-lg">
+          <div className="row g-0">
+            {/* Book Image */}
+            <div className="col-md-4">
+              <img
+                src={BookImage}
+                className="img-fluid rounded-start"
+                alt={book.title}
               />
             </div>
 
-            <div className="additional-details">
-              <h4>Additional Details</h4>
+            {/* Book Details */}
+            <div className="col-md-8">
+              <div className="card-body">
+                <h2 className="card-title">{book.title}</h2>
+                <h5 className="text-muted">by {book.author}</h5>
+                <hr />
 
-              <p>
-                <strong>Available Copies: </strong>
-                {book.availableCopies}
-              </p>
+                <div className="row">
+                  <div className="col-md-6">
+                    <p>
+                      <strong>Language:</strong> {book.language}
+                    </p>
+                    <p>
+                      <strong>Published Year:</strong> {book.publicationYear}
+                    </p>
+                    <p>
+                      <strong>ISBN:</strong> {book.isbn}
+                    </p>
+                  </div>
+                  <div className="col-md-6">
+                    <p>
+                      <strong>Total Copies:</strong> {book.totalCopies}
+                    </p>
+                    <p>
+                      <strong>Available Copies:</strong> {book.availableCopies}
+                    </p>
+                  </div>
+                </div>
 
-              <p>
-                <strong>Total Copies:</strong>
-                {book.totalCopies}
-              </p>
-
-              <p>
-                <strong>Description:</strong>"description"
-              </p>
-              <div>
-                <Link
-                  to={`/books/${id}/edit`}
-                  className="btn btn-primary button"
-                >
-                  Edit Book
-                </Link>
+                {/* Buttons */}
+                <div className="mt-4 d-flex gap-3">
+                  <Link to={`/books/${id}/edit`} className="btn btn-primary">
+                    <i className="bi bi-pencil-square"></i> Edit Book
+                  </Link>
+                  <button className="btn btn-danger" onClick={confirmDelete}>
+                    <i className="bi bi-trash"></i> Delete Book
+                  </button>
+                </div>
               </div>
-              <div>
-                <button
-                  className=" btn btn-danger button "
-                  onClick={confirmDelete}
-                >
-                  Delete Book
-                </button>
-              </div>
-              <div></div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Modals */}
       <Modal
         showModal={showModal}
         close={handleCloseModal}
@@ -178,7 +144,7 @@ function BookDetails({ refreshBooks }: Props) {
       />
       <FeedBackModal
         showFeedBackModal={showFeedbackModal}
-        displayTextInFeedbackModal={displatTextInFeedbackModel}
+        displayTextInFeedbackModal={displayTextInFeedbackModel}
         close={handleCloseFeedbackModel}
       />
     </>
