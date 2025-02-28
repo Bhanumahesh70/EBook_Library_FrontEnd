@@ -27,6 +27,7 @@ body {
   display: block; 
   min-width: 320px;
   min-height: 100vh;
+  background-color: #0056b3;
 }
 header{
   color: #991818;
@@ -215,4 +216,15 @@ h1{
     flex: 0 0 100%;
     max-width: 100%;
   }
+}
+
+/**/
+
+.addBookFrom{
+  display: flex;
+  justify-content: center;
+  height: 100vm;
+  margin-top: 5px;
+  background-color: rgb(241, 244, 234);
+  padding: 20px;
 }

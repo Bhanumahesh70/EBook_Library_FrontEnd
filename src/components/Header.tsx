@@ -4,7 +4,7 @@ import BackGroungImage from '../assets/BackgroundImage.jpeg';
 const Header = () => {
   return (
     <div
-      className="header-container text-center"
+      className="header-container text-center mb-4 p-3"
       style={{
         backgroundImage: `url(${BackGroungImage})`,
       }}

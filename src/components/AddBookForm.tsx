@@ -99,17 +99,19 @@ const AddBookForm = ({ refreshBooks }: Props) => {
   return (
     <div className="container mb-5 addBookFrom">
       <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="title" className="form-label">
+        <div className=" mb-3 col-sm">
+          <label htmlFor="title" className="col-sm-3 col-form-label">
             Titile
           </label>
+
           <input
             type="text"
-            className="form-control"
+            className=" form-control"
             id="title"
             value={book.title}
             aria-describedby="Book Title"
             onChange={handleOnChange}
+            style={{ width: '250px' }}
           />
         </div>
 
@@ -124,6 +126,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
             value={book.author}
             aria-describedby="Book author"
             onChange={handleOnChange}
+            style={{ width: '250px' }}
           />
         </div>
 
@@ -138,6 +141,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
             value={book.isbn}
             aria-describedby="Book isbn"
             onChange={handleOnChange}
+            style={{ width: '250px' }}
           />
         </div>
 
@@ -152,6 +156,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
             value={book.language}
             aria-describedby="Book language"
             onChange={handleOnChange}
+            style={{ width: '250px' }}
           />
         </div>
 
@@ -166,6 +171,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
             value={book.totalCopies}
             aria-describedby="Book total Copies"
             onChange={handleOnChange}
+            style={{ width: '250px' }}
           />
         </div>
 
@@ -180,6 +186,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
             value={book.publicationYear}
             aria-describedby="Book publication year"
             onChange={handleOnChange}
+            style={{ width: '250px' }}
           />
         </div>
 
@@ -191,6 +198,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
         showFeedBackModal={showModal}
         displayTextInFeedbackModal={displayTextInModal}
         close={handleCloseFeedBackModel}
+        style={{ width: '250px' }}
       />
     </div>
   );

@@ -12,7 +12,7 @@ interface BookProps {
 
 function BookList({ id, title, author, language, publicationYear }: BookProps) {
   return (
-    <div className="col-6 col-sm-4 col-md-3 col-lg-2">
+    <div className="col-7 col-sm-5 col-md-4 col-lg-3">
       <div className="card shadow-lg h-100 border-0 book-card">
         <img src={BookImage} className="card-img-top book-img" alt={title} />
         <div className="card-body text-center">
