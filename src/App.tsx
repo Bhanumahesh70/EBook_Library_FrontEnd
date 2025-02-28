@@ -57,7 +57,11 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<div className="bookContainer">{bookElements}</div>}
+            element={
+              <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
+                {bookElements}
+              </div>
+            }
           />
           <Route
             path="/books"

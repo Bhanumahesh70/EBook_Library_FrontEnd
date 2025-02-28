@@ -10,34 +10,31 @@ interface BookProps {
   publicationYear: string;
 }
 
-interface BookListGridProps {
-  books: BookProps[];
-}
-
-function BookListGrid({
-  id,
-  title,
-  author,
-  language,
-  publicationYear,
-}: BookProps) {
+function BookList({ id, title, author, language, publicationYear }: BookProps) {
   return (
-    <div className="book-grid">
-      <div key={id} className="book-card">
-        <img className="book-img" src={BookImage} alt={title} />
-        <div className="book-details">
-          <h3>{title}</h3>
-          <p>
+    <div className="col-6 col-sm-4 col-md-3 col-lg-2">
+      <div className="card shadow-lg h-100 border-0 book-card">
+        <img src={BookImage} className="card-img-top book-img" alt={title} />
+        <div className="card-body text-center">
+          <h5 className="card-title">{title}</h5>
+          <p className="card-text text-muted">
+            A great book by <strong>{author}</strong>.
+          </p>
+        </div>
+        <ul className="list-group list-group-flush">
+          <li className="list-group-item">
             <strong>Author:</strong> {author}
-          </p>
-          <p>
+          </li>
+          <li className="list-group-item">
             <strong>Language:</strong> {language}
-          </p>
-          <p>
-            <strong>Year:</strong> {publicationYear}
-          </p>
-          <Link to={`/books/${id}`} className="btn-details">
-            View Details
+          </li>
+          <li className="list-group-item">
+            <strong>Published Year:</strong> {publicationYear}
+          </li>
+        </ul>
+        <div className="card-body text-center">
+          <Link to={`/books/${id}`} className="btn btn-primary">
+            <i className="bi bi-eye"></i> View Details
           </Link>
         </div>
       </div>
@@ -45,4 +42,4 @@ function BookListGrid({
   );
 }
 
-export default BookListGrid;
+export default BookList;

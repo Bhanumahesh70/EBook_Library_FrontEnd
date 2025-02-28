@@ -37,13 +37,20 @@ h1{
   margin: 2px;
   padding: 2px;;
 }
-.header {
-  font-size: 3.2em;
-  line-height: 1.1;
-  text-align: center;
-  margin: 80px;
-  padding: 100px;
 
+.header-container {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 400px; /* Adjust height as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  font-size: 2rem;
+  font-weight: bold;
+  width: 100%;
 }
 
 .button {
@@ -126,66 +133,86 @@ h1{
   width: 6rem;
 }
 
-.bookImage{
- width:20rem;
-}
 
-/*  
-Book List Grid css*/
-.book-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
 
+/* Book List Grid CSS */
 .book-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  max-width: 280px; /* Set a reasonable max width */
+  margin: auto;
 }
 
 .book-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .book-img {
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
+  height: 180px; /* Reduce image size */
+  object-fit: contain;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #f8f9fa;
+  padding: 10px;
 }
 
-.book-details {
-  padding: 15px;
+.card-body {
   text-align: center;
+  padding: 1rem;
 }
 
-.book-details h3 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+.card-title {
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
-.book-details p {
-  color: #555;
-  margin: 5px 0;
+.card-text {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
 }
 
-.btn-details {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 15px;
-  font-size: 14px;
-  color: white;
-  background-color: #007bff;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background 0.3s;
+.list-group-item {
+  border: none;
+  font-size: 0.85rem;
+  text-align: center;
+  background: #fff;
+  padding: 0.5rem 0.8rem;
 }
 
-.btn-details:hover {
+.btn-primary {
+  transition: background 0.3s, transform 0.2s;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}
+
+.btn-primary:hover {
   background-color: #0056b3;
+  transform: scale(1.05);
 }
-/**/
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .col-md-4, .col-lg-3 {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+  }
+}
+
+@media (max-width: 992px) {
+  .col-md-4, .col-lg-3 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .col-md-4, .col-lg-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
