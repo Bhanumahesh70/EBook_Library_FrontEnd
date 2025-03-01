@@ -9,7 +9,7 @@ type Book=  {
     publicationYear: string;
     isbn: string;
     totalCopies:string;
-    categories: Category[];
+    categoriesDTO: Category[];
   };
   type Category={
     id: string;

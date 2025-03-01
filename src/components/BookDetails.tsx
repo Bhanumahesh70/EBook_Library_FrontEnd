@@ -21,7 +21,7 @@ interface BookDetailsProps {
   isbn: string;
   totalCopies: string;
   availableCopies: string;
-  categories: Category;
+  categoriesDTO: Category[];
 }
 
 interface Props {
@@ -112,6 +112,16 @@ function BookDetails({ refreshBooks }: Props) {
                     </p>
                   </div>
                   <div className="col-md-6">
+                    <strong>Genere: </strong>
+                    {book.categoriesDTO.map((categoryDTO) => (
+                      <p
+                        key={categoryDTO.categoryName}
+                        style={{ display: 'inline' }}
+                      >
+                        {categoryDTO.categoryName}{' '}
+                      </p>
+                    ))}
+                    <p></p>
                     <p>
                       <strong>Total Copies:</strong> {book.totalCopies}
                     </p>
