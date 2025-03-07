@@ -198,7 +198,6 @@ const AddBookForm = ({ refreshBooks }: Props) => {
         showFeedBackModal={showModal}
         displayTextInFeedbackModal={displayTextInModal}
         close={handleCloseFeedBackModel}
-        style={{ width: '250px' }}
       />
     </div>
   );

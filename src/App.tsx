@@ -1,5 +1,10 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
+import { useState, useEffect, ReactNode } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { getBooks } from './services/bookService';
 import Header from './components/Header';
@@ -11,6 +16,8 @@ import Categories from './components/Categories';
 import CategoryBooks from './components/CategoryBooks';
 import CategoryForm from './components/CategoryForm';
 import BookListGrid from './components/BookListGrid';
+import LoginPage from './components/LoginPage';
+import AddUserForm from './components/AddUserForm';
 
 type Book = {
   id: string;
@@ -19,6 +26,25 @@ type Book = {
   language: string;
   publicationYear: string;
 };
+type LayoutProps = {
+  children: ReactNode;
+};
+function Layout({ children }: LayoutProps) {
+  const location = useLocation();
+
+  return (
+    <>
+      {location.pathname !== '/login' && location.pathname !== '/signup' && (
+        <>
+          <Navbar />
+          <Header />
+        </>
+      )}
+
+      {children}
+    </>
+  );
+}
 function App() {
   const [books, setBooks] = useState<Book[]>([]);
 
@@ -52,41 +78,43 @@ function App() {
   return (
     <>
       <Router>
-        <Navbar />
-        <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
-                {bookElements}
-              </div>
-            }
-          />
-          <Route
-            path="/books"
-            element={<AddBookForm refreshBooks={refreshBooks} />}
-          />
-          <Route
-            path="/books/:id"
-            element={<BookDetails refreshBooks={refreshBooks} />}
-          />
-          <Route
-            path="/books/:id/edit"
-            element={<AddBookForm refreshBooks={refreshBooks} />}
-          />
-          <Route
-            path="/categories"
-            element={
-              <div className="bookContainer">
-                <Categories />
-              </div>
-            }
-          />
-          <Route path="/categories/:id/books" element={<CategoryBooks />} />
-          <Route path="/categories/form" element={<CategoryForm />} />
-          <Route path="/categories/:id/edit" element={<CategoryForm />} />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<AddUserForm />} />
+            <Route
+              path="/"
+              element={
+                <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
+                  {bookElements}
+                </div>
+              }
+            />
+            <Route
+              path="/books"
+              element={<AddBookForm refreshBooks={refreshBooks} />}
+            />
+            <Route
+              path="/books/:id"
+              element={<BookDetails refreshBooks={refreshBooks} />}
+            />
+            <Route
+              path="/books/:id/edit"
+              element={<AddBookForm refreshBooks={refreshBooks} />}
+            />
+            <Route
+              path="/categories"
+              element={
+                <div className="bookContainer">
+                  <Categories />
+                </div>
+              }
+            />
+            <Route path="/categories/:id/books" element={<CategoryBooks />} />
+            <Route path="/categories/form" element={<CategoryForm />} />
+            <Route path="/categories/:id/edit" element={<CategoryForm />} />
+          </Routes>
+        </Layout>
       </Router>
     </>
   );

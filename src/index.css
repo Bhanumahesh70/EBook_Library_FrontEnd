@@ -189,6 +189,7 @@ h1{
   font-size: 0.85rem;
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
+  display: block;
 }
 
 .btn-primary:hover {
@@ -227,4 +228,32 @@ h1{
   margin-top: 5px;
   background-color: rgb(241, 244, 234);
   padding: 20px;
+}
+
+.addUserForm{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loginFrom, .addUserFormContainer{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content:center;
+  height: 50vh;
+  margin-top: 5px;
+  background-color: rgb(176, 205, 219);
+  padding: 20px;
+  border-radius: 10px;
+}
+.addUserFormContainer{
+  height: 60vh;
+}
+.loginDiv, .signupDiv{
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  height: 100vh;
+  flex-direction: column;
 }
