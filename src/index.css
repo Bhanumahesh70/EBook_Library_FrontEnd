@@ -224,10 +224,12 @@ h1{
 .addBookFrom{
   display: flex;
   justify-content: center;
-  height: 100vm;
+  align-items: center;
+  height: 55vh;
   margin-top: 5px;
-  background-color: rgb(241, 244, 234);
+  background-color: rgb(126, 164, 200);
   padding: 20px;
+  border-radius: 6px;
 }
 
 .addUserForm{

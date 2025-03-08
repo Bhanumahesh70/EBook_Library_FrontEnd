@@ -81,7 +81,7 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<AddUserForm />} />
+            <Route path="/signup" element={<AddUserForm isSignup />} />
             <Route
               path="/"
               element={
@@ -113,6 +113,7 @@ function App() {
             <Route path="/categories/:id/books" element={<CategoryBooks />} />
             <Route path="/categories/form" element={<CategoryForm />} />
             <Route path="/categories/:id/edit" element={<CategoryForm />} />
+            <Route path="/users/form" element={<AddUserForm />} />
           </Routes>
         </Layout>
       </Router>

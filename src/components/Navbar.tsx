@@ -54,6 +54,12 @@ const Navbar = () => {
                   Categories
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to={`/users`} className="nav-link">
+                  {' '}
+                  Users
+                </Link>
+              </li>
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
@@ -78,9 +84,13 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
+                    <Link
+                      to={`/users/form`}
+                      className="dropdown-item"
+                      onClick={handleDropDownClick}
+                    >
+                      Add User
+                    </Link>
                   </li>
                   <li>
                     <hr className="dropdown-divider" />

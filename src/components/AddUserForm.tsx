@@ -1,9 +1,9 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import FeedBackModal from './FeedBackModal';
 import { addUser, updateUser, getUserById } from '../services/userService';
 
-const AddUserForm = () => {
+const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
   const [user, setUser] = React.useState({
     id: '',
     name: '',
@@ -19,6 +19,7 @@ const AddUserForm = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   React.useEffect(() => {
     //Here if id means if Editing. If we keep ieEditing Paramater here instead of id,
@@ -98,8 +99,18 @@ const AddUserForm = () => {
   }
   return (
     <div className="signupDiv">
-      <h1>Welcome EBook Website</h1>
-      <h1>Signup to website</h1>
+      {isSignup && (
+        <>
+          <h1>Welcome EBook Website</h1>
+          <h1>Signup to website</h1>
+        </>
+      )}
+      {!isSignup && (
+        <>
+          <h1>Add new user</h1>
+        </>
+      )}
+
       <div className="container mb-5 addUserFormContainer">
         <form className="addUserForm" onSubmit={handleSubmit}>
           <div className=" mb-3 col-sm">
@@ -177,53 +188,56 @@ const AddUserForm = () => {
               style={{ width: '250px' }}
             />
           </div>
-
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="role"
-              id="user"
-              value="user"
-              onChange={handleOnChange}
-              checked={user.role === 'user'}
-            />
-            <label className="form-check-label" htmlFor="user">
-              User
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="role"
-              id="librarian"
-              value="librarian"
-              onChange={handleOnChange}
-              checked={user.role === 'librarian'}
-            />
-            <label className="form-check-label" htmlFor="librarian">
-              Librarian
-            </label>
-          </div>
-          <div style={{ minHeight: '40px' }}>
-            <p
-              style={{
-                opacity: user.role === 'librarian' ? 1 : 0,
-                transition: 'opacity 0.3s',
-              }}
-            >
-              Librarian access request will be sent to admin.
-            </p>
-            <p
-              style={{
-                opacity: user.role === 'librarian' ? 1 : 0,
-                transition: 'opacity 0.3s',
-              }}
-            >
-              By default you will get normal user access
-            </p>
-          </div>
+          {!isSignup && (
+            <>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="role"
+                  id="user"
+                  value="user"
+                  onChange={handleOnChange}
+                  checked={user.role === 'user'}
+                />
+                <label className="form-check-label" htmlFor="user">
+                  User
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="role"
+                  id="librarian"
+                  value="librarian"
+                  onChange={handleOnChange}
+                  checked={user.role === 'librarian'}
+                />
+                <label className="form-check-label" htmlFor="librarian">
+                  Librarian
+                </label>
+              </div>
+              <div style={{ minHeight: '40px' }}>
+                <p
+                  style={{
+                    opacity: user.role === 'librarian' ? 1 : 0,
+                    transition: 'opacity 0.3s',
+                  }}
+                >
+                  Librarian access request will be sent to admin.
+                </p>
+                <p
+                  style={{
+                    opacity: user.role === 'librarian' ? 1 : 0,
+                    transition: 'opacity 0.3s',
+                  }}
+                >
+                  By default you will get normal user access
+                </p>
+              </div>
+            </>
+          )}
           <div className="mb-3">
             <button type="submit" className="btn btn-primary">
               Submit
