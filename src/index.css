@@ -259,3 +259,92 @@ h1{
   height: 100vh;
   flex-direction: column;
 }
+
+/* css for user table
+/* Modern Bootstrap Table Styling */
+.table-container {
+  padding: 20px;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+/* Table Styling */
+.table {
+  border-radius: 10px;
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+/* Table Head Styling */
+.table thead {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+}
+
+.table thead th {
+  text-align: center;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Table Body Styling */
+.table tbody tr {
+  transition: all 0.3s ease-in-out;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.2);
+  transform: scale(1.02);
+}
+
+/* Table Rows & Borders */
+.table tbody td {
+  text-align: center;
+  padding: 12px;
+  vertical-align: middle;
+  font-size: 15px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #dee2e6;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tbody tr {
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+  }
+
+  .table tbody td {
+    display: block;
+    text-align: right;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  .table tbody td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    font-weight: bold;
+    text-align: left;
+  }
+}
+/**

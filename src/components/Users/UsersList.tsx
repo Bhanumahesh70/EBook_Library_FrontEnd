@@ -1,37 +1,48 @@
 import React from 'react';
 import { getUsers } from '../../services/userService';
-
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
+  address: string;
+  role: string;
+};
 const UsersList = () => {
+  const [users, setUsers] = React.useState<User[]>([]);
+
+  React.useEffect(() => {
+    getUsers().then((data) => setUsers(data));
+  }, []);
+
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="table-container ">
+      <table className="table table-info table-striped table-hover">
+        <thead>
+          <tr className="table-primary">
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Address</th>
+            <th scope="col">Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user, index) => (
+            <tr key={user.id}>
+              <th scope="row">{index + 1}</th>
+              <td data-label="Name">{user.name}</td>
+              <td data-label="Email">{user.email}</td>
+              <td data-label="Phone Number">{user.phoneNumber}</td>
+              <td data-label="Address">{user.address}</td>
+              <td data-label="Role">{user.role}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
