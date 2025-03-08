@@ -7,17 +7,18 @@ import {
 import { useState, useEffect, ReactNode } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { getBooks } from './services/bookService';
-import Header from './components/Header';
-import Navbar from './components/Navbar';
+import Header from './components/Layout/Header';
+import Navbar from './components/Layout/Navbar';
 import Book from './components/Books/BookList';
 import BookDetails from './components/Books/BookDetails';
 import AddBookForm from './components/Books/AddBookForm';
 import Categories from './components/Categories/Categories';
 import CategoryBooks from './components/Categories/CategoryBooks';
 import CategoryForm from './components/Categories/CategoryForm';
-import BookListGrid from './components/BookListGrid';
+import BookListGrid from './components/Books/BookListGrid';
 import LoginPage from './components/LoginPage';
 import AddUserForm from './components/Users/AddUserForm';
+import UsersList from './components/Users/UsersList';
 
 type Book = {
   id: string;
@@ -113,6 +114,7 @@ function App() {
             <Route path="/categories/:id/books" element={<CategoryBooks />} />
             <Route path="/categories/form" element={<CategoryForm />} />
             <Route path="/categories/:id/edit" element={<CategoryForm />} />
+            <Route path="/users" element={<UsersList />} />
             <Route path="/users/form" element={<AddUserForm />} />
           </Routes>
         </Layout>

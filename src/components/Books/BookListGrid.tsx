@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import BookImage from '../assets/Book.jpg';
+import BookImage from '../../assets/Book.jpg';
 
 interface BookProps {
   id: string;

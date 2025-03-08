@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { deleteBookById, getBooksById } from '../../services/bookService';
 import Modal from '../Modals/Modal';
 import FeedBackModal from '../Modals/FeedBackModal';
-import BookImage from '../assets/Book.jpg';
+import BookImage from '../../assets/Book.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 interface Category {
