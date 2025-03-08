@@ -30,7 +30,7 @@ export const addUser = async(user:Omit<User,"id">):Promise<User>=>{
         return response.data;
         
     } catch (error) {
-        console.log(`Failed to add user '${user.title}'. Error `, error);
+        console.log(`Failed to add user '${user.name}'. Error `, error);
         throw error;
     }
 };

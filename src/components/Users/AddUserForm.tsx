@@ -105,7 +105,12 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
           <h1>Signup to website</h1>
         </>
       )}
-      {!isSignup && (
+      {isEditing && (
+        <>
+          <h1>Edit User</h1>
+        </>
+      )}
+      {!isSignup && !isEditing && (
         <>
           <h1>Add new user</h1>
         </>
@@ -196,9 +201,9 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
                   type="radio"
                   name="role"
                   id="user"
-                  value="user"
+                  value="USER"
                   onChange={handleOnChange}
-                  checked={user.role === 'user'}
+                  checked={user.role === 'USER'}
                 />
                 <label className="form-check-label" htmlFor="user">
                   User
@@ -210,11 +215,11 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
                   type="radio"
                   name="role"
                   id="librarian"
-                  value="librarian"
+                  value="LIBRARIAN"
                   onChange={handleOnChange}
-                  checked={user.role === 'librarian'}
+                  checked={user.role === 'LIBRARIAN'}
                 />
-                <label className="form-check-label" htmlFor="librarian">
+                <label className="form-check-label" htmlFor="LIBRARIAN">
                   Librarian
                 </label>
               </div>

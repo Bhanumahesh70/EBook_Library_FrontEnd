@@ -256,7 +256,7 @@ h1{
   display: flex;
   justify-content: center; /* Centers horizontally */
   align-items: center; /* Centers vertically */
-  height: 100vh;
+  height: 80vh;
   flex-direction: column;
 }
 

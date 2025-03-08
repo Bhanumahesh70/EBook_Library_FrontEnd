@@ -116,6 +116,7 @@ function App() {
             <Route path="/categories/:id/edit" element={<CategoryForm />} />
             <Route path="/users" element={<UsersList />} />
             <Route path="/users/form" element={<AddUserForm />} />
+            <Route path="/users/:id" element={<AddUserForm />} />
           </Routes>
         </Layout>
       </Router>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { getUsers } from '../../services/userService';
+import { useNavigate } from 'react-router-dom';
 type User = {
   id: string;
   name: string;
@@ -16,6 +17,10 @@ const UsersList = () => {
     getUsers().then((data) => setUsers(data));
   }, []);
 
+  const navigate = useNavigate();
+  function handleClick(id: string) {
+    navigate(`/users/${id}`);
+  }
   return (
     <div className="table-container ">
       <table className="table table-info table-striped table-hover">
@@ -31,7 +36,7 @@ const UsersList = () => {
         </thead>
         <tbody>
           {users.map((user, index) => (
-            <tr key={user.id}>
+            <tr key={user.id} onClick={() => handleClick(user.id)}>
               <th scope="row">{index + 1}</th>
               <td data-label="Name">{user.name}</td>
               <td data-label="Email">{user.email}</td>
