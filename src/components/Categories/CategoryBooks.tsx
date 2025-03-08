@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { getBooksForCategoryWithId } from '../services/categoryService';
-import BookList from './BookList';
+import { getBooksForCategoryWithId } from '../../services/categoryService';
+import BookList from '../Books/BookList';
 interface Book {
   id: string;
   title: string;

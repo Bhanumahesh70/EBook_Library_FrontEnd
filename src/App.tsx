@@ -9,15 +9,15 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { getBooks } from './services/bookService';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
-import Book from './components/BookList';
-import BookDetails from './components/BookDetails';
-import AddBookForm from './components/AddBookForm';
-import Categories from './components/Categories';
-import CategoryBooks from './components/CategoryBooks';
-import CategoryForm from './components/CategoryForm';
+import Book from './components/Books/BookList';
+import BookDetails from './components/Books/BookDetails';
+import AddBookForm from './components/Books/AddBookForm';
+import Categories from './components/Categories/Categories';
+import CategoryBooks from './components/Categories/CategoryBooks';
+import CategoryForm from './components/Categories/CategoryForm';
 import BookListGrid from './components/BookListGrid';
 import LoginPage from './components/LoginPage';
-import AddUserForm from './components/AddUserForm';
+import AddUserForm from './components/Users/AddUserForm';
 
 type Book = {
   id: string;

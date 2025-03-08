@@ -1,8 +1,11 @@
 import React from 'react';
-import { addCategory, updateCategoryById } from '../services/categoryService';
+import {
+  addCategory,
+  updateCategoryById,
+} from '../../services/categoryService';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import Modal from './Modal';
-import FeedBackModal from './FeedBackModal';
+import Modal from '../Modals/Modal';
+import FeedBackModal from '../Modals/FeedBackModal';
 type Category = {
   id: string;
   categoryName: string;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import FeedBackModal from './FeedBackModal';
-import { addUser, updateUser, getUserById } from '../services/userService';
+import FeedBackModal from '../Modals/FeedBackModal';
+import { addUser, updateUser, getUserById } from '../../services/userService';
 
 const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
   const [user, setUser] = React.useState({

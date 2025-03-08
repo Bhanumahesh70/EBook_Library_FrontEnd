@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { addBook, updateBook, getBooksById } from '../services/bookService';
-import FeedBackModal from './FeedBackModal';
+import { addBook, updateBook, getBooksById } from '../../services/bookService';
+import FeedBackModal from '../Modals/FeedBackModal';
 interface Props {
   refreshBooks: () => void;
 }

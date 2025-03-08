@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCategories } from '../services/categoryService';
+import { getCategories } from '../../services/categoryService';
 import { Link } from 'react-router-dom';
 type Category = {
   id: string;
