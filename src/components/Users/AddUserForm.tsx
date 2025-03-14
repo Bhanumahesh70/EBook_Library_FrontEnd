@@ -11,7 +11,7 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
     password: '',
     phoneNumber: '',
     address: '',
-    role: '',
+    role: 'USER',
   });
 
   const { id } = useParams<{ id: string }>();
@@ -36,7 +36,7 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
         password: '',
         phoneNumber: '',
         address: '',
-        role: '',
+        role: 'USER',
       });
     }
   }, [id]);
@@ -93,7 +93,9 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
           address: '',
           role: '',
         });
-        // navigate('/');
+      }
+      if (isSignup) {
+        navigate('/login');
       }
     }
   }
@@ -223,22 +225,24 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
                   Librarian
                 </label>
               </div>
-              <div style={{ minHeight: '40px' }}>
+              <div>
                 <p
-                  style={{
-                    opacity: user.role === 'librarian' ? 1 : 0,
-                    transition: 'opacity 0.3s',
-                  }}
+                  className={
+                    user.role === 'LIBRARIAN'
+                      ? 'librarian_access_text_display text-primary'
+                      : 'librarian_access_text_NotDisplay'
+                  }
                 >
                   Librarian access request will be sent to admin.
                 </p>
                 <p
-                  style={{
-                    opacity: user.role === 'librarian' ? 1 : 0,
-                    transition: 'opacity 0.3s',
-                  }}
+                  className={
+                    user.role === 'LIBRARIAN'
+                      ? 'librarian_access_text_display text-primary'
+                      : 'librarian_access_text_NotDisplay'
+                  }
                 >
-                  By default you will get normal user access
+                  By default user will get normal user access
                 </p>
               </div>
             </>
