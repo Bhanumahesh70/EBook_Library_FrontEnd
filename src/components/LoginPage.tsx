@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { authenticateUser } from '../services/loginService';
 
 type AuthenticationRequest = {
@@ -17,22 +17,38 @@ const LoginPage = () => {
     email: '',
     password: ' ',
   });
+  const [isError, setIsError] = React.useState(false);
+  const navigate = useNavigate();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setIsError(false);
     const { id, value } = e.target;
     setAuthReq((prev) => ({ ...prev, [id]: value }));
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const authResp = authenticateUser(authRequest);
-    console.log('User is authenticated', authResp);
+
+    try {
+      const authResp = await authenticateUser(authRequest);
+      console.log('User is authenticated', authResp);
+      navigate('/');
+    } catch (error) {
+      setIsError(true);
+      console.log('User is not authenticated');
+    }
   }
+
   return (
     <div className="loginDiv">
       <h1>Welcome to Ebook Website</h1>
       <div className=" container mb-5 loginFrom">
         <form onSubmit={handleSubmit}>
+          <div className="mb-3 loginInvalidText">
+            <p className="text-danger">
+              {isError ? 'Invalid credentials' : ' '}
+            </p>
+          </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               Email address
@@ -72,9 +88,6 @@ const LoginPage = () => {
             </label>
           </div>
           <div className="mt-4 d-flex gap-3">
-            <Link to={`/`} className="btn btn-primary">
-              Submit
-            </Link>
             <button type="submit" className="btn btn-primary">
               Login
             </button>
