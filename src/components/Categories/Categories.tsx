@@ -35,7 +35,7 @@ const Categories = () => {
               Books
             </Link>
             <Link
-              to={`${category.id}/edit`}
+              to={`/ebook/${category.id}/edit`}
               state={{ category: category }}
               className="linkButton btn btn-primary"
             >

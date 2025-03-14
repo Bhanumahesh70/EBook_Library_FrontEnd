@@ -32,7 +32,7 @@ const LoginPage = () => {
     try {
       const authResp = await authenticateUser(authRequest);
       console.log('User is authenticated', authResp);
-      navigate('/');
+      navigate('/ebook');
     } catch (error) {
       setIsError(true);
       console.log('User is not authenticated');

@@ -33,7 +33,7 @@ function BookList({ id, title, author, language, publicationYear }: BookProps) {
           </li>
         </ul>
         <div className="card-body text-center">
-          <Link to={`/books/${id}`} className="btn btn-primary">
+          <Link to={`/ebook/books/${id}`} className="btn btn-primary">
             <i className="bi bi-eye"></i> View Details
           </Link>
         </div>

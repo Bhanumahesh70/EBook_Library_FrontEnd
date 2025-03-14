@@ -83,7 +83,7 @@ const CategoryForm = () => {
 
   function handleCloseFeedBackModel() {
     if (isEditing) {
-      navigate(`/categories`);
+      navigate(`/ebook/categories`);
     } else {
       setCategory({
         id: '',

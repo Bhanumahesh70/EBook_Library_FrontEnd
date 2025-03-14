@@ -65,7 +65,7 @@ function BookDetails({ refreshBooks }: Props) {
 
   function handleCloseFeedbackModel() {
     setShowFeedbackModel(false);
-    if (!isError) navigate('/');
+    if (!isError) navigate('/ebook');
   }
 
   function handleCloseModal() {
@@ -133,7 +133,10 @@ function BookDetails({ refreshBooks }: Props) {
 
                 {/* Buttons */}
                 <div className="mt-4 d-flex gap-3">
-                  <Link to={`/books/${id}/edit`} className="btn btn-primary">
+                  <Link
+                    to={`/ebook/books/${id}/edit`}
+                    className="btn btn-primary"
+                  >
                     <i className="bi bi-pencil-square"></i> Edit Book
                   </Link>
                   <button className="btn btn-danger" onClick={confirmDelete}>

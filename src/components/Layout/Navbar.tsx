@@ -38,24 +38,24 @@ const Navbar = () => {
           >
             <ul className="navbar-nav mx-auto ">
               <li className="nav-item active">
-                <Link to={`/`} className="nav-link">
+                <Link to={`/ebook`} className="nav-link">
                   Home
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/books`} className="nav-link">
+                <Link to={`/ebook/books`} className="nav-link">
                   {' '}
                   Add Book
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/categories`} className="nav-link">
+                <Link to={`/ebook/categories`} className="nav-link">
                   {' '}
                   Categories
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/users`} className="nav-link">
+                <Link to={`/ebook/users`} className="nav-link">
                   {' '}
                   Users
                 </Link>
@@ -76,7 +76,7 @@ const Navbar = () => {
                 <ul className={`dropdown-menu  ${openDropdown ? 'show' : ''}`}>
                   <li>
                     <Link
-                      to={`/categories/form`}
+                      to={`/ebook/categories/form`}
                       className="dropdown-item"
                       onClick={handleDropDownClick}
                     >
@@ -85,7 +85,7 @@ const Navbar = () => {
                   </li>
                   <li>
                     <Link
-                      to={`/users/form`}
+                      to={`/ebook/users/form`}
                       className="dropdown-item"
                       onClick={handleDropDownClick}
                     >

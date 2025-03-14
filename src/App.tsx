@@ -84,7 +84,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<AddUserForm isSignup />} />
             <Route
-              path="/"
+              path="/ebook"
               element={
                 <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
                   {bookElements}
@@ -92,31 +92,37 @@ function App() {
               }
             />
             <Route
-              path="/books"
+              path="/ebook/books"
               element={<AddBookForm refreshBooks={refreshBooks} />}
             />
             <Route
-              path="/books/:id"
+              path="/ebook/books/:id"
               element={<BookDetails refreshBooks={refreshBooks} />}
             />
             <Route
-              path="/books/:id/edit"
+              path="/ebook/ebook/books/:id/edit"
               element={<AddBookForm refreshBooks={refreshBooks} />}
             />
             <Route
-              path="/categories"
+              path="/ebook/categories"
               element={
                 <div className="bookContainer">
                   <Categories />
                 </div>
               }
             />
-            <Route path="/categories/:id/books" element={<CategoryBooks />} />
-            <Route path="/categories/form" element={<CategoryForm />} />
-            <Route path="/categories/:id/edit" element={<CategoryForm />} />
-            <Route path="/users" element={<UsersList />} />
-            <Route path="/users/form" element={<AddUserForm />} />
-            <Route path="/users/:id" element={<AddUserForm />} />
+            <Route
+              path="/ebook/categories/:id/books"
+              element={<CategoryBooks />}
+            />
+            <Route path="/ebook/categories/form" element={<CategoryForm />} />
+            <Route
+              path="/ebook/categories/:id/edit"
+              element={<CategoryForm />}
+            />
+            <Route path="/ebook/users" element={<UsersList />} />
+            <Route path="/ebook/users/form" element={<AddUserForm />} />
+            <Route path="/ebook/users/:id" element={<AddUserForm />} />
           </Routes>
         </Layout>
       </Router>

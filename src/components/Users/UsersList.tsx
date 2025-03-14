@@ -19,7 +19,7 @@ const UsersList = () => {
 
   const navigate = useNavigate();
   function handleClick(id: string) {
-    navigate(`/users/${id}`);
+    navigate(`/ebook/users/${id}`);
   }
   return (
     <div className="table-container ">

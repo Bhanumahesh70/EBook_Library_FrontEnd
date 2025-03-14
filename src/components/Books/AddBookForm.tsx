@@ -82,7 +82,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
     setShowModal(false);
     if (!isError) {
       if (isEditing) {
-        navigate('/');
+        navigate('/ebook');
       }
       setBook({
         id: '',
