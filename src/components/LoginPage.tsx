@@ -1,20 +1,48 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { authenticateUser } from '../services/loginService';
 
+type AuthenticationRequest = {
+  email: string;
+  password: string;
+};
+
+type AuthenticationResponse = {
+  id: string;
+  token: string;
+  role: string;
+};
 const LoginPage = () => {
+  const [authRequest, setAuthReq] = React.useState({
+    email: '',
+    password: ' ',
+  });
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { id, value } = e.target;
+    setAuthReq((prev) => ({ ...prev, [id]: value }));
+  }
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const authResp = authenticateUser(authRequest);
+    console.log('User is authenticated', authResp);
+  }
   return (
     <div className="loginDiv">
       <h1>Welcome to Ebook Website</h1>
       <div className=" container mb-5 loginFrom">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">
+            <label htmlFor="email" className="form-label">
               Email address
             </label>
             <input
               type="email"
               className="form-control"
-              id="exampleInputEmail1"
+              name="email"
+              id="email"
+              onChange={handleChange}
               aria-describedby="emailHelp"
             />
             <div id="emailHelp" className="form-text">
@@ -22,13 +50,15 @@ const LoginPage = () => {
             </div>
           </div>
           <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">
+            <label htmlFor="password" className="form-label">
               Password
             </label>
             <input
               type="password"
               className="form-control"
-              id="exampleInputPassword1"
+              id="password"
+              name="password"
+              onChange={handleChange}
             />
           </div>
           <div className="mb-3 form-check">
@@ -45,6 +75,9 @@ const LoginPage = () => {
             <Link to={`/`} className="btn btn-primary">
               Submit
             </Link>
+            <button type="submit" className="btn btn-primary">
+              Login
+            </button>
             <Link to={`/signup`} className="btn btn-primary">
               Sign Up
             </Link>
