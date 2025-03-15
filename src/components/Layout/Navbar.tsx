@@ -1,14 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuthentication } from '../Authentication/AuthenticationContext';
 const Navbar = () => {
   const [openNavButton, setOpenNavButton] = React.useState(false);
   const [openDropdown, setOpenDropdown] = React.useState(false);
+
+  const { setIsAuthenticated } = useAuthentication();
 
   function handleDropDownClick() {
     setOpenDropdown((prev) => !prev);
   }
   function handleNavButtonClick() {
     setOpenNavButton((prev) => !prev);
+  }
+  function logout() {
+    setIsAuthenticated(false);
   }
   return (
     <>
@@ -103,9 +109,12 @@ const Navbar = () => {
                 </ul>
               </li>
               <li className="nav-item">
-                <a className="nav-link disabled" href="#">
-                  Disabled
-                </a>
+                <button
+                  className="btn btn-outline-danger my-2 my-sm-0"
+                  onClick={logout}
+                >
+                  Logout
+                </button>
               </li>
             </ul>
             <div className="ms-auto">
