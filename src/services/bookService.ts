@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_URL = "http://localhost:8080/books"
+const API_URL = "http://localhost:8080/ebook/books"
 type Book=  {
     id: string;
     title: string;

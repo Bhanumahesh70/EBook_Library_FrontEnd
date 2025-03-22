@@ -1,4 +1,5 @@
 import axios from "axios"
+import apiClient from "./apiClient";
 
 type Category={
     id: string;
@@ -14,12 +15,12 @@ type Book=  {
     isbn: string;
     totalCopies:string;
   };
-const API_URL = "http://localhost:8080/categories";
+const API_URL = "/ebook/categories";
 
 export const getCategories = async ():Promise<Category[]>=>{
 
     try {
-        const response = await axios.get<Category[]>(API_URL);
+        const response = await apiClient.get<Category[]>(API_URL);
         console.log("Categories is fecthed successfully");
         return response.data;
     } catch (error) {
@@ -31,7 +32,7 @@ export const getCategories = async ():Promise<Category[]>=>{
 export const getBooksForCategoryWithId = async (id: String | undefined):Promise<Book[]>=>{
 
     try {
-        const response = await axios.get<Book[]>(`${API_URL}/${id}/books`);
+        const response = await apiClient.get<Book[]>(`${API_URL}/${id}/books`);
         console.log("Books are fecthed successfully for category id:",id);
         return response.data;
     } catch (error) {
@@ -43,7 +44,7 @@ export const getBooksForCategoryWithId = async (id: String | undefined):Promise<
 export const addCategory = async (category: Category):Promise<Category>=>{
 
     try {
-        const response = await axios.post<Category>(API_URL,category);
+        const response = await apiClient.post<Category>(API_URL,category);
         console.log(`New category '${category.categoryName}' is added successfully`);
         return response.data;
     } catch (error) {
@@ -55,7 +56,7 @@ export const addCategory = async (category: Category):Promise<Category>=>{
 export const updateCategoryById = async (id: String | undefined, category: Category):Promise<Category>=>{
 
     try {
-        const response = await axios.patch<Category>(`${API_URL}/${id}`,category);
+        const response = await apiClient.patch<Category>(`${API_URL}/${id}`,category);
         console.log("Category is updated with id:",id);
         return response.data;
     } catch (error) {

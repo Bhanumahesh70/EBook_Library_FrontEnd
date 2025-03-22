@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { authenticateUser } from '../../services/loginService';
+import { authenticateUser, ValidateUser } from '../../services/loginService';
 import { useAuthentication } from './AuthenticationContext';
 
 type AuthenticationRequest = {
@@ -16,7 +16,7 @@ type AuthenticationResponse = {
 const LoginPage = () => {
   const [authRequest, setAuthReq] = React.useState({
     email: '',
-    password: ' ',
+    password: '',
   });
   const [isError, setIsError] = React.useState(false);
   const navigate = useNavigate();
@@ -37,6 +37,8 @@ const LoginPage = () => {
       const authResp = await authenticateUser(authRequest);
       console.log('User is authenticated', authResp);
       setIsAuthenticated(true);
+      localStorage.setItem('authToken', authResp.token);
+      const validResp = await ValidateUser();
       navigate('/ebook');
     } catch (error) {
       setIsError(true);

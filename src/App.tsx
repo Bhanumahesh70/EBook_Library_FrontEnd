@@ -51,15 +51,19 @@ function Layout({ children }: LayoutProps) {
 function App() {
   const [books, setBooks] = useState<Book[]>([]);
 
-  function refreshBooks() {
+  const refreshBooks = async () => {
     try {
-      getBooks().then((data) => setBooks(data));
-      console.log('Books Fetched Sucessfully');
+      await getBooks().then((data) => {
+        setBooks(data);
+        console.log('Books Fetched Sucessfully');
+        return data;
+      });
     } catch (error) {
       console.log('Failed to fetch book');
       console.log('error', error);
+      throw error;
     }
-  }
+  };
 
   useEffect(() => {
     refreshBooks();

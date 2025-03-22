@@ -1,6 +1,6 @@
 import axios from "axios"
-
-const API_URL = "http://localhost:8080/users"
+import apiClient from "./apiClient";
+const API_URL = "/ebook/users"
 type User=  {
     id: string;
     name: string;
@@ -14,7 +14,7 @@ type User=  {
   
 export const getUsers = async (): Promise<User[]>=>{
     try {
-        const response = await axios.get<User[]>(API_URL);
+        const response = await apiClient.get<User[]>(API_URL);
         return response.data;
         
     } catch (error) {
@@ -25,7 +25,7 @@ export const getUsers = async (): Promise<User[]>=>{
 
 export const addUser = async(user:Omit<User,"id">):Promise<User>=>{
     try {
-        const response = await axios.post<User>(API_URL,user);
+        const response = await apiClient.post<User>(API_URL,user);
         console.log(`New User '${user.name}' is added successfully`)
         return response.data;
         
@@ -46,7 +46,7 @@ try {
       phoneNumber: user.phoneNumber,
       role: user.role,
     }
-    const response = await axios.patch<User>(`${API_URL}/${id}`,updateData);
+    const response = await apiClient.patch<User>(`${API_URL}/${id}`,updateData);
     return response.data
 } catch (error) {
     console.log(`Failed to update user. Error in updating the user: `,user);
@@ -56,7 +56,7 @@ try {
 export const deleteUserById = async(id:string)=>{
 
     try {
-        const response = await axios.delete(`${API_URL}/${id}`)
+        const response = await apiClient.delete(`${API_URL}/${id}`)
         console.log(`User with id '${id}' deleted successfully`);
         return response.data
     } catch (error) {
@@ -69,7 +69,7 @@ export const deleteUserById = async(id:string)=>{
 
 export const getUserById = async (id: string|number)=>{
     try {
-        const response = await axios.get(`${API_URL}/${id}`);
+        const response = await apiClient.get(`${API_URL}/${id}`);
         return response.data;
         
     } catch (error) {
