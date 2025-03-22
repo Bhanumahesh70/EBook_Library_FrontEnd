@@ -4,31 +4,22 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom';
-import { useState, useEffect, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import { getBooks } from './services/bookService';
 import Header from './components/Layout/Header';
 import Navbar from './components/Layout/Navbar';
-import Book from './components/Books/BookList';
 import BookDetails from './components/Books/BookDetails';
 import AddBookForm from './components/Books/AddBookForm';
 import Categories from './components/Categories/Categories';
 import CategoryBooks from './components/Categories/CategoryBooks';
 import CategoryForm from './components/Categories/CategoryForm';
-import BookListGrid from './components/Books/BookListGrid';
 import LoginPage from './components/Authentication/LoginPage';
 import AddUserForm from './components/Users/AddUserForm';
 import UsersList from './components/Users/UsersList';
 import { AuthenticationProvider } from './components/Authentication/AuthenticationContext';
 import ProtectedRoute from './components/Authentication/ProtectedRoute';
+import BookList from './components/Books/BookListGrid';
 
-type Book = {
-  id: string;
-  title: string;
-  author: string;
-  language: string;
-  publicationYear: string;
-};
 type LayoutProps = {
   children: ReactNode;
 };
@@ -49,39 +40,6 @@ function Layout({ children }: LayoutProps) {
   );
 }
 function App() {
-  const [books, setBooks] = useState<Book[]>([]);
-
-  const refreshBooks = async () => {
-    try {
-      await getBooks().then((data) => {
-        setBooks(data);
-        console.log('Books Fetched Sucessfully');
-        return data;
-      });
-    } catch (error) {
-      console.log('Failed to fetch book');
-      console.log('error', error);
-      throw error;
-    }
-  };
-
-  useEffect(() => {
-    refreshBooks();
-  }, []);
-  //console.log(books[0].author);
-
-  const bookElements = books.map((book) => {
-    return (
-      <BookListGrid
-        key={book.id}
-        id={book.id}
-        title={book.title}
-        author={book.author}
-        language={book.language}
-        publicationYear={book.publicationYear}
-      />
-    );
-  });
   return (
     <>
       <AuthenticationProvider>
@@ -97,7 +55,7 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
-                      {bookElements}
+                      <BookList />
                     </div>
                   </ProtectedRoute>
                 }
@@ -106,7 +64,7 @@ function App() {
                 path="/ebook/books"
                 element={
                   <ProtectedRoute>
-                    <AddBookForm refreshBooks={refreshBooks} />
+                    <AddBookForm />
                   </ProtectedRoute>
                 }
               />
@@ -114,15 +72,15 @@ function App() {
                 path="/ebook/books/:id"
                 element={
                   <ProtectedRoute>
-                    <BookDetails refreshBooks={refreshBooks} />
+                    <BookDetails />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/ebook/ebook/books/:id/edit"
+                path="/ebook/books/:id/edit"
                 element={
                   <ProtectedRoute>
-                    <AddBookForm refreshBooks={refreshBooks} />
+                    <AddBookForm />
                   </ProtectedRoute>
                 }
               />

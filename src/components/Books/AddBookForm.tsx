@@ -2,12 +2,25 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { addBook, updateBook, getBooksById } from '../../services/bookService';
 import FeedBackModal from '../Modals/FeedBackModal';
-interface Props {
-  refreshBooks: () => void;
-}
 
-const AddBookForm = ({ refreshBooks }: Props) => {
-  const [book, setBook] = React.useState({
+type Book = {
+  id: string;
+  title: string;
+  author: string;
+  language: string;
+  publicationYear: string;
+  isbn: string;
+  totalCopies: string;
+  categoriesDTO: Category[];
+};
+type Category = {
+  id: string;
+  categoryName: string;
+  description: string;
+};
+
+const AddBookForm = () => {
+  const [book, setBook] = React.useState<Book>({
     id: ' ',
     title: '',
     author: '',
@@ -15,7 +28,8 @@ const AddBookForm = ({ refreshBooks }: Props) => {
     publicationYear: '',
     isbn: '',
     totalCopies: '',
-    availableCopies: '',
+    //availableCopies: '',
+    categoriesDTO: [],
   });
   const { id } = useParams<{ id: string }>();
   const isEditing = Boolean(id);
@@ -39,7 +53,8 @@ const AddBookForm = ({ refreshBooks }: Props) => {
         publicationYear: '',
         isbn: '',
         totalCopies: '',
-        availableCopies: '',
+        //availableCopies: '',
+        categoriesDTO: [],
       });
     }
   }, [id]);
@@ -62,7 +77,7 @@ const AddBookForm = ({ refreshBooks }: Props) => {
         const addedBook = await addBook(book);
         console.log('Book added Successfully', addedBook);
       }
-      refreshBooks();
+      //refreshBooks();
       setIsError(false);
     } catch (error) {
       console.error('Error adding/updating book:', error);
@@ -92,7 +107,8 @@ const AddBookForm = ({ refreshBooks }: Props) => {
         publicationYear: '',
         isbn: '',
         totalCopies: '',
-        availableCopies: '',
+        // availableCopies: '',
+        categoriesDTO: [],
       });
     }
   }

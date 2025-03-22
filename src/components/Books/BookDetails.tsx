@@ -24,11 +24,7 @@ interface BookDetailsProps {
   categoriesDTO: Category[];
 }
 
-interface Props {
-  refreshBooks: () => void;
-}
-
-function BookDetails({ refreshBooks }: Props) {
+function BookDetails() {
   const { id } = useParams<{ id: string }>();
   const [book, setBook] = React.useState<BookDetailsProps | null>(null);
   const [showModal, setShowModal] = React.useState(false);
@@ -53,7 +49,7 @@ function BookDetails({ refreshBooks }: Props) {
     try {
       await deleteBookById(id);
       setIsError(false);
-      refreshBooks();
+      //refreshBooks();
     } catch (error) {
       console.log('Error deleting book', error);
       setIsError(true);
