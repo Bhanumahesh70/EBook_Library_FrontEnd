@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthentication } from '../Authentication/AuthenticationContext';
+import { useRole } from '../Authentication/RoleContext';
 const Navbar = () => {
   const [openNavButton, setOpenNavButton] = React.useState(false);
   const [openDropdown, setOpenDropdown] = React.useState(false);
 
   const { setIsAuthenticated } = useAuthentication();
+  const { role } = useRole();
 
   function handleDropDownClick() {
     setOpenDropdown((prev) => !prev);
@@ -16,6 +18,7 @@ const Navbar = () => {
   function logout() {
     setIsAuthenticated(false);
   }
+  console.log(`role is : ${role}`);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark  ">
@@ -48,12 +51,16 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link to={`/ebook/books`} className="nav-link">
-                  {' '}
-                  Add Book
-                </Link>
-              </li>
+              {role === 'ROLE_ADMIN' ? (
+                <li className="nav-item">
+                  <Link to={`/ebook/books`} className="nav-link">
+                    {' '}
+                    Add Book
+                  </Link>
+                </li>
+              ) : (
+                <></>
+              )}
               <li className="nav-item">
                 <Link to={`/ebook/categories`} className="nav-link">
                   {' '}

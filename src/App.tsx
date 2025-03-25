@@ -19,6 +19,7 @@ import UsersList from './components/Users/UsersList';
 import { AuthenticationProvider } from './components/Authentication/AuthenticationContext';
 import ProtectedRoute from './components/Authentication/ProtectedRoute';
 import BookList from './components/Books/BookListGrid';
+import { RoleProvider } from './components/Authentication/RoleContext';
 
 type LayoutProps = {
   children: ReactNode;
@@ -43,108 +44,110 @@ function App() {
   return (
     <>
       <AuthenticationProvider>
-        <Router>
-          <Layout>
-            <Routes>
-              {/*public routes*/}
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<AddUserForm isSignup />} />
-              {/*protected routes*/}
-              <Route
-                path="/ebook"
-                element={
-                  <ProtectedRoute>
-                    <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
-                      <BookList />
-                    </div>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/ebook/books"
-                element={
-                  <ProtectedRoute>
-                    <AddBookForm />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/ebook/books/:id"
-                element={
-                  <ProtectedRoute>
-                    <BookDetails />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/ebook/books/:id/edit"
-                element={
-                  <ProtectedRoute>
-                    <AddBookForm />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/ebook/categories"
-                element={
-                  <ProtectedRoute>
-                    <div className="bookContainer">
-                      <Categories />
-                    </div>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/ebook/categories/:id/books"
-                element={
-                  <ProtectedRoute>
-                    <CategoryBooks />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/ebook/categories/form"
-                element={
-                  <ProtectedRoute>
-                    <CategoryForm />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/ebook/categories/:id/edit"
-                element={
-                  <ProtectedRoute>
-                    <CategoryForm />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/ebook/users"
-                element={
-                  <ProtectedRoute>
-                    <UsersList />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/ebook/users/form"
-                element={
-                  <ProtectedRoute>
-                    <AddUserForm />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/ebook/users/:id"
-                element={
-                  <ProtectedRoute>
-                    <AddUserForm />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </Layout>
-        </Router>
+        <RoleProvider>
+          <Router>
+            <Layout>
+              <Routes>
+                {/*public routes*/}
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<AddUserForm isSignup />} />
+                {/*protected routes*/}
+                <Route
+                  path="/ebook"
+                  element={
+                    <ProtectedRoute>
+                      <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
+                        <BookList />
+                      </div>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/books"
+                  element={
+                    <ProtectedRoute>
+                      <AddBookForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/books/:id"
+                  element={
+                    <ProtectedRoute>
+                      <BookDetails />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/books/:id/edit"
+                  element={
+                    <ProtectedRoute>
+                      <AddBookForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/categories"
+                  element={
+                    <ProtectedRoute>
+                      <div className="bookContainer">
+                        <Categories />
+                      </div>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/categories/:id/books"
+                  element={
+                    <ProtectedRoute>
+                      <CategoryBooks />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/categories/form"
+                  element={
+                    <ProtectedRoute>
+                      <CategoryForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/categories/:id/edit"
+                  element={
+                    <ProtectedRoute>
+                      <CategoryForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/users"
+                  element={
+                    <ProtectedRoute>
+                      <UsersList />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/users/form"
+                  element={
+                    <ProtectedRoute>
+                      <AddUserForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/users/:id"
+                  element={
+                    <ProtectedRoute>
+                      <AddUserForm />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </Layout>
+          </Router>
+        </RoleProvider>
       </AuthenticationProvider>
     </>
   );

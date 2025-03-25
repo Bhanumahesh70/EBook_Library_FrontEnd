@@ -11,7 +11,7 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
     password: '',
     phoneNumber: '',
     address: '',
-    role: 'USER',
+    role: 'ROLE_USER',
   });
 
   const { id } = useParams<{ id: string }>();
@@ -36,7 +36,7 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
         password: '',
         phoneNumber: '',
         address: '',
-        role: 'USER',
+        role: 'ROLE_USER',
       });
     }
   }, [id]);

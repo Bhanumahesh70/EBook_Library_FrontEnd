@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authenticateUser, ValidateUser } from '../../services/loginService';
 import { useAuthentication } from './AuthenticationContext';
+import { useRole } from './RoleContext';
 
 type AuthenticationRequest = {
   email: string;
@@ -24,6 +25,9 @@ const LoginPage = () => {
   //Access Authentication context
   const { setIsAuthenticated } = useAuthentication();
 
+  //Access Role context
+  const { setRole } = useRole();
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setIsError(false);
     const { id, value } = e.target;
@@ -37,6 +41,7 @@ const LoginPage = () => {
       const authResp = await authenticateUser(authRequest);
       console.log('User is authenticated', authResp);
       setIsAuthenticated(true);
+      setRole(authResp.role);
       localStorage.setItem('authToken', authResp.token);
       const validResp = await ValidateUser();
       navigate('/ebook');
