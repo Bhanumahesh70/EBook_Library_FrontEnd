@@ -67,54 +67,65 @@ const Navbar = () => {
                   Categories
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link to={`/ebook/users`} className="nav-link">
-                  {' '}
-                  Users
-                </Link>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  onClick={handleDropDownClick}
-                >
-                  Admin
-                </a>
-                <ul className={`dropdown-menu  ${openDropdown ? 'show' : ''}`}>
-                  <li>
-                    <Link
-                      to={`/ebook/categories/form`}
-                      className="dropdown-item"
-                      onClick={handleDropDownClick}
-                    >
-                      Add Category
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to={`/ebook/users/form`}
-                      className="dropdown-item"
-                      onClick={handleDropDownClick}
-                    >
-                      Add User
-                    </Link>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
-              </li>
+              {role === 'ROLE_ADMIN' ? (
+                <li className="nav-item">
+                  <Link to={`/ebook/users`} className="nav-link">
+                    {' '}
+                    Users
+                  </Link>
+                </li>
+              ) : (
+                <></>
+              )}
+              {role === 'ROLE_ADMIN' ? (
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    onClick={handleDropDownClick}
+                  >
+                    Admin
+                  </a>
+                  <ul
+                    className={`dropdown-menu  ${openDropdown ? 'show' : ''}`}
+                  >
+                    <li>
+                      <Link
+                        to={`/ebook/categories/form`}
+                        className="dropdown-item"
+                        onClick={handleDropDownClick}
+                      >
+                        Add Category
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to={`/ebook/users/form`}
+                        className="dropdown-item"
+                        onClick={handleDropDownClick}
+                      >
+                        Add User
+                      </Link>
+                    </li>
+                    <li>
+                      <hr className="dropdown-divider" />
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Something else here
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              ) : (
+                <></>
+              )}
+
               <li className="nav-item">
                 <button
                   className="btn btn-outline-danger my-2 my-sm-0"

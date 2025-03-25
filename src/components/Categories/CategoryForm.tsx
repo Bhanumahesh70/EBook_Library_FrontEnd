@@ -4,8 +4,8 @@ import {
   updateCategoryById,
 } from '../../services/categoryService';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import Modal from '../Modals/Modal';
 import FeedBackModal from '../Modals/FeedBackModal';
+
 type Category = {
   id: string;
   categoryName: string;
@@ -14,6 +14,7 @@ type Category = {
 
 const CategoryForm = () => {
   const { id } = useParams();
+
   const isEditing = Boolean(id);
   const location = useLocation();
   const navigate = useNavigate();

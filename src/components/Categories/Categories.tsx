@@ -1,6 +1,8 @@
 import React from 'react';
 import { getCategories } from '../../services/categoryService';
 import { Link } from 'react-router-dom';
+import { useRole } from '../Authentication/RoleContext';
+
 type Category = {
   id: string;
   categoryName: string;
@@ -8,6 +10,7 @@ type Category = {
 };
 const Categories = () => {
   const [categories, setCategories] = React.useState<Category[]>([]);
+  const { role } = useRole();
 
   React.useEffect(() => {
     getCategories().then((data) => {
@@ -34,13 +37,17 @@ const Categories = () => {
             >
               Books
             </Link>
-            <Link
-              to={`/ebook/${category.id}/edit`}
-              state={{ category: category }}
-              className="linkButton btn btn-primary"
-            >
-              Edit
-            </Link>
+            {role === 'ROLE_ADMIN' ? (
+              <Link
+                to={`/ebook/${category.id}/edit`}
+                state={{ category: category }}
+                className="linkButton btn btn-primary"
+              >
+                Edit
+              </Link>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       ))}
