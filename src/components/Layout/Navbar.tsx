@@ -115,6 +115,15 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li>
+                      <Link
+                        to={`/ebook/authors/form`}
+                        className="dropdown-item"
+                        onClick={handleDropDownClick}
+                      >
+                        Add Author
+                      </Link>
+                    </li>
+                    <li>
                       <hr className="dropdown-divider" />
                     </li>
                     <li>

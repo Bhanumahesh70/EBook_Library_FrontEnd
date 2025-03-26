@@ -20,6 +20,7 @@ const AuthorsList = () => {
 
   const navigate = useNavigate();
   function handleClick(id: string) {
+    console.log('Navigating to edit author with id:', id);
     navigate(`/ebook/authors/${id}`);
   }
 
@@ -36,7 +37,10 @@ const AuthorsList = () => {
         </thead>
         <tbody>
           {authors.map((author, index) => (
-            <tr key={author.id} onClick={() => handleClick(author.id)}>
+            <tr
+              key={author.id || `author-${index}`}
+              onClick={() => handleClick(author.id)}
+            >
               <th scope="row">{index + 1}</th>
               <td data-label="Name">{author.name}</td>
               <td data-label="Nationality">{author.nationality}</td>

@@ -232,13 +232,13 @@ h1{
   border-radius: 6px;
 }
 
-.addUserForm{
+.addUserForm, .author-form{
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.loginFrom, .addUserFormContainer{
+.loginFrom, .addUserFormContainer,.author-form-container{
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -249,10 +249,10 @@ h1{
   padding: 20px;
   border-radius: 10px;
 }
-.addUserFormContainer{
+.addUserFormContainer,.author-form-container{
   height: 60vh;
 }
-.loginDiv, .signupDiv{
+.loginDiv, .signupDiv, .Edit-new-authorDiv{
   display: flex;
   justify-content: center; /* Centers horizontally */
   align-items: center; /* Centers vertically */
