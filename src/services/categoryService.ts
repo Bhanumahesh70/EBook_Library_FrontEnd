@@ -1,4 +1,4 @@
-import axios from "axios"
+
 import apiClient from "./apiClient";
 
 type Category={
@@ -25,6 +25,18 @@ export const getCategories = async ():Promise<Category[]>=>{
         return response.data;
     } catch (error) {
         console.log("Error in fetching categories. Error: ",error);
+        throw error;
+    }
+}
+
+export const getCategoryById = async (id:string|undefined):Promise<Category>=>{
+
+    try {
+        const response = await apiClient.get<Category>(`${API_URL}/${id}`);
+        console.log(`Category with id:${id} is fecthed successfully`);
+        return response.data;
+    } catch (error) {
+        console.log(`Error in fetching categoriy with id:${id}  `,error);
         throw error;
     }
 }

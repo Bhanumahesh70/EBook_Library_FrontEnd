@@ -21,12 +21,15 @@ interface BookDetailsProps {
   isbn: string;
   totalCopies: string;
   availableCopies: string;
-  categoriesDTO: Category[];
+  publisherId: string;
+  categoriesIds: string[];
+  // authorsIds: string[];
 }
 
 function BookDetails() {
   const { id } = useParams<{ id: string }>();
   const [book, setBook] = React.useState<BookDetailsProps | null>(null);
+  const [categories, setCategories] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModel] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
@@ -35,6 +38,7 @@ function BookDetails() {
     if (id) {
       getBooksById(id).then((data) => {
         setBook(data);
+        setCategories(data.categoriesIds);
       });
     }
   }, [id]);

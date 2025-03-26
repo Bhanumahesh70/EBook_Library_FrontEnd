@@ -10,8 +10,13 @@ type Book=  {
     publicationYear: string;
     isbn: string;
     totalCopies:string;
-    categoriesDTO: Category[];
+    availableCopies:string;
+    publisherId:string;
+    categoriesIds:string[];
+    authorsIds:string[];
+    //categoriesDTO: Category[];
   };
+
   type Category={
     id: string;
     categoryName : string;
