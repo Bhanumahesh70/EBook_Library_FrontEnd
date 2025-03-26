@@ -11,7 +11,10 @@ type Book = {
   publicationYear: string;
   isbn: string;
   totalCopies: string;
-  categoriesDTO: Category[];
+  availableCopies: string;
+  publisherId: string;
+  categoryIds: string[];
+  //authorsIds:string[];
 };
 type Category = {
   id: string;

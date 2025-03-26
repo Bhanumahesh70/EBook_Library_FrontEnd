@@ -80,7 +80,7 @@ export const deletePublisherById = async (id: string) => {
 };
 
 // Fetch a publisher by ID
-export const getPublisherById = async (id: string | number) => {
+export const getPublisherById = async (id: string | undefined) => {
   try {
     const response = await apiClient.get(`${API_URL}/${id}`);
     return response.data;

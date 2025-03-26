@@ -14,7 +14,6 @@ type Category = {
 
 const CategoryForm = () => {
   const { id } = useParams();
-
   const isEditing = Boolean(id);
   const location = useLocation();
   const navigate = useNavigate();

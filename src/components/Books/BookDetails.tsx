@@ -5,13 +5,22 @@ import Modal from '../Modals/Modal';
 import FeedBackModal from '../Modals/FeedBackModal';
 import BookImage from '../../assets/Book.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { getCategoryById } from '../../services/categoryService';
+import { getPublisherById } from '../../services/publisherService';
 
 interface Category {
   id: string;
   categoryName: string;
   description: string;
 }
-
+type Publisher = {
+  id: string;
+  name: string;
+  address: string;
+  email: string;
+  phoneNumber: string;
+  bookIds: number[];
+};
 interface BookDetailsProps {
   id: string;
   title: string;
@@ -22,25 +31,46 @@ interface BookDetailsProps {
   totalCopies: string;
   availableCopies: string;
   publisherId: string;
-  categoriesIds: string[];
+  categoryIds: string[];
   // authorsIds: string[];
 }
 
 function BookDetails() {
   const { id } = useParams<{ id: string }>();
+  console.log('Displaying book with id:', id);
   const [book, setBook] = React.useState<BookDetailsProps | null>(null);
-  const [categories, setCategories] = React.useState([]);
+  const [categories, setCategories] = React.useState<Category[]>([]);
+  const [publisher, setpublisher] = React.useState<Publisher>();
   const [showModal, setShowModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModel] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
 
-  React.useEffect(() => {
-    if (id) {
-      getBooksById(id).then((data) => {
-        setBook(data);
-        setCategories(data.categoriesIds);
-      });
+  const fetchCategories = async (categoryIds: string[]) => {
+    return await Promise.all(
+      categoryIds.map((categoryId) => getCategoryById(categoryId))
+    );
+  };
+
+  const fetchBookDetails = async () => {
+    if (!id) {
+      console.log('Not id returning.....', id);
+      return;
     }
+    const bookData = await getBooksById(id);
+    setBook(bookData);
+    console.log('BookData is fetched: ', bookData);
+
+    const categoriesData = await fetchCategories(bookData.categoryIds);
+    setCategories(categoriesData);
+    console.log('CategoriesData is fetched: ', categoriesData);
+
+    const publisherData = await getPublisherById(bookData.publisherId);
+    setpublisher(publisherData);
+    console.log('PublisherData is fetched: ', publisherData);
+  };
+
+  React.useEffect(() => {
+    fetchBookDetails();
   }, [id]);
 
   const navigate = useNavigate();
@@ -108,12 +138,15 @@ function BookDetails() {
                       <strong>Published Year:</strong> {book.publicationYear}
                     </p>
                     <p>
+                      <strong>Publisher</strong> {publisher?.name}
+                    </p>
+                    <p>
                       <strong>ISBN:</strong> {book.isbn}
                     </p>
                   </div>
                   <div className="col-md-6">
                     <strong>Genere: </strong>
-                    {book.categoriesDTO.map((categoryDTO) => (
+                    {categories.map((categoryDTO) => (
                       <p
                         key={categoryDTO.categoryName}
                         style={{ display: 'inline' }}

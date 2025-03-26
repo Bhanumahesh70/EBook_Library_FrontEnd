@@ -12,8 +12,8 @@ type Book=  {
     totalCopies:string;
     availableCopies:string;
     publisherId:string;
-    categoriesIds:string[];
-    authorsIds:string[];
+    categoryIds:string[];
+   // authorsIds:string[];
     //categoriesDTO: Category[];
   };
 
