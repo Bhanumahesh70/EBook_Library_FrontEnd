@@ -54,7 +54,6 @@ const Navbar = () => {
               {role === 'ROLE_ADMIN' ? (
                 <li className="nav-item">
                   <Link to={`/ebook/books`} className="nav-link">
-                    {' '}
                     Add Book
                   </Link>
                 </li>
@@ -63,20 +62,23 @@ const Navbar = () => {
               )}
               <li className="nav-item">
                 <Link to={`/ebook/categories`} className="nav-link">
-                  {' '}
                   Categories
                 </Link>
               </li>
               {role === 'ROLE_ADMIN' ? (
                 <li className="nav-item">
                   <Link to={`/ebook/users`} className="nav-link">
-                    {' '}
                     Users
                   </Link>
                 </li>
               ) : (
                 <></>
               )}
+              <li className="nav-item">
+                <Link to={`/ebook/authors`} className="nav-link">
+                  Authors
+                </Link>
+              </li>
               {role === 'ROLE_ADMIN' ? (
                 <li className="nav-item dropdown">
                   <a

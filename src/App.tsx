@@ -20,6 +20,7 @@ import { AuthenticationProvider } from './components/Authentication/Authenticati
 import ProtectedRoute from './components/Authentication/ProtectedRoute';
 import BookList from './components/Books/BookListGrid';
 import { RoleProvider } from './components/Authentication/RoleContext';
+import AuthorsList from './components/Authors/AuthorsList';
 
 type LayoutProps = {
   children: ReactNode;
@@ -141,6 +142,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <AddUserForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/authors"
+                  element={
+                    <ProtectedRoute>
+                      <AuthorsList />
                     </ProtectedRoute>
                   }
                 />
