@@ -7,6 +7,7 @@ import BookImage from '../../assets/Book.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { getCategoryById } from '../../services/categoryService';
 import { getPublisherById } from '../../services/publisherService';
+import { getAuthorById } from '../../services/authorService';
 
 interface Category {
   id: string;
@@ -24,7 +25,7 @@ type Publisher = {
 interface BookDetailsProps {
   id: string;
   title: string;
-  author: string;
+  //author: string;
   language: string;
   publicationYear: string;
   isbn: string;
@@ -32,14 +33,23 @@ interface BookDetailsProps {
   availableCopies: string;
   publisherId: string;
   categoryIds: string[];
-  // authorsIds: string[];
+  authorIds: string[];
 }
+type Author = {
+  id: string;
+  name: string;
+  bio: string;
+  nationality: string;
+  birthDate: string;
+  bookIds: string[];
+};
 
 function BookDetails() {
   const { id } = useParams<{ id: string }>();
   console.log('Displaying book with id:', id);
   const [book, setBook] = React.useState<BookDetailsProps | null>(null);
   const [categories, setCategories] = React.useState<Category[]>([]);
+  const [authors, setAuthors] = React.useState<Author[]>([]);
   const [publisher, setpublisher] = React.useState<Publisher>();
   const [showModal, setShowModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModel] = React.useState(false);
@@ -50,7 +60,13 @@ function BookDetails() {
       categoryIds.map((categoryId) => getCategoryById(categoryId))
     );
   };
-
+  const fetchAuthors = async (authorsIds: string[]) => {
+    console.log('fetching author details for books');
+    console.log('authorsIds: ', authorsIds);
+    return await Promise.all(
+      authorsIds.map((authorsId) => getAuthorById(authorsId))
+    );
+  };
   const fetchBookDetails = async () => {
     if (!id) {
       console.log('Not id returning.....', id);
@@ -63,6 +79,10 @@ function BookDetails() {
     const categoriesData = await fetchCategories(bookData.categoryIds);
     setCategories(categoriesData);
     console.log('CategoriesData is fetched: ', categoriesData);
+
+    const authorsData = await fetchAuthors(bookData.authorIds);
+    setAuthors(authorsData);
+    console.log('Authors Data is fetched: ', authorsData);
 
     const publisherData = await getPublisherById(bookData.publisherId);
     setpublisher(publisherData);
@@ -102,6 +122,34 @@ function BookDetails() {
     setShowModal(false);
   }
 
+  const categoryElements = () => {
+    return categories.map((category) => (
+      <p key={category.categoryName} style={{ display: 'inline' }}>
+        <Link
+          className="link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+          to={`/ebook/categories/${category.id}/books`}
+          state={{ categoryName: category.categoryName }}
+        >
+          {category.categoryName}{' '}
+        </Link>
+      </p>
+    ));
+  };
+  const authorElements = () => {
+    return authors.map((author, index) => (
+      <span key={author.id || index}>
+        <Link
+          className="link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+          to={`/ebook/authors/${author.id}`}
+          //state={{ categoryName: category.categoryName }}
+        >
+          {author.name}
+        </Link>
+
+        {index < authors.length - 1 ? ', ' : ''}
+      </span>
+    ));
+  };
   function displayTextInFeedbackModel() {
     return isError ? 'Error in deleting book' : 'Book deleted successfully';
   }
@@ -126,7 +174,11 @@ function BookDetails() {
             <div className="col-md-8">
               <div className="card-body">
                 <h2 className="card-title">{book.title}</h2>
-                <h5 className="text-muted">by {book.author}</h5>
+
+                <h5 className="text-muted">
+                  <strong>By: </strong>
+                  {authorElements()}
+                </h5>
                 <hr />
 
                 <div className="row">
@@ -146,14 +198,7 @@ function BookDetails() {
                   </div>
                   <div className="col-md-6">
                     <strong>Genere: </strong>
-                    {categories.map((categoryDTO) => (
-                      <p
-                        key={categoryDTO.categoryName}
-                        style={{ display: 'inline' }}
-                      >
-                        {categoryDTO.categoryName}{' '}
-                      </p>
-                    ))}
+                    {categoryElements()}
                     <p></p>
                     <p>
                       <strong>Total Copies:</strong> {book.totalCopies}
