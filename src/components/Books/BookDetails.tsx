@@ -150,6 +150,18 @@ function BookDetails() {
       </span>
     ));
   };
+
+  const publisherElement = () => {
+    return (
+      <Link
+        className="link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+        to={`/ebook/publishers/${publisher?.id}`}
+        //state={{ categoryName: category.categoryName }}
+      >
+        {publisher?.name}
+      </Link>
+    );
+  };
   function displayTextInFeedbackModel() {
     return isError ? 'Error in deleting book' : 'Book deleted successfully';
   }
@@ -190,7 +202,7 @@ function BookDetails() {
                       <strong>Published Year:</strong> {book.publicationYear}
                     </p>
                     <p>
-                      <strong>Publisher</strong> {publisher?.name}
+                      <strong>Publisher</strong> {publisherElement()}
                     </p>
                     <p>
                       <strong>ISBN:</strong> {book.isbn}
