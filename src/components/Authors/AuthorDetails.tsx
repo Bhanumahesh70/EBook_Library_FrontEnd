@@ -33,7 +33,10 @@ function AuthorDetails() {
   }, [id]);
 
   function viewBooks() {
-    navigate(`/ebook/authors/${author?.id}/books`);
+    console.log('Navigating with author name:', author?.name);
+    navigate(`/ebook/authors/${author?.id}/books`, {
+      state: { authorName: author?.name },
+    });
   }
   if (!author)
     return <p className="text-center mt-5">Loading author details...</p>;

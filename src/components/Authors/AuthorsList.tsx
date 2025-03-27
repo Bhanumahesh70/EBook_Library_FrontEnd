@@ -47,7 +47,7 @@ const AuthorsList = () => {
               <td data-label="Books">
                 <Link
                   to={`${author.id}/books`}
-                  //state={{ categoryName: category.categoryName }}
+                  state={{ authorName: author?.name }}
                   className="btn btn-outline-primary"
                 >
                   Books
@@ -56,7 +56,6 @@ const AuthorsList = () => {
               <td data-label="details">
                 <Link
                   to={`${author.id}/details`}
-                  //state={{ categoryName: category.categoryName }}
                   className="btn btn-outline-primary"
                 >
                   view

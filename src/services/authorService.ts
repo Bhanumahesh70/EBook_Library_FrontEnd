@@ -8,7 +8,15 @@ type Author = {
     birthDate: string;
     bookIds: string[];
 };
-
+type Book=  {
+    id: string;
+    title: string;
+    author: string;
+    language: string;
+    publicationYear: string;
+    isbn: string;
+    totalCopies:string;
+  };
 const API_URL = "/ebook/authors";
 
 export const getAuthors = async (): Promise<Author[]> => {
@@ -32,7 +40,17 @@ export const getAuthorById = async (id: string | undefined): Promise<Author> => 
         throw error;
     }
 };
+export const getBooksForAuthorWithId = async (id: String | undefined):Promise<Book[]>=>{
 
+    try {
+        const response = await apiClient.get<Book[]>(`${API_URL}/${id}/books`);
+        console.log("Books are fecthed successfully for author with id:",id);
+        return response.data;
+    } catch (error) {
+        console.log(`Error in fetching books for author id(${id}). Error: `,error);
+        throw error;
+    }
+}
 export const addAuthor = async (author: Author): Promise<Author> => {
     try {
         const response = await apiClient.post<Author>(API_URL, author);
