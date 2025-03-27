@@ -22,6 +22,8 @@ import BookList from './components/Books/BookListGrid';
 import { RoleProvider } from './components/Authentication/RoleContext';
 import AuthorsList from './components/Authors/AuthorsList';
 import AddAuthorForm from './components/Authors/AddAuthorForm';
+import BookDetailsMi from './components/Books/BookDetailsMI';
+import AuthorDetails from './components/Authors/AuthorDetails';
 
 type LayoutProps = {
   children: ReactNode;
@@ -167,6 +169,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <AddAuthorForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/authors/:id/details"
+                  element={
+                    <ProtectedRoute>
+                      <AuthorDetails />
                     </ProtectedRoute>
                   }
                 />

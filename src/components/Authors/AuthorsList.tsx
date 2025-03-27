@@ -1,6 +1,6 @@
 import React from 'react';
 import { getAuthors } from '../../services/authorService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 type Author = {
   id: string;
@@ -33,18 +33,35 @@ const AuthorsList = () => {
             <th scope="col">Name</th>
             <th scope="col">Nationality</th>
             <th scope="col">Birth Date</th>
+            <th scope="col">Books</th>
+            <th scope="col">Details</th>
           </tr>
         </thead>
         <tbody>
           {authors.map((author, index) => (
-            <tr
-              key={author.id || `author-${index}`}
-              onClick={() => handleClick(author.id)}
-            >
+            <tr key={author.id || `author-${index}`}>
               <th scope="row">{index + 1}</th>
               <td data-label="Name">{author.name}</td>
               <td data-label="Nationality">{author.nationality}</td>
               <td data-label="Birth Date">{author.birthDate}</td>
+              <td data-label="Books">
+                <Link
+                  to={`${author.id}/books`}
+                  //state={{ categoryName: category.categoryName }}
+                  className="btn btn-outline-primary"
+                >
+                  Books
+                </Link>
+              </td>
+              <td data-label="details">
+                <Link
+                  to={`${author.id}/details`}
+                  //state={{ categoryName: category.categoryName }}
+                  className="btn btn-outline-primary"
+                >
+                  view
+                </Link>
+              </td>
             </tr>
           ))}
         </tbody>
