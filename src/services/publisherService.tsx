@@ -10,7 +10,15 @@ type Publisher = {
   phoneNumber: string;
   bookIds: number[];
 };
-
+type Book = {
+  id: string;
+  title: string;
+  author: string;
+  language: string;
+  publicationYear: string;
+  isbn: string;
+  totalCopies: string;
+};
 // Fetch all publishers
 export const getPublishers = async (): Promise<Publisher[]> => {
   try {
@@ -63,6 +71,21 @@ export const updatePublisher = async (
   }
 };
 
+export const getBooksForPublisherWithId = async (
+  id: String | undefined
+): Promise<Book[]> => {
+  try {
+    const response = await apiClient.get<Book[]>(`${API_URL}/${id}/books`);
+    console.log('Books are fecthed successfully for publisher id:', id);
+    return response.data;
+  } catch (error) {
+    console.log(
+      `Error in fetching books for publisher id(${id}). Error: `,
+      error
+    );
+    throw error;
+  }
+};
 // Delete a publisher by ID
 export const deletePublisherById = async (id: string) => {
   try {

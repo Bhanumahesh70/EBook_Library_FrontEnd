@@ -26,6 +26,7 @@ import BookDetailsMi from './components/Books/BookDetailsMI';
 import AuthorDetails from './components/Authors/AuthorDetails';
 import AuthorBooks from './components/Authors/AuthorBooks';
 import PublisherDetails from './components/Publisher/PublisherDetails';
+import PublisherBooks from './components/Publisher/PublisherBooks';
 
 type LayoutProps = {
   children: ReactNode;
@@ -195,6 +196,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <PublisherDetails />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/publishers/:id/books"
+                  element={
+                    <ProtectedRoute>
+                      <PublisherBooks />
                     </ProtectedRoute>
                   }
                 />
