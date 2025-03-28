@@ -4,7 +4,7 @@ export type AuthorsDetails={
 }
 export type CategoriesDetails={
     id: number;
-    name: string;
+    categoryName: string;
 }
 export type PublisherDetails={
     id: number;

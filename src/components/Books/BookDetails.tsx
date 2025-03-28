@@ -5,34 +5,21 @@ import Modal from '../Modals/Modal';
 import FeedBackModal from '../Modals/FeedBackModal';
 import BookImage from '../../assets/Book.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { getCategoryById } from '../../services/categoryService';
-import { getPublisherById } from '../../services/publisherService';
-import { getAuthorById } from '../../services/authorService';
-import { Book, Category, Publisher, Author } from '../../services/types';
+import {
+  Book,
+  AuthorsDetails,
+  CategoriesDetails,
+  PublisherDetails,
+} from '../../services/types';
 
 function BookDetails() {
   const { id } = useParams<{ id: string }>();
   console.log('Displaying book with id:', id);
   const [book, setBook] = React.useState<Book | null>(null);
-  const [categories, setCategories] = React.useState<Category[]>([]);
-  const [authors, setAuthors] = React.useState<Author[]>([]);
-  const [publisher, setpublisher] = React.useState<Publisher>();
   const [showModal, setShowModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModel] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
 
-  const fetchCategories = async (categoryIds: string[]) => {
-    return await Promise.all(
-      categoryIds.map((categoryId) => getCategoryById(categoryId))
-    );
-  };
-  const fetchAuthors = async (authorsIds: string[]) => {
-    console.log('fetching author details for books');
-    console.log('authorsIds: ', authorsIds);
-    return await Promise.all(
-      authorsIds.map((authorsId) => getAuthorById(authorsId))
-    );
-  };
   const fetchBookDetails = async () => {
     if (!id) {
       console.log('Not id returning.....', id);
@@ -41,18 +28,6 @@ function BookDetails() {
     const bookData = await getBooksById(id);
     setBook(bookData);
     console.log('BookData is fetched: ', bookData);
-
-    const categoriesData = await fetchCategories(bookData.categoryIds);
-    setCategories(categoriesData);
-    console.log('CategoriesData is fetched: ', categoriesData);
-
-    const authorsData = await fetchAuthors(bookData.authorIds);
-    setAuthors(authorsData);
-    console.log('Authors Data is fetched: ', authorsData);
-
-    const publisherData = await getPublisherById(bookData.publisherId);
-    setpublisher(publisherData);
-    console.log('PublisherData is fetched: ', publisherData);
   };
 
   React.useEffect(() => {
@@ -88,7 +63,7 @@ function BookDetails() {
     setShowModal(false);
   }
 
-  const categoryElements = () => {
+  const categoryElements = (categories: CategoriesDetails[]) => {
     return categories.map((category) => (
       <p key={category.categoryName} style={{ display: 'inline' }}>
         <Link
@@ -101,13 +76,12 @@ function BookDetails() {
       </p>
     ));
   };
-  const authorElements = () => {
+  const authorElements = (authors: AuthorsDetails[]) => {
     return authors.map((author, index) => (
       <span key={author.id || index}>
         <Link
           className="link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
           to={`/ebook/authors/${author.id}`}
-          //state={{ categoryName: category.categoryName }}
         >
           {author.name}
         </Link>
@@ -117,12 +91,11 @@ function BookDetails() {
     ));
   };
 
-  const publisherElement = () => {
+  const publisherElement = (publisher: PublisherDetails) => {
     return (
       <Link
         className="link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
         to={`/ebook/publishers/${publisher?.id}`}
-        //state={{ categoryName: category.categoryName }}
       >
         {publisher?.name}
       </Link>
@@ -155,7 +128,7 @@ function BookDetails() {
 
                 <h5 className="text-muted">
                   <strong>By: </strong>
-                  {authorElements()}
+                  {authorElements(book.authorsDetails)}
                 </h5>
                 <hr />
 
@@ -168,7 +141,8 @@ function BookDetails() {
                       <strong>Published Year:</strong> {book.publicationYear}
                     </p>
                     <p>
-                      <strong>Publisher</strong> {publisherElement()}
+                      <strong>Publisher</strong>{' '}
+                      {publisherElement(book.publisherDetails)}
                     </p>
                     <p>
                       <strong>ISBN:</strong> {book.isbn}
@@ -176,7 +150,7 @@ function BookDetails() {
                   </div>
                   <div className="col-md-6">
                     <strong>Genere: </strong>
-                    {categoryElements()}
+                    {categoryElements(book.categoriesDetails)}
                     <p></p>
                     <p>
                       <strong>Total Copies:</strong> {book.totalCopies}
