@@ -1,22 +1,7 @@
 import apiClient from "./apiClient";
+import { Author, Book } from "./types";
 
-type Author = {
-    id: string;
-    name: string;
-    bio: string;
-    nationality: string;
-    birthDate: string;
-    bookIds: string[];
-};
-type Book=  {
-    id: string;
-    title: string;
-    author: string;
-    language: string;
-    publicationYear: string;
-    isbn: string;
-    totalCopies:string;
-  };
+
 const API_URL = "/ebook/authors";
 
 export const getAuthors = async (): Promise<Author[]> => {

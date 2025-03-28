@@ -2,32 +2,39 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import BookImage from '../../assets/Book.jpg';
 import { getBooks } from '../../services/bookService';
+import { getAuthorById } from '../../services/authorService';
+import { Book, Author } from '../../services/types';
 
-type Book = {
-  id: string;
-  title: string;
-  author: string;
-  language: string;
-  publicationYear: string;
-};
 function BookList() {
   const [books, setBooks] = React.useState<Book[]>([]);
-  const [token, setToken] = React.useState<string | null>(null);
+  const [authors, setAuthors] = React.useState<Author[]>([]);
+  // const [token, setToken] = React.useState<string | null>(null);
 
   const refreshBooks = async () => {
     const books = await getBooks();
     setBooks(books);
+    return books;
   };
-
+  const fetchAuthors = async (authorsIds: string[]) => {
+    console.log('fetching author details for books');
+    console.log('authorsIds: ', authorsIds);
+    return await Promise.all(
+      authorsIds.map((authorsId) => getAuthorById(authorsId))
+    );
+  };
   React.useEffect(() => {
     // Wait for the token to be available in localStorage
-    const storedToken = localStorage.getItem('authToken');
-    if (storedToken) {
-      setToken(storedToken);
-      refreshBooks();
-    } else {
-      console.log('Token not found. Not fetching books.');
-    }
+    // const storedToken = localStorage.getItem('authToken');
+    // if (storedToken) {
+    // setToken(storedToken);
+    const booksData = refreshBooks();
+    //  } else {
+    //  console.log('Token not found. Not fetching books.');
+    //}
+
+    const authorsData = await fetchAuthors(bookData.authorIds);
+    setAuthors(authorsData);
+    console.log('Authors Data is fetched: ', authorsData);
   }, []);
 
   return books.map((book) => (

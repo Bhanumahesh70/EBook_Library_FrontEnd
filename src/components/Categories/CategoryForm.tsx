@@ -5,12 +5,7 @@ import {
 } from '../../services/categoryService';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import FeedBackModal from '../Modals/FeedBackModal';
-
-type Category = {
-  id: string;
-  categoryName: string;
-  description: string;
-};
+import { Category } from '../../services/types';
 
 const CategoryForm = () => {
   const { id } = useParams();

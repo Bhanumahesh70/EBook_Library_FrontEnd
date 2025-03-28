@@ -6,15 +6,7 @@ import {
   updateAuthorById,
   getAuthorById,
 } from '../../services/authorService';
-
-type Author = {
-  id: string;
-  name: string;
-  bio: string;
-  nationality: string;
-  birthDate: string;
-  bookIds: string[];
-};
+import { Author } from '../../services/types';
 
 const AddAuthorForm = () => {
   const [author, setAuthor] = React.useState<Author>({

@@ -2,14 +2,7 @@ import React from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { getBooksForAuthorWithId } from '../../services/authorService';
 import BookList from '../Books/BookList';
-
-interface Book {
-  id: string;
-  title: string;
-  author: string;
-  language: string;
-  publicationYear: string;
-}
+import { Book } from '../../services/types';
 
 const AuthorBooks = () => {
   const { id } = useParams<{ id: string }>();

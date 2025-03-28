@@ -1,24 +1,7 @@
 import apiClient from './apiClient';
-
+import { Publisher, Book } from './types';
 const API_URL = '/ebook/publishers';
 
-type Publisher = {
-  id: string;
-  name: string;
-  address: string;
-  email: string;
-  phoneNumber: string;
-  bookIds: number[];
-};
-type Book = {
-  id: string;
-  title: string;
-  author: string;
-  language: string;
-  publicationYear: string;
-  isbn: string;
-  totalCopies: string;
-};
 // Fetch all publishers
 export const getPublishers = async (): Promise<Publisher[]> => {
   try {

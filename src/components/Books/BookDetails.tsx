@@ -8,46 +8,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { getCategoryById } from '../../services/categoryService';
 import { getPublisherById } from '../../services/publisherService';
 import { getAuthorById } from '../../services/authorService';
-
-interface Category {
-  id: string;
-  categoryName: string;
-  description: string;
-}
-type Publisher = {
-  id: string;
-  name: string;
-  address: string;
-  email: string;
-  phoneNumber: string;
-  bookIds: number[];
-};
-interface BookDetailsProps {
-  id: string;
-  title: string;
-  //author: string;
-  language: string;
-  publicationYear: string;
-  isbn: string;
-  totalCopies: string;
-  availableCopies: string;
-  publisherId: string;
-  categoryIds: string[];
-  authorIds: string[];
-}
-type Author = {
-  id: string;
-  name: string;
-  bio: string;
-  nationality: string;
-  birthDate: string;
-  bookIds: string[];
-};
+import { Book, Category, Publisher, Author } from '../../services/types';
 
 function BookDetails() {
   const { id } = useParams<{ id: string }>();
   console.log('Displaying book with id:', id);
-  const [book, setBook] = React.useState<BookDetailsProps | null>(null);
+  const [book, setBook] = React.useState<Book | null>(null);
   const [categories, setCategories] = React.useState<Category[]>([]);
   const [authors, setAuthors] = React.useState<Author[]>([]);
   const [publisher, setpublisher] = React.useState<Publisher>();

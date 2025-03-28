@@ -1,15 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import BookImage from '../../assets/Book.jpg';
+import { Book } from '../../services/types';
 
-interface bookProps {
-  id: string;
-  title: string;
-  author: string;
-  language: string;
-  publicationYear: string;
-}
-function BookList({ id, title, author, language, publicationYear }: bookProps) {
+function BookList({ id, title, author, language, publicationYear }: Book) {
   return (
     <div className="card bookCard" style={{ width: '18rem' }}>
       <img className="card-img-top" src={BookImage} alt="Card image cap" />

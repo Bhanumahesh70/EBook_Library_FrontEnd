@@ -1,16 +1,8 @@
 import axios from "axios"
 import apiClient from "./apiClient";
+import { User } from "./types";
 const API_URL = "/ebook/users"
-type User=  {
-    id: string;
-    name: string;
-    email: string;
-    password: string;
-    phoneNumber: string;
-    address: string;
-    role:string;
 
-  };
   
 export const getUsers = async (): Promise<User[]>=>{
     try {

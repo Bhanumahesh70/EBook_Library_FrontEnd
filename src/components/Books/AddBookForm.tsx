@@ -2,25 +2,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { addBook, updateBook, getBooksById } from '../../services/bookService';
 import FeedBackModal from '../Modals/FeedBackModal';
-
-type Book = {
-  id: string;
-  title: string;
-  author: string;
-  language: string;
-  publicationYear: string;
-  isbn: string;
-  totalCopies: string;
-  availableCopies: string;
-  publisherId: string;
-  categoryIds: string[];
-  //authorsIds:string[];
-};
-type Category = {
-  id: string;
-  categoryName: string;
-  description: string;
-};
+import { Book, Category } from '../../services/types';
 
 const AddBookForm = () => {
   const [book, setBook] = React.useState<Book>({

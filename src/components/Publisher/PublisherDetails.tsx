@@ -3,15 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getPublisherById } from '../../services/publisherService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PublisherImage from '../../assets/Publisher.png';
-
-interface Publisher {
-  id: string;
-  name: string;
-  address: string;
-  email: string;
-  phoneNumber: string;
-  bookIds: string[];
-}
+import { Publisher } from '../../services/types';
 
 function PublisherDetails() {
   const { id } = useParams<{ id: string }>();

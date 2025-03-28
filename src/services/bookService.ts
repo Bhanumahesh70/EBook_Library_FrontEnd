@@ -1,27 +1,8 @@
 import axios from "axios"
 import apiClient from "./apiClient";
+import { Book } from "./types";
 
 const API_URL = "/ebook/books"
-type Book=  {
-    id: string;
-    title: string;
-    author: string;
-    language: string;
-    publicationYear: string;
-    isbn: string;
-    totalCopies:string;
-    availableCopies:string;
-    publisherId:string;
-    categoryIds:string[];
-   // authorsIds:string[];
-    //categoriesDTO: Category[];
-  };
-
-  type Category={
-    id: string;
-    categoryName : string;
-    description: string;
-}
 export const getBooks = async (): Promise<Book[]>=>{
     try {
         const response = await apiClient.get<Book[]>(API_URL);
@@ -51,7 +32,7 @@ try {
 
     const updateData={
       title: book.title,
-      author: book.author,
+      //author: book.author,
       isbn: book.isbn,
       language: book.language,
       totalCopies: book.totalCopies,

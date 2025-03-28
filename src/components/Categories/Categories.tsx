@@ -2,12 +2,8 @@ import React from 'react';
 import { getCategories } from '../../services/categoryService';
 import { Link } from 'react-router-dom';
 import { useRole } from '../Authentication/RoleContext';
+import { Category } from '../../services/types';
 
-type Category = {
-  id: string;
-  categoryName: string;
-  description: string;
-};
 const Categories = () => {
   const [categories, setCategories] = React.useState<Category[]>([]);
   const { role } = useRole();

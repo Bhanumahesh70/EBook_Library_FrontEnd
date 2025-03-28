@@ -3,15 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getAuthorById } from '../../services/authorService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AuthorImage from '../../assets/Author.jpeg';
-
-interface Author {
-  id: string;
-  name: string;
-  bio: string;
-  nationality: string;
-  birthDate: string;
-  bookIds: string[];
-}
+import { Author } from '../../services/types';
 
 function AuthorDetails() {
   const { id } = useParams<{ id: string }>();

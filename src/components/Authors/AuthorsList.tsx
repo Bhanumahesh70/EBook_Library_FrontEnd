@@ -1,15 +1,7 @@
 import React from 'react';
 import { getAuthors } from '../../services/authorService';
 import { useNavigate, Link } from 'react-router-dom';
-
-type Author = {
-  id: string;
-  name: string;
-  bio: string;
-  nationality: string;
-  birthDate: string;
-  bookIds: string[];
-};
+import { Author } from '../../services/types';
 
 const AuthorsList = () => {
   const [authors, setAuthors] = React.useState<Author[]>([]);

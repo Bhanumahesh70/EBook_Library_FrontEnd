@@ -1,20 +1,7 @@
 
 import apiClient from "./apiClient";
+import { Category, Book } from "./types";
 
-type Category={
-    id: string;
-    categoryName : string;
-    description: string;
-}
-type Book=  {
-    id: string;
-    title: string;
-    author: string;
-    language: string;
-    publicationYear: string;
-    isbn: string;
-    totalCopies:string;
-  };
 const API_URL = "/ebook/categories";
 
 export const getCategories = async ():Promise<Category[]>=>{

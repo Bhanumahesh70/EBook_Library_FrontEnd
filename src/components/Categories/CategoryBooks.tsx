@@ -2,13 +2,7 @@ import React from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { getBooksForCategoryWithId } from '../../services/categoryService';
 import BookList from '../Books/BookList';
-interface Book {
-  id: string;
-  title: string;
-  author: string;
-  language: string;
-  publicationYear: string;
-}
+import { Book } from '../../services/types';
 const CategoryBooks = () => {
   const { id } = useParams<{ id: string }>();
   const [books, setBooks] = React.useState<Book[]>([]);
