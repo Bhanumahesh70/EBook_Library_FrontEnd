@@ -8,9 +8,12 @@ import {
   AuthorsDetails,
   Author,
   CategoriesDetails,
+  PublisherDetails,
+  Publisher,
 } from '../../services/types';
 import { getAuthors } from '../../services/authorService';
 import { getCategories } from '../../services/categoryService';
+import { getPublishers } from '../../services/publisherService';
 
 const AddBookForm = () => {
   const [book, setBook] = React.useState<Book>({
@@ -24,7 +27,7 @@ const AddBookForm = () => {
     publisherId: '',
     authorsDetails: [],
     categoriesDetails: [],
-    publisherDetails: { id: 0, name: '' },
+    publisherDetails: { id: '', name: '' },
   });
   const { id } = useParams<{ id: string }>();
   const isEditing = Boolean(id);
@@ -32,14 +35,19 @@ const AddBookForm = () => {
   const [isError, setIsError] = React.useState(false);
   const [showAuthorList, setShowAuthorList] = React.useState(false);
   const [showCategoryList, setShowCategoryList] = React.useState(false);
+  const [showPublisherList, setShowPublisherList] = React.useState(false);
   const [allAuthors, setAllAuthors] = React.useState<Author[]>([]);
   const [allCategories, setAllCategories] = React.useState<Category[]>([]);
-  const [categoryDetails, setCtegoryDetails] = React.useState<
+  const [allPublishers, setAllPublishers] = React.useState<Publisher[]>([]);
+  const [categoryDetails, setCategoryDetails] = React.useState<
     CategoriesDetails[]
   >([]);
   const [authorDetails, setAuthorDetails] = React.useState<AuthorsDetails[]>(
     []
   );
+  const [publisherDetails, setPublisherDetails] =
+    React.useState<PublisherDetails | null>(null);
+
   const navigate = useNavigate();
 
   const fetchAuthorData = async () => {
@@ -54,6 +62,12 @@ const AddBookForm = () => {
     setAllCategories((prev) => [...categoriesData]);
     console.log('Authors data: ', categoriesData);
   };
+  const fetchPublishersData = async () => {
+    console.log('fetching publishers data....');
+    const publishersData = await getPublishers(); // Assuming you have a `getPublishers` service function
+    setAllPublishers((prev) => [...publishersData]);
+    console.log('Publishers data: ', publishersData);
+  };
   React.useEffect(() => {
     console.log('Inside useEffect()......');
     //Here if id means if Editing. If we keep ieEditing Paramater here instead of id,
@@ -66,6 +80,7 @@ const AddBookForm = () => {
     } else {
       fetchAuthorData();
       fetchCategoriesData();
+      fetchPublishersData();
       setBook({
         id: ' ',
         title: '',
@@ -77,7 +92,7 @@ const AddBookForm = () => {
         publisherId: '',
         authorsDetails: [],
         categoriesDetails: [],
-        publisherDetails: { id: 0, name: '' },
+        publisherDetails: { id: '', name: '' },
       });
     }
   }, [id]);
@@ -180,6 +195,25 @@ const AddBookForm = () => {
       </li>
     ));
   };
+  const publishersList = () => {
+    return allPublishers.map((publisher) => (
+      <li key={publisher.id}>
+        <button
+          className="dropdown-item"
+          type="button"
+          onClick={() => selectPublisher(publisher)}
+        >
+          {publisher.name}
+        </button>
+        <Link
+          to={`/ebook/publishers/${publisher.id}/details`}
+          className="btn btn-outline-primary"
+        >
+          view
+        </Link>
+      </li>
+    ));
+  };
   const selectAuthor = (author: Author) => {
     setShowAuthorList((prev) => !prev);
 
@@ -198,7 +232,7 @@ const AddBookForm = () => {
 
   const selectCategory = (category: Category) => {
     setShowCategoryList((prev) => !prev);
-    setCtegoryDetails((prev) => {
+    setCategoryDetails((prev) => {
       let updatedCategories: CategoriesDetails[];
       if (prev.some((c) => c.id === category.id)) {
         updatedCategories = prev.filter((c) => c.id !== category.id);
@@ -214,6 +248,13 @@ const AddBookForm = () => {
       }));
       return updatedCategories;
     });
+  };
+  const selectPublisher = (publisher: PublisherDetails) => {
+    setPublisherDetails({ id: publisher.id, name: publisher.name }); // Update publisherDetails state
+    setBook((prevBook) => ({
+      ...prevBook,
+      publisherDetails: publisher,
+    }));
   };
   return (
     <>
@@ -345,7 +386,52 @@ const AddBookForm = () => {
               style={{ width: '250px' }}
             />
           </div>
-
+          <div className="mb-3">
+            <label htmlFor="availableCopies" className="form-label">
+              Available Copies
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="availableCopies"
+              value={book.availableCopies}
+              aria-describedby="Book available Copies"
+              onChange={handleOnChange}
+              style={{ width: '250px' }}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="publisher" className="form-label">
+              Publisher
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="publisher"
+              value={book.publisherDetails?.name || ''}
+              aria-describedby="Book publisher"
+              onChange={handleOnChange}
+              style={{ width: '250px' }}
+            />
+            <div className="dropdown">
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                onClick={() => setShowPublisherList((prev) => !prev)}
+              >
+                select Publisher
+              </button>
+              <ul
+                className={`dropdown-menu ${showPublisherList ? 'show' : ''}`}
+                aria-labelledby="dropdownMenuButton"
+              >
+                {publishersList()}
+              </ul>
+            </div>
+          </div>
           <div className="mb-3">
             <label htmlFor="publicationYear" className="form-label">
               Publication Year

@@ -225,7 +225,7 @@ h1{
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 55vh;
+  height: auto;
   margin-top: 5px;
   background-color: rgb(126, 164, 200);
   padding: 20px;
