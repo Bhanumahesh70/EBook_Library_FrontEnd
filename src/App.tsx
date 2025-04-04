@@ -62,7 +62,7 @@ function App() {
                   path="/ebook"
                   element={
                     <ProtectedRoute>
-                      <BookList booksProp={[]} />
+                      <BookList booksProp={[]} isAllbooks={true} />
                     </ProtectedRoute>
                   }
                 />
