@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { getBooksForPublisherWithId } from '../../services/publisherService';
 import { Book } from '../../services/types';
-import BookList from '../Books/BookList';
+import BookList from '../Books/BookListGrid';
 
 const PublisherBooks = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,16 +19,11 @@ const PublisherBooks = () => {
     <>
       <h1>{`Books by Publisher: ${publisherName}`}</h1>
       <div className="bookContainer">
-        {books.map((book) => (
-          <BookList
-            key={book.id}
-            id={book.id}
-            title={book.title}
-            author={book.author}
-            language={book.language}
-            publicationYear={book.publicationYear}
-          />
-        ))}
+        {books.length == 0 ? (
+          <p>"Sorry, there are no books available for this publisher!!"</p>
+        ) : (
+          <BookList booksProp={books} isAllbooks={false} />
+        )}
       </div>
     </>
   );

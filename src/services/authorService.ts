@@ -29,7 +29,7 @@ export const getBooksForAuthorWithId = async (id: String | undefined):Promise<Bo
 
     try {
         const response = await apiClient.get<Book[]>(`${API_URL}/${id}/books`);
-        console.log("Books are fecthed successfully for author with id:",id);
+        console.log("getBooksForAuthorWithId()->>Books are fecthed successfully for author with id:",id);
         return response.data;
     } catch (error) {
         console.log(`Error in fetching books for author id(${id}). Error: `,error);

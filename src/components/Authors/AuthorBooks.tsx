@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { getBooksForAuthorWithId } from '../../services/authorService';
-import BookList from '../Books/BookList';
+import BookList from '../Books/BookListGrid';
 import { Book } from '../../services/types';
 
 const AuthorBooks = () => {
@@ -18,17 +18,12 @@ const AuthorBooks = () => {
   return (
     <>
       <h1>{`Books by Author: ${authorName}`}</h1>
-      <div className="bookContainer">
-        {books.map((book) => (
-          <BookList
-            key={book.id}
-            id={book.id}
-            title={book.title}
-            author={book.author}
-            language={book.language}
-            publicationYear={book.publicationYear}
-          />
-        ))}
+      <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
+        {books.length == 0 ? (
+          <p>"Sorry, there are no books available for this author!!"</p>
+        ) : (
+          <BookList booksProp={books} isAllbooks={false} />
+        )}
       </div>
     </>
   );

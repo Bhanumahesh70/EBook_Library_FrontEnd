@@ -6,11 +6,11 @@ const API_URL = "/ebook/books"
 export const getBooks = async (): Promise<Book[]>=>{
     try {
         const response = await apiClient.get<Book[]>(API_URL);
-        console.log("Books Fetched successfully");
+        console.log("getBooks()->>Books Fetched successfully");
         return response.data;
         
     } catch (error) {
-        console.log("Error fetching the books: ", error);
+        console.log("getBooks()->>Error fetching the books: ", error);
        throw error
     }
 };

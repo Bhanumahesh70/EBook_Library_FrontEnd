@@ -22,7 +22,6 @@ import BookList from './components/Books/BookListGrid';
 import { RoleProvider } from './components/Authentication/RoleContext';
 import AuthorsList from './components/Authors/AuthorsList';
 import AddAuthorForm from './components/Authors/AddAuthorForm';
-import BookDetailsMi from './components/Books/BookDetailsMI';
 import AuthorDetails from './components/Authors/AuthorDetails';
 import AuthorBooks from './components/Authors/AuthorBooks';
 import PublisherDetails from './components/Publisher/PublisherDetails';
@@ -63,9 +62,7 @@ function App() {
                   path="/ebook"
                   element={
                     <ProtectedRoute>
-                      <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
-                        <BookList />
-                      </div>
+                      <BookList booksProp={[]} />
                     </ProtectedRoute>
                   }
                 />

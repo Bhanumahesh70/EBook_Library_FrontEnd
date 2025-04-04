@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { getBooksForCategoryWithId } from '../../services/categoryService';
-import BookList from '../Books/BookList';
+import BookList from '../Books/BookListGrid';
 import { Book } from '../../services/types';
 const CategoryBooks = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,23 +14,17 @@ const CategoryBooks = () => {
     console.log('Displaying for category with id: ', id);
   }, [id]);
 
-  const bookElements = books.map((book) => {
-    return (
-      <BookList
-        key={book.id}
-        id={book.id}
-        title={book.title}
-        author={book.author}
-        language={book.language}
-        publicationYear={book.publicationYear}
-      />
-    );
-  });
-
   return (
     <>
       <h1>Books for Category:{categoryName}</h1>
-      <div className="bookContainer">{bookElements}</div>;
+      <div className="bookContainer">
+        {books.length == 0 ? (
+          <p>"Sorry, there are no books available for this category!!"</p>
+        ) : (
+          <BookList booksProp={books} isAllbooks={false} />
+        )}
+      </div>
+      ;
     </>
   );
 };
