@@ -128,36 +128,6 @@ const AddBookForm = () => {
     setter((prev) => !prev);
   };
 
-  const renderList = <
-    T extends { id: string; name?: string; categoryName?: string }
-  >(
-    items: T[],
-    selectItem: (item: T) => void,
-    urlTemplate: (id: string) => string
-  ) => {
-    return items.map((item) => (
-      <li key={item.id}>
-        <button
-          className="dropdown-item"
-          type="button"
-          onClick={() => selectItem(item)}
-        >
-          {item.name || item.categoryName}
-        </button>
-        <Link to={urlTemplate(item.id)} className="btn btn-outline-primary">
-          view
-        </Link>
-      </li>
-    ));
-  };
-  const authorsList = () => {
-    renderList<Author>(
-      allAuthors,
-      selectAuthor,
-      (id) => `/ebook/authors/${id}/details`
-    );
-  };
-
   const categoriesList = () => {
     return allCategories.map((category) => (
       <li key={category.id}>
@@ -190,6 +160,26 @@ const AddBookForm = () => {
         </button>
         <Link
           to={`/ebook/publishers/${publisher.id}/details`}
+          className="btn btn-outline-primary"
+        >
+          view
+        </Link>
+      </li>
+    ));
+  };
+
+  const authorsList = () => {
+    return allAuthors.map((author) => (
+      <li key={author.id}>
+        <button
+          className="dropdown-item"
+          type="button"
+          onClick={() => selectAuthor(author)}
+        >
+          {author.name}
+        </button>
+        <Link
+          to={`/ebook/authors/${author.id}/details`}
           className="btn btn-outline-primary"
         >
           view
@@ -263,7 +253,7 @@ const AddBookForm = () => {
           <DropDownList
             label="Select Author"
             showList={showAuthorList}
-            handleShowList={handleToggleList(setShowAuthorList)}
+            handleShowList={() => handleToggleList(setShowAuthorList)}
             list={authorsList()}
           />
 
@@ -291,7 +281,7 @@ const AddBookForm = () => {
           <DropDownList
             label="Select Category"
             showList={showCategoryList}
-            handleShowList={handleToggleList(setShowCategoryList)}
+            handleShowList={() => handleToggleList(setShowCategoryList)}
             list={categoriesList()}
           />
 
@@ -316,7 +306,7 @@ const AddBookForm = () => {
           <DropDownList
             label="Select Publisher"
             showList={showPublisherList}
-            handleShowList={handleToggleList(setShowPublisherList)}
+            handleShowList={() => handleToggleList(setShowPublisherList)}
             list={publishersList()}
           />
 
