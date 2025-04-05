@@ -9,7 +9,7 @@ import {
 } from '../../services/formUtilities';
 import TextInputField from '../Form/TextInputField';
 import TextAreaField from '../Form/TextAreaField';
-
+import { textInModal, handleModalClosing } from '../../services/modalUtilities';
 const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
   const defaultUser: User = {
     id: '',
@@ -40,15 +40,6 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
       setUser(defaultUser);
     }
   }, [id]);
-  function displayTextInModal() {
-    if (!isError) {
-      return isEditing
-        ? 'User is updated successfully'
-        : 'User is added successfully';
-    } else {
-      return isEditing ? 'Error in updating User' : 'Error in adding User';
-    }
-  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     handleFormSubmit<User>({
@@ -71,7 +62,23 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
       e.target.name === 'role' ? 'role' : undefined
     );
   }
-
+  function displayTextInModal() {
+    return textInModal({ isError, isEditing, entityName: 'User' });
+  }
+  function handleCloseFeedBackModal() {
+    handleModalClosing<User>({
+      setShowModal,
+      isError,
+      isEditing,
+      url: '/ebook/users',
+      setEntity: setUser,
+      entity: defaultUser,
+    });
+    if (isSignup) {
+      navigate('/login');
+    }
+  }
+  /*
   function handleCloseFeedBackModel() {
     setShowModal(false);
     if (!isError) {
@@ -83,6 +90,8 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
       }
     }
   }
+    */
+
   return (
     <div className="signupDiv">
       {isSignup && (
@@ -187,7 +196,7 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
         <FeedBackModal
           showFeedBackModal={showModal}
           displayTextInFeedbackModal={displayTextInModal}
-          close={handleCloseFeedBackModel}
+          close={handleCloseFeedBackModal}
         />
       </div>
     </div>

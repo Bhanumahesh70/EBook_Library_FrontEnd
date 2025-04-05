@@ -20,7 +20,7 @@ import {
   handleFormSubmit,
   handleInputOnChange,
 } from '../../services/formUtilities';
-
+import { textInModal, handleModalClosing } from '../../services/modalUtilities';
 const AddBookForm = () => {
   const defaultBook: Book = {
     id: ' ',
@@ -85,15 +85,6 @@ const AddBookForm = () => {
     }
   }, [id]);
 
-  function displayTextInModal() {
-    if (!isError) {
-      return isEditing
-        ? 'Book is updated successfully'
-        : 'Book is added successfully';
-    } else {
-      return isEditing ? 'Error in updating Book' : 'Error in adding Book';
-    }
-  }
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     handleFormSubmit<Book>({
       e,
@@ -110,16 +101,6 @@ const AddBookForm = () => {
 
   function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
     handleInputOnChange<Book>(e, setBook);
-  }
-
-  function handleCloseFeedBackModel() {
-    setShowModal(false);
-    if (!isError) {
-      if (isEditing) {
-        navigate('/ebook');
-      }
-      setBook(defaultBook);
-    }
   }
 
   const handleToggleList = (
@@ -217,6 +198,20 @@ const AddBookForm = () => {
     }));
   };
 
+  function displayTextInModal() {
+    return textInModal({ isError, isEditing, entityName: 'Book' });
+  }
+
+  function handleCloseFeedBackModal() {
+    handleModalClosing<Book>({
+      setShowModal,
+      isError,
+      isEditing,
+      url: 'ebook',
+      setEntity: setBook,
+      entity: defaultBook,
+    });
+  }
   return (
     <>
       <div className="container mb-5 addBookFrom">
@@ -306,7 +301,7 @@ const AddBookForm = () => {
         <FeedBackModal
           showFeedBackModal={showModal}
           displayTextInFeedbackModal={displayTextInModal}
-          close={handleCloseFeedBackModel}
+          close={handleCloseFeedBackModal}
         />
       </div>
     </>

@@ -13,16 +13,18 @@ import {
 } from '../../services/formUtilities';
 import TextInputField from '../Form/TextInputField';
 import TextAreaField from '../Form/TextAreaField';
+import { textInModal, handleModalClosing } from '../../services/modalUtilities';
 
 const AddAuthorForm = () => {
-  const [author, setAuthor] = React.useState<Author>({
+  const defaultAuthor: Author = {
     id: '',
     name: '',
     bio: '',
     nationality: '',
     birthDate: '',
     bookIds: [],
-  });
+  };
+  const [author, setAuthor] = React.useState<Author>(defaultAuthor);
 
   const { id } = useParams<{ id: string }>();
   console.log('Id for author is : ', id);
@@ -35,26 +37,10 @@ const AddAuthorForm = () => {
     if (id) {
       getAuthorById(id).then((data) => setAuthor(data));
     } else {
-      setAuthor({
-        id: '',
-        name: '',
-        bio: '',
-        nationality: '',
-        birthDate: '',
-        bookIds: [],
-      });
+      setAuthor(defaultAuthor);
     }
   }, [id]);
 
-  function displayTextInModal() {
-    return isError
-      ? isEditing
-        ? 'Error updating author'
-        : 'Error adding author'
-      : isEditing
-      ? 'Author updated successfully'
-      : 'Author added successfully';
-  }
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     handleFormSubmit<Author>({
       e,
@@ -75,13 +61,19 @@ const AddAuthorForm = () => {
     handleInputOnChange<Author>(e, setAuthor);
   }
 
-  function handleCloseFeedBackModal() {
-    setShowModal(false);
-    if (!isError) {
-      navigate('/ebook/authors');
-    }
+  function displayTextInModal() {
+    return textInModal({ isError, isEditing, entityName: 'Author' });
   }
-
+  function handleCloseFeedBackModal() {
+    handleModalClosing<Author>({
+      setShowModal,
+      isError,
+      isEditing,
+      url: '/ebook/authors',
+      setEntity: setAuthor,
+      entity: defaultAuthor,
+    });
+  }
   return (
     <div className="Edit-new-authorDiv">
       <h1>{isEditing ? 'Edit Author' : 'Add New Author'}</h1>
