@@ -11,6 +11,8 @@ import {
   handleFormSubmit,
   handleInputOnChange,
 } from '../../services/formUtilities';
+import TextInputField from '../Form/TextInputField';
+import TextAreaField from '../Form/TextAreaField';
 
 const AddAuthorForm = () => {
   const [author, setAuthor] = React.useState<Author>({
@@ -86,61 +88,34 @@ const AddAuthorForm = () => {
 
       <div className="container mb-5 author-form-container">
         <form className="author-form" onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label">
-              Name
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              value={author.name}
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
+          <TextInputField
+            label="Name"
+            id="name"
+            value={author.name}
+            onChange={handleOnChange}
+          />
 
-          <div className="mb-3">
-            <label htmlFor="bio" className="form-label">
-              Bio
-            </label>
-            <textarea
-              className="form-control"
-              id="bio"
-              value={author.bio}
-              onChange={handleOnChange}
-              rows={3}
-              style={{ width: '250px' }}
-            />
-          </div>
+          <TextAreaField
+            label="Bio"
+            id="bio"
+            value={author.bio}
+            onChange={handleOnChange}
+          />
 
-          <div className="mb-3">
-            <label htmlFor="nationality" className="form-label">
-              Nationality
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="nationality"
-              value={author.nationality}
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
+          <TextInputField
+            label="Nationality"
+            id="nationality"
+            value={author.nationality}
+            onChange={handleOnChange}
+          />
 
-          <div className="mb-3">
-            <label htmlFor="birthDate" className="form-label">
-              Birth Date
-            </label>
-            <input
-              type="date"
-              className="form-control"
-              id="birthDate"
-              value={author.birthDate}
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
+          <TextInputField
+            label="Birth Date"
+            id="birthDate"
+            value={author.birthDate}
+            onChange={handleOnChange}
+            customType="date"
+          />
 
           <div className="mb-3">
             <button type="submit" className="btn btn-primary">

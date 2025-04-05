@@ -7,6 +7,8 @@ import {
   handleFormSubmit,
   handleInputOnChange,
 } from '../../services/formUtilities';
+import TextInputField from '../Form/TextInputField';
+import TextAreaField from '../Form/TextAreaField';
 
 const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
   const defaultUser: User = {
@@ -102,81 +104,38 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
 
       <div className="container mb-5 addUserFormContainer">
         <form className="addUserForm" onSubmit={handleSubmit}>
-          <div className=" mb-3 col-sm">
-            <label htmlFor="name" className="col-sm-3 col-form-label">
-              Name
-            </label>
+          <TextInputField
+            label="Name"
+            id="name"
+            value={user.name}
+            onChange={handleOnChange}
+          />
+          <TextInputField
+            label="Email"
+            id="email"
+            value={user.email}
+            onChange={handleOnChange}
+          />
+          <TextInputField
+            label="Password"
+            id="password"
+            value={user.password}
+            onChange={handleOnChange}
+          />
 
-            <input
-              type="text"
-              className=" form-control"
-              id="name"
-              value={user.name}
-              aria-describedby="User Name"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
+          <TextInputField
+            label="Phone Number"
+            id="phoneNumber"
+            value={user.phoneNumber}
+            onChange={handleOnChange}
+          />
+          <TextInputField
+            label="Address"
+            id="address"
+            value={user.address}
+            onChange={handleOnChange}
+          />
 
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="email"
-              value={user.email}
-              aria-describedby="user email"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="password"
-              value={user.password}
-              aria-describedby="user password"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="phoneNumber" className="form-label">
-              Phone Number
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="phoneNumber"
-              value={user.phoneNumber}
-              aria-describedby="phoneNumber"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="address" className="form-label">
-              Address
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="address"
-              value={user.address}
-              aria-describedby="user address"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
           {!isSignup && (
             <>
               <div className="form-check">
