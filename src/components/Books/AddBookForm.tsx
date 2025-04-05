@@ -14,9 +14,15 @@ import {
 import { getAuthors } from '../../services/authorService';
 import { getCategories } from '../../services/categoryService';
 import { getPublishers } from '../../services/publisherService';
+import TextInputField from '../Form/TextInputField';
+import DropDownList from '../Form/DropDownList';
+import {
+  handelFormSubmit,
+  handleInputOnChange,
+} from '../../services/formUtilities';
 
 const AddBookForm = () => {
-  const [book, setBook] = React.useState<Book>({
+  const defaultBook: Book = {
     id: ' ',
     title: '',
     language: '',
@@ -28,7 +34,8 @@ const AddBookForm = () => {
     authorsDetails: [],
     categoriesDetails: [],
     publisherDetails: { id: '', name: '' },
-  });
+  };
+  const [book, setBook] = React.useState<Book>(defaultBook);
   const { id } = useParams<{ id: string }>();
   const isEditing = Boolean(id);
   const [showModal, setShowModal] = React.useState(false);
@@ -50,24 +57,17 @@ const AddBookForm = () => {
 
   const navigate = useNavigate();
 
-  const fetchAuthorData = async () => {
-    console.log('fetching authors data....');
-    const authorsData = await getAuthors();
-    setAllAuthors((prev) => [...authorsData]);
-    console.log('Authors data: ', authorsData);
+  const fetchAndSet = async (
+    label: string,
+    getFunction: () => {},
+    setFunction: (value: React.SetStateAction<any>) => void
+  ) => {
+    console.log(`fetching ${label} data....`);
+    const data = await getFunction();
+    setFunction(data);
+    console.log(`${label} data: `, data);
   };
-  const fetchCategoriesData = async () => {
-    console.log('fetching categories data....');
-    const categoriesData = await getCategories();
-    setAllCategories((prev) => [...categoriesData]);
-    console.log('Authors data: ', categoriesData);
-  };
-  const fetchPublishersData = async () => {
-    console.log('fetching publishers data....');
-    const publishersData = await getPublishers(); // Assuming you have a `getPublishers` service function
-    setAllPublishers((prev) => [...publishersData]);
-    console.log('Publishers data: ', publishersData);
-  };
+
   React.useEffect(() => {
     console.log('Inside useEffect()......');
     //Here if id means if Editing. If we keep ieEditing Paramater here instead of id,
@@ -78,24 +78,13 @@ const AddBookForm = () => {
         setBook(data);
       });
     } else {
-      fetchAuthorData();
-      fetchCategoriesData();
-      fetchPublishersData();
-      setBook({
-        id: ' ',
-        title: '',
-        language: '',
-        publicationYear: '',
-        isbn: '',
-        totalCopies: '',
-        availableCopies: '',
-        publisherId: '',
-        authorsDetails: [],
-        categoriesDetails: [],
-        publisherDetails: { id: '', name: '' },
-      });
+      fetchAndSet('authors', getAuthors, setAllAuthors);
+      fetchAndSet('categories', getCategories, setAllCategories);
+      fetchAndSet('publishers', getPublishers, setAllPublishers);
+      setBook(defaultBook);
     }
   }, [id]);
+
   function displayTextInModal() {
     if (!isError) {
       return isEditing
@@ -106,29 +95,21 @@ const AddBookForm = () => {
     }
   }
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    try {
-      if (isEditing) {
-        const updatedBook = await updateBook(book, id);
-        console.log('Book updated Successfully', updatedBook);
-      } else {
-        const addedBook = await addBook(book);
-        console.log('Book added Successfully', addedBook);
-      }
-      //refreshBooks();
-      setIsError(false);
-    } catch (error) {
-      console.error('Error adding/updating book:', error);
-      setIsError(true);
-    } finally {
-      setShowModal(true);
-    }
+    handelFormSubmit<Book>({
+      e,
+      isEditing,
+      entity: book,
+      id,
+      updateFunction: updateBook,
+      addFunction: addBook,
+      entityName: 'Book',
+      setIsError,
+      setShowModal,
+    });
   }
 
   function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(e);
-    const { id, value } = e.target;
-    setBook((prevBook) => ({ ...prevBook, [id]: value }));
+    handleInputOnChange<Book>(e, setBook);
   }
 
   function handleCloseFeedBackModel() {
@@ -137,45 +118,46 @@ const AddBookForm = () => {
       if (isEditing) {
         navigate('/ebook');
       }
-      setBook({
-        id: '',
-        title: '',
-        author: '',
-        language: '',
-        publicationYear: '',
-        isbn: '',
-        totalCopies: '',
-        // availableCopies: '',
-        categoriesDTO: [],
-      });
+      setBook(defaultBook);
     }
   }
 
-  const handleShowAuthorList = () => {
-    setShowAuthorList((prev) => !prev);
+  const handleToggleList = (
+    setter: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    setter((prev) => !prev);
   };
-  const handleShowCategoryList = () => {
-    setShowCategoryList((prev) => !prev);
-  };
-  const authorsList = () => {
-    return allAuthors.map((author) => (
-      <li key={author.id}>
+
+  const renderList = <
+    T extends { id: string; name?: string; categoryName?: string }
+  >(
+    items: T[],
+    selectItem: (item: T) => void,
+    urlTemplate: (id: string) => string
+  ) => {
+    return items.map((item) => (
+      <li key={item.id}>
         <button
           className="dropdown-item"
           type="button"
-          onClick={() => selectAuthor(author)}
+          onClick={() => selectItem(item)}
         >
-          {author.name}
+          {item.name || item.categoryName}
         </button>
-        <Link
-          to={`/ebook/authors/${author.id}/details`}
-          className="btn btn-outline-primary"
-        >
+        <Link to={urlTemplate(item.id)} className="btn btn-outline-primary">
           view
         </Link>
       </li>
     ));
   };
+  const authorsList = () => {
+    renderList<Author>(
+      allAuthors,
+      selectAuthor,
+      (id) => `/ebook/authors/${id}/details`
+    );
+  };
+
   const categoriesList = () => {
     return allCategories.map((category) => (
       <li key={category.id}>
@@ -195,6 +177,7 @@ const AddBookForm = () => {
       </li>
     ));
   };
+
   const publishersList = () => {
     return allPublishers.map((publisher) => (
       <li key={publisher.id}>
@@ -214,8 +197,9 @@ const AddBookForm = () => {
       </li>
     ));
   };
+
   const selectAuthor = (author: Author) => {
-    setShowAuthorList((prev) => !prev);
+    handleToggleList(setShowAuthorList);
 
     setAuthorDetails((prev) => {
       let updatedAuthors: AuthorsDetails[];
@@ -231,7 +215,8 @@ const AddBookForm = () => {
   };
 
   const selectCategory = (category: Category) => {
-    setShowCategoryList((prev) => !prev);
+    handleToggleList(setShowCategoryList);
+
     setCategoryDetails((prev) => {
       let updatedCategories: CategoriesDetails[];
       if (prev.some((c) => c.id === category.id)) {
@@ -249,204 +234,98 @@ const AddBookForm = () => {
       return updatedCategories;
     });
   };
+
   const selectPublisher = (publisher: PublisherDetails) => {
+    handleToggleList(setShowPublisherList);
     setPublisherDetails({ id: publisher.id, name: publisher.name }); // Update publisherDetails state
     setBook((prevBook) => ({
       ...prevBook,
       publisherDetails: publisher,
     }));
   };
+
   return (
     <>
       <div className="container mb-5 addBookFrom">
         <form onSubmit={handleSubmit}>
-          <div className=" mb-3 col-sm">
-            <label htmlFor="title" className="col-sm-3 col-form-label">
-              Titile
-            </label>
+          <TextInputField
+            label="Title"
+            id="title"
+            value={book.title}
+            onChange={handleOnChange}
+          />
+          <TextInputField
+            label="Author"
+            id="author"
+            value={book.authorsDetails.map((author) => author.name).join(', ')}
+            onChange={handleOnChange}
+          />
+          <DropDownList
+            label="Select Author"
+            showList={showAuthorList}
+            handleShowList={handleToggleList(setShowAuthorList)}
+            list={authorsList()}
+          />
 
-            <input
-              type="text"
-              className=" form-control"
-              id="title"
-              value={book.title}
-              aria-describedby="Book Title"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
+          <TextInputField
+            label="ISBNCode"
+            id="isbn"
+            value={book.isbn}
+            onChange={handleOnChange}
+          />
 
-          <div className="mb-3">
-            <label htmlFor="author" className="form-label">
-              Author
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="author"
-              value={book.authorsDetails.map((author) => author.name)}
-              aria-describedby="Book author"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-            <div className="dropdown">
-              <button
-                className="btn btn-secondary dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                onClick={handleShowAuthorList}
-              >
-                select Author
-              </button>
-              <ul
-                className={`dropdown-menu ${showAuthorList ? 'show' : ''}`}
-                aria-labelledby="dropdownMenuButton"
-              >
-                {authorsList()}
-              </ul>
-            </div>
-          </div>
+          <TextInputField
+            label="Language"
+            id="language"
+            value={book.language}
+            onChange={handleOnChange}
+          />
+          <TextInputField
+            label="Category"
+            id="category"
+            value={book.categoriesDetails
+              .map((category) => category.categoryName)
+              .join(', ')}
+            onChange={handleOnChange}
+          />
+          <DropDownList
+            label="Select Category"
+            showList={showCategoryList}
+            handleShowList={handleToggleList(setShowCategoryList)}
+            list={categoriesList()}
+          />
 
-          <div className="mb-3">
-            <label htmlFor="isbn" className="form-label">
-              ISDN Code
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="isbn"
-              value={book.isbn}
-              aria-describedby="Book isbn"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
+          <TextInputField
+            label=" Total Copies"
+            id="totalCopies"
+            value={book.totalCopies}
+            onChange={handleOnChange}
+          />
+          <TextInputField
+            label="Available Copies"
+            id="availableCopies"
+            value={book.availableCopies}
+            onChange={handleOnChange}
+          />
+          <TextInputField
+            label="Publisher"
+            id="publisher"
+            value={book.publisherDetails.name}
+            onChange={handleOnChange}
+          />
+          <DropDownList
+            label="Select Publisher"
+            showList={showPublisherList}
+            handleShowList={handleToggleList(setShowPublisherList)}
+            list={publishersList()}
+          />
 
-          <div className="mb-3">
-            <label htmlFor="language" className="form-label">
-              Language
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="language"
-              value={book.language}
-              aria-describedby="Book language"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="category" className="form-label">
-              Category
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="category"
-              value={book.categoriesDetails.map(
-                (category) => category.categoryName
-              )}
-              aria-describedby="Book category"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-            <div className="dropdown">
-              <button
-                className="btn btn-secondary dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                onClick={handleShowCategoryList}
-              >
-                select Category
-              </button>
-              <ul
-                className={`dropdown-menu ${showCategoryList ? 'show' : ''}`}
-                aria-labelledby="dropdownMenuButton"
-              >
-                {categoriesList()}
-              </ul>
-            </div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="totalCopies" className="form-label">
-              Total Copies
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="totalCopies"
-              value={book.totalCopies}
-              aria-describedby="Book total Copies"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="availableCopies" className="form-label">
-              Available Copies
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="availableCopies"
-              value={book.availableCopies}
-              aria-describedby="Book available Copies"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="publisher" className="form-label">
-              Publisher
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="publisher"
-              value={book.publisherDetails?.name || ''}
-              aria-describedby="Book publisher"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-            <div className="dropdown">
-              <button
-                className="btn btn-secondary dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                onClick={() => setShowPublisherList((prev) => !prev)}
-              >
-                select Publisher
-              </button>
-              <ul
-                className={`dropdown-menu ${showPublisherList ? 'show' : ''}`}
-                aria-labelledby="dropdownMenuButton"
-              >
-                {publishersList()}
-              </ul>
-            </div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="publicationYear" className="form-label">
-              Publication Year
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="publicationYear"
-              value={book.publicationYear}
-              aria-describedby="Book publication year"
-              onChange={handleOnChange}
-              style={{ width: '250px' }}
-            />
-          </div>
-
+          <TextInputField
+            label="Publication Year"
+            id="publicationYear"
+            value={book.publicationYear}
+            onChange={handleOnChange}
+          />
           <button type="submit" className="btn btn-primary">
             Submit
           </button>

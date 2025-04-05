@@ -2,9 +2,10 @@ import React from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import FeedBackModal from '../Modals/FeedBackModal';
 import { addUser, updateUser, getUserById } from '../../services/userService';
+import { User } from '../../services/types';
 
 const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
-  const [user, setUser] = React.useState({
+  const defaultUser: User = {
     id: '',
     name: '',
     email: '',
@@ -12,7 +13,8 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
     phoneNumber: '',
     address: '',
     role: 'ROLE_USER',
-  });
+  };
+  const [user, setUser] = React.useState(defaultUser);
 
   const { id } = useParams<{ id: string }>();
   const isEditing = Boolean(id);
@@ -84,15 +86,7 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
     setShowModal(false);
     if (!isError) {
       if (isEditing) {
-        setUser({
-          id: ' ',
-          name: '',
-          email: '',
-          password: '',
-          phoneNumber: '',
-          address: '',
-          role: '',
-        });
+        setUser(defaultUser);
       }
       if (isSignup) {
         navigate('/login');

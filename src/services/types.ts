@@ -1,13 +1,13 @@
 export type AuthorsDetails={
-    id: number;
+    id: string;
     name: string;
 }
 export type CategoriesDetails={
-    id: number;
+    id: string;
     categoryName: string;
 }
 export type PublisherDetails={
-    id: number;
+    id: string;
     name: string;
 }
 export type Book=  {
