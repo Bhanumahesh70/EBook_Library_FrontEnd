@@ -7,6 +7,10 @@ import {
   getAuthorById,
 } from '../../services/authorService';
 import { Author } from '../../services/types';
+import {
+  handleFormSubmit,
+  handleInputOnChange,
+} from '../../services/formUtilities';
 
 const AddAuthorForm = () => {
   const [author, setAuthor] = React.useState<Author>({
@@ -49,31 +53,24 @@ const AddAuthorForm = () => {
       ? 'Author updated successfully'
       : 'Author added successfully';
   }
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    try {
-      if (isEditing) {
-        const updatedAuthor = await updateAuthorById(id, author);
-        console.log('Author updated successfully', updatedAuthor);
-      } else {
-        const addedAuthor = await addAuthor(author);
-        console.log('Author added successfully', addedAuthor);
-      }
-      setIsError(false);
-    } catch (error) {
-      console.error('Error adding/updating author:', error);
-      setIsError(true);
-    } finally {
-      setShowModal(true);
-    }
+    handleFormSubmit<Author>({
+      e,
+      isEditing,
+      entity: author,
+      id,
+      updateFunction: updateAuthorById,
+      addFunction: addAuthor,
+      entityName: 'Author',
+      setIsError,
+      setShowModal,
+    });
   }
 
   function handleOnChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    const { id, value } = e.target;
-    setAuthor((prevAuthor) => ({ ...prevAuthor, [id]: value }));
+    handleInputOnChange<Author>(e, setAuthor);
   }
 
   function handleCloseFeedBackModal() {
