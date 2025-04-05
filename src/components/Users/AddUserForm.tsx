@@ -138,34 +138,24 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
 
           {!isSignup && (
             <>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="role"
-                  id="user"
-                  value="ROLE_USER"
-                  onChange={handleOnChange}
-                  checked={user.role === 'ROLE_USER'}
-                />
-                <label className="form-check-label" htmlFor="user">
-                  User
-                </label>
-              </div>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="role"
-                  id="librarian"
-                  value="ROLE_LIBRARIAN"
-                  onChange={handleOnChange}
-                  checked={user.role === 'ROLE_LIBRARIAN'}
-                />
-                <label className="form-check-label" htmlFor="LIBRARIAN">
-                  Librarian
-                </label>
-              </div>
+              <TextInputField
+                label="User"
+                id="user"
+                name="role"
+                value="ROLE_USER"
+                onChange={handleOnChange}
+                customType="radio"
+                isChecked={user.role === 'ROLE_USER'}
+              />
+              <TextInputField
+                label="Librarian"
+                id="librarian"
+                name="role"
+                value="ROLE_LIBRARIAN"
+                onChange={handleOnChange}
+                customType="radio"
+                isChecked={user.role === 'ROLE_LIBRARIAN'}
+              />
               <div>
                 <p
                   className={
