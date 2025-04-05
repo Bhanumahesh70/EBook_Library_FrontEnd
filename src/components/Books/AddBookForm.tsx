@@ -17,7 +17,7 @@ import { getPublishers } from '../../services/publisherService';
 import TextInputField from '../Form/TextInputField';
 import DropDownList from '../Form/DropDownList';
 import {
-  handelFormSubmit,
+  handleFormSubmit,
   handleInputOnChange,
 } from '../../services/formUtilities';
 
@@ -95,7 +95,7 @@ const AddBookForm = () => {
     }
   }
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    handelFormSubmit<Book>({
+    handleFormSubmit<Book>({
       e,
       isEditing,
       entity: book,
@@ -128,65 +128,48 @@ const AddBookForm = () => {
     setter((prev) => !prev);
   };
 
-  const categoriesList = () => {
-    return allCategories.map((category) => (
-      <li key={category.id}>
+  const renderList = <
+    T extends { id: string; name?: string; categoryName?: string }
+  >(
+    items: T[],
+    selectItem: (item: T) => void,
+    urlTemplate: (id: string) => string
+  ) => {
+    return items.map((item) => (
+      <li key={item.id}>
         <button
           className="dropdown-item"
           type="button"
-          onClick={() => selectCategory(category)}
+          onClick={() => selectItem(item)}
         >
-          {category.categoryName}
+          {item.name || item.categoryName}
         </button>
-        <Link
-          to={`/ebook/categories/${category.id}/details`}
-          className="btn btn-outline-primary"
-        >
+        <Link to={urlTemplate(item.id)} className="btn btn-outline-primary">
           view
         </Link>
       </li>
     ));
   };
-
-  const publishersList = () => {
-    return allPublishers.map((publisher) => (
-      <li key={publisher.id}>
-        <button
-          className="dropdown-item"
-          type="button"
-          onClick={() => selectPublisher(publisher)}
-        >
-          {publisher.name}
-        </button>
-        <Link
-          to={`/ebook/publishers/${publisher.id}/details`}
-          className="btn btn-outline-primary"
-        >
-          view
-        </Link>
-      </li>
-    ));
-  };
-
   const authorsList = () => {
-    return allAuthors.map((author) => (
-      <li key={author.id}>
-        <button
-          className="dropdown-item"
-          type="button"
-          onClick={() => selectAuthor(author)}
-        >
-          {author.name}
-        </button>
-        <Link
-          to={`/ebook/authors/${author.id}/details`}
-          className="btn btn-outline-primary"
-        >
-          view
-        </Link>
-      </li>
-    ));
+    return renderList<Author>(
+      allAuthors,
+      selectAuthor,
+      (id) => `/ebook/authors/${id}/details`
+    );
   };
+  const categoriesList = () =>
+    renderList<Category>(
+      allCategories,
+      selectCategory,
+      (id) => `/ebook/categories/${id}/details`
+    );
+
+  const publishersList = () =>
+    renderList<Publisher>(
+      allPublishers,
+      selectPublisher,
+      (id) => `/ebook/publishers/${id}/details`
+    );
 
   const selectAuthor = (author: Author) => {
     handleToggleList(setShowAuthorList);

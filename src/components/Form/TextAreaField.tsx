@@ -1,21 +1,19 @@
 import React, { ChangeEvent } from 'react';
-
 interface InputFieldProps {
   label: string;
   id: string;
   value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
-function TextInputField({ label, id, value, onChange }: InputFieldProps) {
+const TextAreaField = ({ label, id, value, onChange }: InputFieldProps) => {
   return (
-    <div className=" mb-3 col-sm">
-      <label htmlFor={id} className="col-sm-3 col-form-label">
+    <div className="m-3">
+      <label htmlFor={id} className="form-label">
         {label}
       </label>
 
-      <input
-        type="text"
-        className=" form-control"
+      <textarea
+        className="form-control"
         name={id}
         id={id}
         value={value}
@@ -25,6 +23,6 @@ function TextInputField({ label, id, value, onChange }: InputFieldProps) {
       />
     </div>
   );
-}
+};
 
-export default TextInputField;
+export default TextAreaField;

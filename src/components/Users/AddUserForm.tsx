@@ -3,6 +3,10 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import FeedBackModal from '../Modals/FeedBackModal';
 import { addUser, updateUser, getUserById } from '../../services/userService';
 import { User } from '../../services/types';
+import {
+  handleFormSubmit,
+  handleInputOnChange,
+} from '../../services/formUtilities';
 
 const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
   const defaultUser: User = {
@@ -31,15 +35,7 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
         setUser(data);
       });
     } else {
-      setUser({
-        id: '',
-        name: '',
-        email: '',
-        password: '',
-        phoneNumber: '',
-        address: '',
-        role: 'ROLE_USER',
-      });
+      setUser(defaultUser);
     }
   }, [id]);
   function displayTextInModal() {
@@ -51,35 +47,27 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
       return isEditing ? 'Error in updating User' : 'Error in adding User';
     }
   }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    try {
-      if (isEditing) {
-        const updatedUser = await updateUser(user, id);
-        console.log('User updated Successfully', updatedUser);
-      } else {
-        const addedUser = await addUser(user);
-        console.log('User added Successfully', addedUser);
-      }
-      setIsError(false);
-    } catch (error) {
-      console.error('Error adding/updating user:', error);
-      setIsError(true);
-    } finally {
-      setShowModal(true);
-    }
+    handleFormSubmit<User>({
+      e,
+      isEditing,
+      entity: user,
+      id,
+      updateFunction: updateUser,
+      addFunction: addUser,
+      entityName: 'User',
+      setIsError,
+      setShowModal,
+    });
   }
 
   function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(e);
-    const { id, value, checked, type } = e.target;
-    if (type === 'radio') {
-      if (checked) {
-        setUser((prevUser) => ({ ...prevUser, role: value }));
-      }
-    } else {
-      setUser((prevUser) => ({ ...prevUser, [id]: value }));
-    }
+    handleInputOnChange(
+      e,
+      setUser,
+      e.target.name === 'role' ? 'role' : undefined
+    );
   }
 
   function handleCloseFeedBackModel() {
@@ -197,9 +185,9 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
                   type="radio"
                   name="role"
                   id="user"
-                  value="USER"
+                  value="ROLE_USER"
                   onChange={handleOnChange}
-                  checked={user.role === 'USER'}
+                  checked={user.role === 'ROLE_USER'}
                 />
                 <label className="form-check-label" htmlFor="user">
                   User
@@ -211,9 +199,9 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
                   type="radio"
                   name="role"
                   id="librarian"
-                  value="LIBRARIAN"
+                  value="ROLE_LIBRARIAN"
                   onChange={handleOnChange}
-                  checked={user.role === 'LIBRARIAN'}
+                  checked={user.role === 'ROLE_LIBRARIAN'}
                 />
                 <label className="form-check-label" htmlFor="LIBRARIAN">
                   Librarian
@@ -222,7 +210,7 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
               <div>
                 <p
                   className={
-                    user.role === 'LIBRARIAN'
+                    user.role === 'ROLE_LIBRARIAN'
                       ? 'librarian_access_text_display text-primary'
                       : 'librarian_access_text_NotDisplay'
                   }
@@ -231,7 +219,7 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
                 </p>
                 <p
                   className={
-                    user.role === 'LIBRARIAN'
+                    user.role === 'ROLE_LIBRARIAN'
                       ? 'librarian_access_text_display text-primary'
                       : 'librarian_access_text_NotDisplay'
                   }

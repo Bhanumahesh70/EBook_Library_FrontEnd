@@ -27,7 +27,7 @@ export const addBook = async(book:Omit<Book,"id">):Promise<Book>=>{
     }
 };
 
-export const updateBook = async(book:Book,id:string|undefined):Promise<Book>=>{
+export const updateBook = async(id:string|undefined,book:Book):Promise<Book>=>{
 try {
 
     const updateData={

@@ -6,6 +6,12 @@ import {
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import FeedBackModal from '../Modals/FeedBackModal';
 import { Category } from '../../services/types';
+import {
+  handleFormSubmit,
+  handleInputOnChange,
+} from '../../services/formUtilities';
+import TextInputField from '../Form/TextInputField';
+import TextAreaField from '../Form/TextAreaField';
 
 const CategoryForm = () => {
   const { id } = useParams();
@@ -33,31 +39,24 @@ const CategoryForm = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModel] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (isEditing) {
-      try {
-        updateCategoryById(id, category);
-      } catch (error) {
-        setIsError(true);
-      }
-    } else {
-      try {
-        addCategory(category);
-      } catch (error) {
-        setIsError(true);
-      }
-    }
-    setShowFeedbackModel(true);
-  }
 
-  function handleChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    const { id, value } = event.currentTarget;
-    setCategory((prevCategory) => {
-      return { ...prevCategory, [id]: value };
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    handleFormSubmit<Category>({
+      e,
+      isEditing,
+      entity: category,
+      id,
+      updateFunction: updateCategoryById,
+      addFunction: addCategory,
+      entityName: 'Category',
+      setIsError,
+      setShowModal: setShowFeedbackModel,
     });
+  }
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    handleInputOnChange<Category>(e, setCategory);
   }
 
   function displayTextInModal() {
@@ -92,34 +91,18 @@ const CategoryForm = () => {
   return (
     <div className="container categoryForm">
       <form onSubmit={handleSubmit}>
-        <div className="m-3">
-          <label htmlFor="" className="form-label">
-            Name:
-          </label>
-          <input
-            type="text"
-            name="categoryName"
-            id="categoryName"
-            value={category.categoryName}
-            className="form-control"
-            aria-describedby="Categtory Name"
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="m-3">
-          <label htmlFor="description" className="form-label">
-            Description:
-          </label>
-          <textarea
-            name="description"
-            id="description"
-            value={category.description}
-            className="form-control"
-            aria-describedby="Category description"
-            onChange={handleChange}
-          ></textarea>
-        </div>
+        <TextInputField
+          label=" Name"
+          id="categoryName"
+          value={category.categoryName}
+          onChange={handleChange}
+        />
+        <TextAreaField
+          label=" Description"
+          id="description"
+          value={category.description}
+          onChange={handleChange}
+        />
         <div className="m-3">
           <button>Submit</button>
         </div>

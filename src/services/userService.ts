@@ -27,7 +27,7 @@ export const addUser = async(user:Omit<User,"id">):Promise<User>=>{
     }
 };
 
-export const updateUser = async(user:User,id:string|undefined):Promise<User>=>{
+export const updateUser = async(id:string|undefined,user:User):Promise<User>=>{
 try {
 
     const updateData={
