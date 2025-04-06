@@ -21,7 +21,7 @@ const DropDownList = ({
           id="dropdownMenuButton"
           data-bs-toggle="dropdown"
           aria-expanded="false"
-          onClick={handleShowList}
+          onClick={() => handleShowList}
         >
           {label}
         </button>

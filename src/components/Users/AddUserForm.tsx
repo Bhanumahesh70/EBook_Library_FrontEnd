@@ -8,7 +8,6 @@ import {
   handleInputOnChange,
 } from '../../services/formUtilities';
 import TextInputField from '../Form/TextInputField';
-import TextAreaField from '../Form/TextAreaField';
 import { textInModal, handleModalClosing } from '../../services/modalUtilities';
 const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
   const defaultUser: User = {
@@ -111,8 +110,8 @@ const AddUserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
         </>
       )}
 
-      <div className="container mb-5 addUserFormContainer">
-        <form className="addUserForm" onSubmit={handleSubmit}>
+      <div className="container mb-5 formContainer">
+        <form className="entityform" onSubmit={handleSubmit}>
           <TextInputField
             label="Name"
             id="name"

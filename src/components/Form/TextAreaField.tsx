@@ -7,7 +7,7 @@ interface InputFieldProps {
 }
 const TextAreaField = ({ label, id, value, onChange }: InputFieldProps) => {
   return (
-    <div className="m-3">
+    <div className="mb-3">
       <label htmlFor={id} className="form-label">
         {label}
       </label>

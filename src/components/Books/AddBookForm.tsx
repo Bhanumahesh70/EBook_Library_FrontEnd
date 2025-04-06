@@ -214,95 +214,100 @@ const AddBookForm = () => {
   }
   return (
     <>
-      <div className="container mb-5 addBookFrom">
-        <form onSubmit={handleSubmit}>
-          <TextInputField
-            label="Title"
-            id="title"
-            value={book.title}
-            onChange={handleOnChange}
-          />
-          <TextInputField
-            label="Author"
-            id="author"
-            value={book.authorsDetails.map((author) => author.name).join(', ')}
-            onChange={handleOnChange}
-          />
-          <DropDownList
-            label="Select Author"
-            showList={showAuthorList}
-            handleShowList={() => handleToggleList(setShowAuthorList)}
-            list={authorsList()}
-          />
+      <div className="formHeader book-formHeader">
+        <h1>{isEditing ? 'Edit Book' : 'Add New Book'}</h1>
+        <div className="container mb-5 formContainer">
+          <form onSubmit={handleSubmit}>
+            <TextInputField
+              label="Title"
+              id="title"
+              value={book.title}
+              onChange={handleOnChange}
+            />
+            <TextInputField
+              label="Author"
+              id="author"
+              value={book.authorsDetails
+                .map((author) => author.name)
+                .join(', ')}
+              onChange={handleOnChange}
+            />
+            <DropDownList
+              label="Select Author"
+              showList={showAuthorList}
+              handleShowList={() => handleToggleList(setShowAuthorList)}
+              list={authorsList()}
+            />
 
-          <TextInputField
-            label="ISBNCode"
-            id="isbn"
-            value={book.isbn}
-            onChange={handleOnChange}
-          />
+            <TextInputField
+              label="ISBNCode"
+              id="isbn"
+              value={book.isbn}
+              onChange={handleOnChange}
+            />
 
-          <TextInputField
-            label="Language"
-            id="language"
-            value={book.language}
-            onChange={handleOnChange}
-          />
-          <TextInputField
-            label="Category"
-            id="category"
-            value={book.categoriesDetails
-              .map((category) => category.categoryName)
-              .join(', ')}
-            onChange={handleOnChange}
-          />
-          <DropDownList
-            label="Select Category"
-            showList={showCategoryList}
-            handleShowList={() => handleToggleList(setShowCategoryList)}
-            list={categoriesList()}
-          />
+            <TextInputField
+              label="Language"
+              id="language"
+              value={book.language}
+              onChange={handleOnChange}
+            />
+            <TextInputField
+              label="Category"
+              id="category"
+              value={book.categoriesDetails
+                .map((category) => category.categoryName)
+                .join(', ')}
+              onChange={handleOnChange}
+            />
+            <DropDownList
+              label="Select Category"
+              showList={showCategoryList}
+              handleShowList={() => handleToggleList(setShowCategoryList)}
+              list={categoriesList()}
+            />
 
-          <TextInputField
-            label=" Total Copies"
-            id="totalCopies"
-            value={book.totalCopies}
-            onChange={handleOnChange}
-          />
-          <TextInputField
-            label="Available Copies"
-            id="availableCopies"
-            value={book.availableCopies}
-            onChange={handleOnChange}
-          />
-          <TextInputField
-            label="Publisher"
-            id="publisher"
-            value={book.publisherDetails.name}
-            onChange={handleOnChange}
-          />
-          <DropDownList
-            label="Select Publisher"
-            showList={showPublisherList}
-            handleShowList={() => handleToggleList(setShowPublisherList)}
-            list={publishersList()}
-          />
+            <TextInputField
+              label=" Total Copies"
+              id="totalCopies"
+              value={book.totalCopies}
+              onChange={handleOnChange}
+            />
+            <TextInputField
+              label="Available Copies"
+              id="availableCopies"
+              value={book.availableCopies}
+              onChange={handleOnChange}
+            />
+            <TextInputField
+              label="Publisher"
+              id="publisher"
+              value={book.publisherDetails.name}
+              onChange={handleOnChange}
+            />
+            <DropDownList
+              label="Select Publisher"
+              showList={showPublisherList}
+              handleShowList={() => handleToggleList(setShowPublisherList)}
+              list={publishersList()}
+            />
 
-          <TextInputField
-            label="Publication Year"
-            id="publicationYear"
-            value={book.publicationYear}
-            onChange={handleOnChange}
+            <TextInputField
+              label="Publication Year"
+              id="publicationYear"
+              value={book.publicationYear}
+              onChange={handleOnChange}
+            />
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </form>
+          <FeedBackModal
+            showFeedBackModal={showModal}
+            displayTextInFeedbackModal={displayTextInModal}
+            close={handleCloseFeedBackModal}
           />
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
-        <FeedBackModal
-          showFeedBackModal={showModal}
-          displayTextInFeedbackModal={displayTextInModal}
-          close={handleCloseFeedBackModal}
-        />
+        </div>
       </div>
     </>
   );

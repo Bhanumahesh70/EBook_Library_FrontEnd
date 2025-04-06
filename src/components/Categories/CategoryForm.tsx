@@ -78,30 +78,33 @@ const CategoryForm = () => {
     });
   }
   return (
-    <div className="container categoryForm">
-      <form onSubmit={handleSubmit}>
-        <TextInputField
-          label=" Name"
-          id="categoryName"
-          value={category.categoryName}
-          onChange={handleChange}
-        />
-        <TextAreaField
-          label=" Description"
-          id="description"
-          value={category.description}
-          onChange={handleChange}
-        />
+    <div className="formHeader">
+      <h1>{isEditing ? 'Edit Category' : 'Add New Category'}</h1>
+      <div className="container mb-5 formContainer">
+        <form className="entityform" onSubmit={handleSubmit}>
+          <TextInputField
+            label=" Name"
+            id="categoryName"
+            value={category.categoryName}
+            onChange={handleChange}
+          />
+          <TextAreaField
+            label=" Description"
+            id="description"
+            value={category.description}
+            onChange={handleChange}
+          />
 
-        <div className="m-3">
-          <button>Submit</button>
-        </div>
-      </form>
-      <FeedBackModal
-        showFeedBackModal={showFeedbackModal}
-        displayTextInFeedbackModal={displayTextInModal}
-        close={handleCloseFeedBackModal}
-      />
+          <div className="m-3">
+            <button>Submit</button>
+          </div>
+        </form>
+        <FeedBackModal
+          showFeedBackModal={showFeedbackModal}
+          displayTextInFeedbackModal={displayTextInModal}
+          close={handleCloseFeedBackModal}
+        />
+      </div>
     </div>
   );
 };

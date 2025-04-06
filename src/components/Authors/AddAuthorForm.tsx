@@ -75,11 +75,11 @@ const AddAuthorForm = () => {
     });
   }
   return (
-    <div className="Edit-new-authorDiv">
+    <div className="formHeader">
       <h1>{isEditing ? 'Edit Author' : 'Add New Author'}</h1>
 
-      <div className="container mb-5 author-form-container">
-        <form className="author-form" onSubmit={handleSubmit}>
+      <div className="container mb-5 formContainer">
+        <form className="entityform" onSubmit={handleSubmit}>
           <TextInputField
             label="Name"
             id="name"

@@ -26,7 +26,7 @@ function TextInputField({
       <label
         htmlFor={id}
         className={
-          isRadioOrCheckbox ? 'form-check-label' : 'col-sm-3 col-form-label'
+          isRadioOrCheckbox ? 'form-check-label' : 'col-sm-7 col-form-label'
         }
       >
         {label}

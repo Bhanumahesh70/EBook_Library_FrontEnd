@@ -24,8 +24,9 @@ export  function textInModal({isError, isEditing, entityName}:DisplayTextInModal
     }
   }
 
-  const navigate = useNavigate();
+  
  export function handleModalClosing<T>({setShowModal,isError,isEditing,url,setEntity,entity}:HandleModalClosingProps<T>) {
+  const navigate = useNavigate();
     setShowModal(false);
 
     if (!isError) {
