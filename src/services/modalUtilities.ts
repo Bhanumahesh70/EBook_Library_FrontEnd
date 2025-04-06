@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 interface DisplayTextInModalProps{
     isError: boolean;
@@ -13,6 +13,7 @@ interface HandleModalClosingProps<T>{
     url:string;
     setEntity:(value:T)=>void;
     entity:T
+    navigate:NavigateFunction
 }
 export  function textInModal({isError, isEditing, entityName}:DisplayTextInModalProps) {
     if (!isError) {
@@ -25,8 +26,8 @@ export  function textInModal({isError, isEditing, entityName}:DisplayTextInModal
   }
 
   
- export function handleModalClosing<T>({setShowModal,isError,isEditing,url,setEntity,entity}:HandleModalClosingProps<T>) {
-  const navigate = useNavigate();
+ export function handleModalClosing<T>({setShowModal,isError,isEditing,url,setEntity,entity, navigate}:HandleModalClosingProps<T>) {
+
     setShowModal(false);
 
     if (!isError) {

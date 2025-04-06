@@ -18,6 +18,11 @@ interface EntityFormProps<T> {
     entity: T,
     handleChange: (e: React.ChangeEvent<any>) => void
   ) => React.ReactNode;
+  customHandleChange?: (
+    e: React.ChangeEvent<any>,
+    setEntity: React.Dispatch<React.SetStateAction<T>>
+  ) => void;
+  customFormHeading?: () => React.ReactNode;
 }
 function EntityForm<T>({
   defaultEntity,
@@ -27,6 +32,8 @@ function EntityForm<T>({
   addEntity,
   urlToNavitageAwayFromForm,
   renderFields,
+  customHandleChange,
+  customFormHeading,
 }: EntityFormProps<T>) {
   const [entity, setEntity] = React.useState<T>(defaultEntity);
   const { id } = useParams();
@@ -62,7 +69,11 @@ function EntityForm<T>({
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    handleInputOnChange<T>(e, setEntity);
+    if (customHandleChange) {
+      customHandleChange(e, setEntity);
+    } else {
+      handleInputOnChange<T>(e, setEntity);
+    }
   }
   function displayTextInModal() {
     return textInModal({ isError, isEditing, entityName });
@@ -75,16 +86,23 @@ function EntityForm<T>({
       url: urlToNavitageAwayFromForm,
       setEntity,
       entity: defaultEntity,
+      navigate,
     });
   }
   return (
     <div className="formHeader">
-      <h1>{isEditing ? `Edit ${entityName}` : `Add New ${entityName}`}</h1>
+      {customFormHeading ? (
+        customFormHeading()
+      ) : (
+        <h1>{isEditing ? `Edit ${entityName}` : `Add New ${entityName}`}</h1>
+      )}
       <div className="container mb-5 formContainer">
         <form className="entityform" onSubmit={handleSubmit}>
-          {renderFields(entity)}
-          <div className="m-3">
-            <button>Submit</button>
+          {renderFields(entity, handleChange)}
+          <div className="mb-3">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
           </div>
         </form>
         <FeedBackModal
