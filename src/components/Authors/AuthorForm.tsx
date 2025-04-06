@@ -19,7 +19,7 @@ const AuthorForm = () => {
     bookIds: [],
   };
 
-  const renderCategoryFeilds = (
+  const renderAuthorFeilds = (
     author: Author,
     handleChange: (e: React.ChangeEvent<any>) => void
   ) => {
@@ -65,7 +65,7 @@ const AuthorForm = () => {
       updateEntity={updateAuthorById}
       addEntity={addAuthor}
       urlToNavitageAwayFromForm="/ebook/authors"
-      renderFields={renderCategoryFeilds}
+      renderFields={renderAuthorFeilds}
     />
   );
 };
