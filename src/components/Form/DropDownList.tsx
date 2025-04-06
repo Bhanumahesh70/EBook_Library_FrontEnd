@@ -16,12 +16,12 @@ const DropDownList = ({
     <div className="mb-3">
       <div className="dropdown">
         <button
-          className="btn btn-secondary dropdown-toggle"
+          className="btn btn-primary dropdown-toggle"
           type="button"
           id="dropdownMenuButton"
           data-bs-toggle="dropdown"
           aria-expanded="false"
-          onClick={() => handleShowList}
+          onClick={handleShowList}
         >
           {label}
         </button>

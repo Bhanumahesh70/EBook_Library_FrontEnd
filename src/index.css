@@ -372,3 +372,8 @@ h1{
   transition:opacity 0.3s
   
 }
+
+.DropDownListItems{
+  display: flex;
+  padding:6px;
+}

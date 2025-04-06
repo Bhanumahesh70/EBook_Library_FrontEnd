@@ -117,7 +117,7 @@ const AddBookForm = () => {
     urlTemplate: (id: string) => string
   ) => {
     return items.map((item) => (
-      <li key={item.id}>
+      <li key={item.id} className="DropDownListItems">
         <button
           className="dropdown-item"
           type="button"
