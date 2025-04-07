@@ -1,13 +1,13 @@
 import React from 'react';
-import EntityForm from '../Form/EntityForm';
-import TextInputField from '../Form/TextInputField';
-import TextAreaField from '../Form/TextAreaField';
-import { Category } from '../../services/types';
+import EntityForm from '../../Form/EntityForm';
+import TextInputField from '../../Form/TextInputField';
+import TextAreaField from '../../Form/TextAreaField';
+import { Category } from '../../../services/types';
 import {
   getCategoryById,
   addCategory,
   updateCategoryById,
-} from '../../services/categoryService';
+} from '../../../services/EntityServices/categoryService';
 
 const CategoryForm = () => {
   const defaultCategory: Category = {

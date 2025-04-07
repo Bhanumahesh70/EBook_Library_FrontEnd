@@ -8,24 +8,24 @@ import { ReactNode } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Header from './components/Layout/Header';
 import Navbar from './components/Layout/Navbar';
-import BookDetails from './components/Books/BookDetails';
-import AddBookForm from './components/Books/BookForm';
-import Categories from './components/Categories/Categories';
-import CategoryBooks from './components/Categories/CategoryBooks';
-import CategoryForm from './components/Categories/CategoryForm';
+import BookDetails from './components/EntiyComponents/Books/BookDetails';
+import BookForm from './components/EntiyComponents/Books/BookForm';
+import Categories from './components/EntiyComponents/Categories/Categories';
+import CategoryBooks from './components/EntiyComponents/Categories/CategoryBooks';
+import CategoryForm from './components/EntiyComponents/Categories/CategoryForm';
 import LoginPage from './components/Authentication/LoginPage';
-import UserForm from './components/Users/UserForm';
-import UsersList from './components/Users/UsersList';
+import UserForm from './components/EntiyComponents/Users/UserForm';
+import UsersList from './components/EntiyComponents/Users/UsersList';
 import { AuthenticationProvider } from './components/Authentication/AuthenticationContext';
 import ProtectedRoute from './components/Authentication/ProtectedRoute';
-import BookList from './components/Books/BookListGrid';
+import BookList from './components/EntiyComponents/Books/BookListGrid';
 import { RoleProvider } from './components/Authentication/RoleContext';
-import AuthorsList from './components/Authors/AuthorsList';
-import AddAuthorForm from './components/Authors/AuthorForm';
-import AuthorDetails from './components/Authors/AuthorDetails';
-import AuthorBooks from './components/Authors/AuthorBooks';
-import PublisherDetails from './components/Publisher/PublisherDetails';
-import PublisherBooks from './components/Publisher/PublisherBooks';
+import AuthorsList from './components/EntiyComponents/Authors/AuthorsList';
+import AddAuthorForm from './components/EntiyComponents/Authors/AuthorForm';
+import AuthorDetails from './components/EntiyComponents/Authors/AuthorDetails';
+import AuthorBooks from './components/EntiyComponents/Authors/AuthorBooks';
+import PublisherDetails from './components/EntiyComponents/Publisher/PublisherDetails';
+import PublisherBooks from './components//EntiyComponents/Publisher/PublisherBooks';
 
 type LayoutProps = {
   children: ReactNode;
@@ -70,7 +70,7 @@ function App() {
                   path="/ebook/books"
                   element={
                     <ProtectedRoute>
-                      <AddBookForm />
+                      <BookForm />
                     </ProtectedRoute>
                   }
                 />
@@ -86,7 +86,7 @@ function App() {
                   path="/ebook/books/:id/edit"
                   element={
                     <ProtectedRoute>
-                      <AddBookForm />
+                      <BookForm />
                     </ProtectedRoute>
                   }
                 />

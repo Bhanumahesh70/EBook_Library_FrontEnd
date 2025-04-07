@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import BookImage from '../../assets/Book.jpg';
-import { getBooks } from '../../services/bookService';
-import { Book, AuthorsDetails } from '../../services/types';
+import BookImage from '../../../assets/Book.jpg';
+import { getBooks } from '../../../services/EntityServices/bookService';
+import { Book, AuthorsDetails } from '../../../services/types';
 
 interface BooksProp {
   booksProp: Book[];

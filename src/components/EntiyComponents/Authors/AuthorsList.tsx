@@ -1,7 +1,7 @@
 import React from 'react';
-import { getAuthors } from '../../services/authorService';
+import { getAuthors } from '../../../services/EntityServices/authorService';
 import { useNavigate, Link } from 'react-router-dom';
-import { Author } from '../../services/types';
+import { Author } from '../../../services/types';
 
 const AuthorsList = () => {
   const [authors, setAuthors] = React.useState<Author[]>([]);

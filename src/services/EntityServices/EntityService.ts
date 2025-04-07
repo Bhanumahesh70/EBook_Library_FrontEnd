@@ -1,5 +1,5 @@
 import axios from "axios"
-import apiClient from "./apiClient";
+import apiClient from "../apiClient";
 
 export class EntityService<T>{
 
@@ -17,7 +17,7 @@ export class EntityService<T>{
         }
     };
 
-    getItemById = async (id: string|number): Promise<T>=>{
+    getItemById = async (id: string|undefined): Promise<T>=>{
         try {
             const response = await apiClient.get<T>(`${this.API_URL}/${id}`);
             return response.data;

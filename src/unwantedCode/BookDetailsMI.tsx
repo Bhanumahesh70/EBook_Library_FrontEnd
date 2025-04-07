@@ -1,3 +1,5 @@
+/*
+
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import {
@@ -14,9 +16,9 @@ import {
   Stack,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
-import { deleteBookById, getBooksById } from '../../services/bookService';
-import { getCategoryById } from '../../services/categoryService';
-import { getPublisherById } from '../../services/publisherService';
+import { deleteBookById, getBooksById } from '../services/bookService';
+import { getCategoryById } from '../services/categoryService';
+import { getPublisherById } from '../services/publisherService';
 import BookImage from '../../assets/Book.jpg';
 import { Grid2 } from '@mui/material';
 
@@ -95,7 +97,7 @@ const BookDetails: React.FC = () => {
     <Grid2 container justifyContent="center" sx={{ mt: 5 }}>
       <Card sx={{ maxWidth: 900, boxShadow: 6, borderRadius: 3 }}>
         <Grid2 container>
-          {/* Book Image */}
+          
           <Grid2 size={{ xs: 12, md: 4 }}>
             <CardMedia
               component="img"
@@ -109,7 +111,7 @@ const BookDetails: React.FC = () => {
             />
           </Grid2>
 
-          {/* Book Details */}
+        
           <Grid2 size={{ xs: 12, md: 8 }}>
             <CardContent>
               <Typography variant="h4" fontWeight="bold">
@@ -149,7 +151,7 @@ const BookDetails: React.FC = () => {
                 </Grid2>
               </Grid2>
 
-              {/* Action Buttons */}
+             
               <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
                 <Button
                   component={Link}
@@ -174,7 +176,7 @@ const BookDetails: React.FC = () => {
         </Grid2>
       </Card>
 
-      {/* Delete Confirmation Dialog */}
+     
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>
@@ -194,3 +196,5 @@ const BookDetails: React.FC = () => {
 };
 
 export default BookDetails;
+
+**/

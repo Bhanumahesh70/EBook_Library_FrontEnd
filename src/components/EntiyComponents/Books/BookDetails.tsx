@@ -1,16 +1,19 @@
 import React from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { deleteBookById, getBooksById } from '../../services/bookService';
-import Modal from '../Modals/Modal';
-import FeedBackModal from '../Modals/FeedBackModal';
-import BookImage from '../../assets/Book.jpg';
+import {
+  deleteBookById,
+  getBooksById,
+} from '../../../services/EntityServices/bookService';
+import Modal from '../../Modals/Modal';
+import FeedBackModal from '../../Modals/FeedBackModal';
+import BookImage from '../../../assets/Book.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Book,
   AuthorsDetails,
   CategoriesDetails,
   PublisherDetails,
-} from '../../services/types';
+} from '../../../services/types';
 
 function BookDetails() {
   const { id } = useParams<{ id: string }>();

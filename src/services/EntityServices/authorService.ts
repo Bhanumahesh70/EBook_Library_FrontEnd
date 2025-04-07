@@ -1,8 +1,8 @@
-import apiClient from "./apiClient";
-import { Author, Book } from "./types";
+import apiClient from "../apiClient";
+import { Author, Book } from "../types";
 import { EntityService } from "./EntityService";
 
-const entityService = new EntityService<Book>("/ebook/authors")
+const entityService = new EntityService<Author>("/ebook/authors")
 export const getAuthors = entityService.getAllItems;
 export const getAuthorById = entityService.getItemById
 export const addAuthor = entityService.addItem;

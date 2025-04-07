@@ -1,14 +1,13 @@
 import React from 'react';
-import EntityForm from '../Form/EntityForm';
-import TextInputField from '../Form/TextInputField';
-import TextAreaField from '../Form/TextAreaField';
-import { handleInputOnChange } from '../../services/formUtilities';
-import { User } from '../../services/types';
+import EntityForm from '../../Form/EntityForm';
+import TextInputField from '../../Form/TextInputField';
+import { handleInputOnChange } from '../../../services/formUtilities';
+import { User } from '../../../services/types';
 import {
   getUserById,
   addUser,
   updateUserById,
-} from '../../services/userService';
+} from '../../../services/EntityServices/userService';
 
 const UserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
   const defaultUser: User = {

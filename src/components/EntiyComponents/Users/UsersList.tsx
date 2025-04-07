@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUsers } from '../../services/userService';
+import { getUsers } from '../../../services/EntityServices/userService';
 import { useNavigate } from 'react-router-dom';
 type User = {
   id: string;

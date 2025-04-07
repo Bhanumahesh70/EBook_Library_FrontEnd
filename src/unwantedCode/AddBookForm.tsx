@@ -1,7 +1,11 @@
 import React from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { addBook, updateBook, getBooksById } from '../../services/bookService';
-import FeedBackModal from '../Modals/FeedBackModal';
+import {
+  addBook,
+  updateBook,
+  getBooksById,
+} from '../services/EntityServices/bookService';
+import FeedBackModal from '../components/Modals/FeedBackModal';
 import {
   Book,
   Category,
@@ -10,17 +14,17 @@ import {
   CategoriesDetails,
   PublisherDetails,
   Publisher,
-} from '../../services/types';
-import { getAuthors } from '../../services/authorService';
-import { getCategories } from '../../services/categoryService';
-import { getPublishers } from '../../services/publisherService';
-import TextInputField from '../Form/TextInputField';
-import DropDownList from '../Form/DropDownList';
+} from '../services/types';
+import { getAuthors } from '../services/EntityServices/authorService';
+import { getCategories } from '../services/EntityServices/categoryService';
+import { getPublishers } from '../services/EntityServices/publisherService';
+import TextInputField from '../components/Form/TextInputField';
+import DropDownList from '../components/Form/DropDownList';
 import {
   handleFormSubmit,
   handleInputOnChange,
-} from '../../services/formUtilities';
-import { textInModal, handleModalClosing } from '../../services/modalUtilities';
+} from '../services/formUtilities';
+import { textInModal, handleModalClosing } from '../services/modalUtilities';
 const AddBookForm = () => {
   const defaultBook: Book = {
     id: ' ',

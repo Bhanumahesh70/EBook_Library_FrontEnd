@@ -1,5 +1,5 @@
 import { EntityService } from "./EntityService";
-import { Book } from "./types";
+import { Book } from "../types";
 
 const entityService = new EntityService<Book>("/ebook/books")
 export const getBooks = entityService.getAllItems;

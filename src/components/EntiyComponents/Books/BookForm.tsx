@@ -1,9 +1,8 @@
 import React from 'react';
-import EntityForm from '../Form/EntityForm';
-import TextInputField from '../Form/TextInputField';
-import TextAreaField from '../Form/TextAreaField';
-import DropDownList from '../Form/DropDownList';
-import { Link } from 'react-router-dom';
+import TextInputField from '../../Form/TextInputField';
+import DropDownList from '../../Form/DropDownList';
+import EntityForm from '../../Form/EntityForm';
+
 import {
   Book,
   Category,
@@ -12,17 +11,16 @@ import {
   AuthorsDetails,
   PublisherDetails,
   CategoriesDetails,
-} from '../../services/types';
+} from '../../../services/types';
 import {
-  getBooks,
-  updateBook,
   addBook,
   getBooksById,
-} from '../../services/bookService';
-import { getAuthors } from '../../services/authorService';
-import { getPublishers } from '../../services/publisherService';
-import { getCategories } from '../../services/categoryService';
-import ListItems from '../Form/ListItems';
+  updateBook,
+} from '../../../services/EntityServices/bookService';
+import { getAuthors } from '../../../services/EntityServices/authorService';
+import { getPublishers } from '../../../services/EntityServices/publisherService';
+import { getCategories } from '../../../services/EntityServices/categoryService';
+import ListItems from '../../Form/ListItems';
 
 const BookForm = () => {
   const defaultBook: Book = {
@@ -250,7 +248,17 @@ const BookForm = () => {
     );
   };
 
-  return <div>BookForm</div>;
+  return (
+    <EntityForm<Book>
+      defaultEntity={defaultBook}
+      getEntityById={getBooksById}
+      entityName={'Book'}
+      updateEntity={updateBook}
+      addEntity={addBook}
+      urlToNavitageAwayFromForm="/ebook/books"
+      renderFields={renderBookFeilds}
+    />
+  );
 };
 
 export default BookForm;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getAuthorById } from '../../services/authorService';
+import { getAuthorById } from '../../../services/EntityServices/authorService';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AuthorImage from '../../assets/Author.jpeg';
-import { Author } from '../../services/types';
+import AuthorImage from '../../../assets/Author.jpeg';
+import { Author } from '../../../services/types';
 
 function AuthorDetails() {
   const { id } = useParams<{ id: string }>();

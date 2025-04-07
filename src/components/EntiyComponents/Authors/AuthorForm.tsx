@@ -1,13 +1,13 @@
 import React from 'react';
-import EntityForm from '../Form/EntityForm';
-import TextInputField from '../Form/TextInputField';
-import TextAreaField from '../Form/TextAreaField';
-import { Author } from '../../services/types';
+import EntityForm from '../../Form/EntityForm';
+import TextInputField from '../../Form/TextInputField';
+import TextAreaField from '../../Form/TextAreaField';
+import { Author } from '../../../services/types';
 import {
   getAuthorById,
   updateAuthorById,
   addAuthor,
-} from '../../services/authorService';
+} from '../../../services/EntityServices/authorService';
 
 const AuthorForm = () => {
   const defaultAuthor: Author = {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { getBooksForAuthorWithId } from '../../services/authorService';
+import { getBooksForAuthorWithId } from '../../../services/EntityServices/authorService';
 import BookList from '../Books/BookListGrid';
-import { Book } from '../../services/types';
+import { Book } from '../../../services/types';
 
 const AuthorBooks = () => {
   const { id } = useParams<{ id: string }>();
