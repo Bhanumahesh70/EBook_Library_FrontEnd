@@ -36,7 +36,7 @@ export class EntityService<T>{
             return response.data;
             
         } catch (error) {
-            console.log(`${this.API_URL} -> Failed to add new item. Error: `, error);
+            console.log(`${this.API_URL} -> Failed to add new item: ${Entiydata}. Error: `, error);
             throw error;
         }
     };
@@ -44,10 +44,10 @@ export class EntityService<T>{
         try {
         
             const response = await apiClient.patch<T>(`${this.API_URL}/${id}`,Entiydata);
-            console.log(`${this.API_URL} -> Item is upadted successfully`)
+            console.log(`${this.API_URL} -> Item is upadted successfully for id:${id}`)
             return response.data
         } catch (error) {
-            console.log(`${this.API_URL} -> Error in updating Item. Error:`,error);
+            console.log(`${this.API_URL} -> Error in updating Item for id:${id}. Error:`,error);
                 throw error;
         }
 
@@ -65,6 +65,19 @@ export class EntityService<T>{
             throw error;
         }
     
+    }
+
+    getRelatedEntityItemsForThisEntityWithId = async <R>  (id: String | undefined, relatedEntityName: string):Promise<R[]>=>{
+
+        try {
+            const response = await apiClient.get<R[]>(`${this.API_URL}/${id}/${relatedEntityName}`);
+            console.log(`${this.API_URL} -> Related ${relatedEntityName} items are fetched for id: ${id}`);
+            return response.data;
+        } catch (error) {
+            console.log(`${this.API_URL} ->Error in fetching related ${relatedEntityName} items for id: ${id}`);
+            console.log("error: ",error);
+            throw error;
+        }
     }
 
 }

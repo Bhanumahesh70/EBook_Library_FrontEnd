@@ -1,32 +1,16 @@
-import apiClient from './apiClient';
+import { EntityService } from './EntityService';
 import { Publisher, Book } from './types';
-const API_URL = '/ebook/publishers';
 
-// Fetch all publishers
-export const getPublishers = async (): Promise<Publisher[]> => {
-  try {
-    const response = await apiClient.get<Publisher[]>(API_URL);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching publishers:', error);
-    throw error;
-  }
-};
+const entityService = new EntityService<Publisher>('/ebook/publishers');
+export const getPublishers = entityService.getAllItems;
+export const getPublisherById = entityService.getItemById;
+export const addPublisher = entityService.addItem;
+export const updatePublisher = entityService.updateItem;
+export const deletePublisherById = entityService.deleteItemById;
+export const getBooksForPublisherWithId = (id: String | undefined) =>
+  entityService.getRelatedEntityItemsForThisEntityWithId<Book>(id, 'books');
 
-// Add a new publisher
-export const addPublisher = async (
-  publisher: Omit<Publisher, 'id'>
-): Promise<Publisher> => {
-  try {
-    const response = await apiClient.post<Publisher>(API_URL, publisher);
-    console.log(`New Publisher '${publisher.name}' added successfully`);
-    return response.data;
-  } catch (error) {
-    console.error(`Failed to add publisher '${publisher.name}'. Error:`, error);
-    throw error;
-  }
-};
-
+/*
 // Update an existing publisher
 export const updatePublisher = async (
   publisher: Publisher,
@@ -54,45 +38,4 @@ export const updatePublisher = async (
   }
 };
 
-export const getBooksForPublisherWithId = async (
-  id: String | undefined
-): Promise<Book[]> => {
-  try {
-    const response = await apiClient.get<Book[]>(`${API_URL}/${id}/books`);
-    console.log('Books are fecthed successfully for publisher id:', id);
-    return response.data;
-  } catch (error) {
-    console.log(
-      `Error in fetching books for publisher id(${id}). Error: `,
-      error
-    );
-    throw error;
-  }
-};
-// Delete a publisher by ID
-export const deletePublisherById = async (id: string) => {
-  try {
-    const response = await apiClient.delete(`${API_URL}/${id}`);
-    console.log(`Publisher with ID '${id}' deleted successfully`);
-    return response.data;
-  } catch (error) {
-    console.error(
-      'Failed to delete publisher. Error in deleting publisher with ID:',
-      id
-    );
-    console.error('Error:', error);
-    throw error;
-  }
-};
-
-// Fetch a publisher by ID
-export const getPublisherById = async (id: string | undefined) => {
-  try {
-    const response = await apiClient.get(`${API_URL}/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching publisher with ID:', id);
-    console.error('Error:', error);
-    return null;
-  }
-};
+*/

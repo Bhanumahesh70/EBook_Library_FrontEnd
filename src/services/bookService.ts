@@ -1,7 +1,7 @@
 import { EntityService } from "./EntityService";
 import { Book } from "./types";
 
-const entityService = new EntityService<Book>("/ebook/authors")
+const entityService = new EntityService<Book>("/ebook/books")
 export const getBooks = entityService.getAllItems;
 export const getBooksById = entityService.getItemById
 export const addBook = entityService.addItem;
