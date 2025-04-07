@@ -23,6 +23,10 @@ interface EntityFormProps<T> {
     setEntity: React.Dispatch<React.SetStateAction<T>>
   ) => void;
   customFormHeading?: () => React.ReactNode;
+  customUseEffect?: (
+    id: string | undefined,
+    setEntity: React.Dispatch<React.SetStateAction<T>>
+  ) => void;
 }
 function EntityForm<T>({
   defaultEntity,
@@ -34,6 +38,7 @@ function EntityForm<T>({
   renderFields,
   customHandleChange,
   customFormHeading,
+  customUseEffect,
 }: EntityFormProps<T>) {
   const [entity, setEntity] = React.useState<T>(defaultEntity);
   const { id } = useParams();
@@ -45,10 +50,14 @@ function EntityForm<T>({
   const [isError, setIsError] = React.useState(false);
 
   React.useEffect(() => {
-    if (isEditing) {
-      getEntityById(id).then((data) => setEntity(data));
+    if (customUseEffect) {
+      customUseEffect(id, setEntity);
     } else {
-      setEntity(defaultEntity);
+      if (isEditing) {
+        getEntityById(id).then((data) => setEntity(data));
+      } else {
+        setEntity(defaultEntity);
+      }
     }
   }, [id]);
 
