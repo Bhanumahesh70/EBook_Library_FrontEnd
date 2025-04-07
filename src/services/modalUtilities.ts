@@ -4,6 +4,7 @@ interface DisplayTextInModalProps{
     isError: boolean;
     isEditing: boolean;
     entityName: string;
+    customText?: string;
 
 }
 interface HandleModalClosingProps<T>{
@@ -14,9 +15,14 @@ interface HandleModalClosingProps<T>{
     setEntity:(value:T)=>void;
     entity:T
     navigate:NavigateFunction
+    customNavigateUrl?:string
+    
 }
-export  function textInModal({isError, isEditing, entityName}:DisplayTextInModalProps) {
+export  function textInModal({isError, isEditing, entityName,customText}:DisplayTextInModalProps) {
     if (!isError) {
+      if(customText){
+        return customText
+      }
       return isEditing
         ? `${entityName} is updated successfully`
         : `${entityName} is added successfully`;
@@ -26,13 +32,18 @@ export  function textInModal({isError, isEditing, entityName}:DisplayTextInModal
   }
 
   
- export function handleModalClosing<T>({setShowModal,isError,isEditing,url,setEntity,entity, navigate}:HandleModalClosingProps<T>) {
+ export function handleModalClosing<T>({setShowModal,isError,isEditing,url,setEntity,entity, navigate,customNavigateUrl}:HandleModalClosingProps<T>) {
 
     setShowModal(false);
 
     if (!isError) {
         setEntity(entity);
-        if (isEditing) {
+        if(customNavigateUrl){
+          console.log("Navigating to:",customNavigateUrl)
+            navigate(customNavigateUrl);
+        }
+        else if (isEditing) {
+          console.log("Navigating to:",url)
             navigate(url);
         }
       

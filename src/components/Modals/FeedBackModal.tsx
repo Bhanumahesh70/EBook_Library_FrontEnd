@@ -16,7 +16,7 @@ const FeedBackModal = ({
       id="exampleModal"
       tabIndex={1}
       aria-labelledby="exampleModalLabel"
-      aria-hidden={showFeedBackModal ? 'true' : 'false'}
+      aria-hidden={!showFeedBackModal}
     >
       <div className="modal-dialog">
         <div className="modal-content">

@@ -27,6 +27,8 @@ interface EntityFormProps<T> {
     id: string | undefined,
     setEntity: React.Dispatch<React.SetStateAction<T>>
   ) => void;
+  customNavigateUrl?: string;
+  customTextForModal?: string;
 }
 function EntityForm<T>({
   defaultEntity,
@@ -39,13 +41,15 @@ function EntityForm<T>({
   customHandleChange,
   customFormHeading,
   customUseEffect,
+  customNavigateUrl,
+  customTextForModal,
 }: EntityFormProps<T>) {
   const [entity, setEntity] = React.useState<T>(defaultEntity);
   const { id } = useParams();
   const isEditing = Boolean(id);
   const location = useLocation();
   const navigate = useNavigate();
-  const [showModal, setShowModal] = React.useState(false);
+  //const [showModal, setShowModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModel] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
 
@@ -85,17 +89,23 @@ function EntityForm<T>({
     }
   }
   function displayTextInModal() {
-    return textInModal({ isError, isEditing, entityName });
+    return textInModal({
+      isError,
+      isEditing,
+      entityName,
+      customText: customTextForModal,
+    });
   }
   function handleCloseFeedBackModal() {
     handleModalClosing<T>({
-      setShowModal,
+      setShowModal: setShowFeedbackModel,
       isError,
       isEditing,
       url: urlToNavitageAwayFromForm,
       setEntity,
       entity: defaultEntity,
       navigate,
+      customNavigateUrl,
     });
   }
   return (

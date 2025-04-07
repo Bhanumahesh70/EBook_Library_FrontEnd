@@ -30,6 +30,15 @@ const UserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
       e.target.name === 'role' ? 'role' : undefined
     );
   }
+  const formHeader = () => {
+    return (
+      <>
+        <h1>Welcome EBook Website</h1>
+        <h1>Signup to website</h1>
+      </>
+    );
+  };
+
   const renderUserFeilds = (
     user: User,
     handleChange: (e: React.ChangeEvent<any>) => void
@@ -122,8 +131,11 @@ const UserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
       updateEntity={updateUserById}
       addEntity={addUser}
       urlToNavitageAwayFromForm="/ebook/users"
+      customNavigateUrl={isSignup ? '/login' : undefined}
       renderFields={renderUserFeilds}
       customHandleChange={handleOnChange}
+      customFormHeading={isSignup ? formHeader : undefined}
+      customTextForModal={isSignup ? 'Your Signup Is Successfull!!' : undefined}
     />
   );
 };

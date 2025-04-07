@@ -255,7 +255,7 @@ const BookForm = () => {
       entityName={'Book'}
       updateEntity={updateBook}
       addEntity={addBook}
-      urlToNavitageAwayFromForm="/ebook/books"
+      urlToNavitageAwayFromForm="/ebook"
       renderFields={renderBookFeilds}
     />
   );
