@@ -22,6 +22,7 @@ import {
 import { getAuthors } from '../../services/authorService';
 import { getPublishers } from '../../services/publisherService';
 import { getCategories } from '../../services/categoryService';
+import ListItems from '../Form/ListItems';
 
 const BookForm = () => {
   const defaultBook: Book = {
@@ -51,11 +52,7 @@ const BookForm = () => {
   );
   const [publisherDetails, setPublisherDetails] =
     React.useState<PublisherDetails | null>(null);
-  const handleToggleList = (
-    setter: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
-    setter((prev) => !prev);
-  };
+
   const fetchAndSet = async (
     label: string,
     getFunction: () => {},
@@ -86,27 +83,11 @@ const BookForm = () => {
       setEntity(defaultBook);
     }
   };
-  const renderList = <
-    T extends { id: string; name?: string; categoryName?: string }
-  >(
-    items: T[],
-    selectItem: (item: T) => void,
-    urlTemplate: (id: string) => string
+
+  const handleToggleList = (
+    setter: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
-    return items.map((item) => (
-      <li key={item.id} className="DropDownListItems">
-        <button
-          className="dropdown-item"
-          type="button"
-          onClick={() => selectItem(item)}
-        >
-          {item.name || item.categoryName}
-        </button>
-        <Link to={urlTemplate(item.id)} className="btn btn-outline-primary">
-          view
-        </Link>
-      </li>
-    ));
+    setter((prev) => !prev);
   };
 
   const renderBookFeilds = (
@@ -114,26 +95,33 @@ const BookForm = () => {
     handleChange: (e: React.ChangeEvent<any>) => void
   ) => {
     const authorsList = () => {
-      return renderList<Author>(
-        allAuthors,
-        selectAuthor,
-        (id) => `/ebook/authors/${id}/details`
+      return (
+        <ListItems
+          items={allAuthors}
+          selectItem={selectAuthor}
+          urlTemplate={(id) => `/ebook/authors/${id}/details`}
+        />
       );
     };
-    const categoriesList = () =>
-      renderList<Category>(
-        allCategories,
-        selectCategory,
-        (id) => `/ebook/categories/${id}/details`
+    const categoriesList = () => {
+      return (
+        <ListItems
+          items={allCategories}
+          selectItem={selectCategory}
+          urlTemplate={(id) => `/ebook/categories/${id}/details`}
+        />
       );
+    };
 
-    const publishersList = () =>
-      renderList<Publisher>(
-        allPublishers,
-        selectPublisher,
-        (id) => `/ebook/publishers/${id}/details`
+    const publishersList = () => {
+      return (
+        <ListItems
+          items={allPublishers}
+          selectItem={selectPublisher}
+          urlTemplate={(id) => `/ebook/publishers/${id}/details`}
+        />
       );
-
+    };
     const selectAuthor = (author: Author) => {
       handleToggleList(setShowAuthorList);
 
@@ -196,7 +184,7 @@ const BookForm = () => {
           label="Select Author"
           showList={showAuthorList}
           handleShowList={() => handleToggleList(setShowAuthorList)}
-          list={authorsList()}
+          listItems={authorsList()}
         />
 
         <TextInputField
@@ -224,7 +212,7 @@ const BookForm = () => {
           label="Select Category"
           showList={showCategoryList}
           handleShowList={() => handleToggleList(setShowCategoryList)}
-          list={categoriesList()}
+          listItems={categoriesList()}
         />
 
         <TextInputField
@@ -249,7 +237,7 @@ const BookForm = () => {
           label="Select Publisher"
           showList={showPublisherList}
           handleShowList={() => handleToggleList(setShowPublisherList)}
-          list={publishersList()}
+          listItems={publishersList()}
         />
 
         <TextInputField

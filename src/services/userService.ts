@@ -27,7 +27,7 @@ export const addUser = async(user:Omit<User,"id">):Promise<User>=>{
     }
 };
 
-export const updateUser = async(id:string|undefined,user:User):Promise<User>=>{
+export const updateUserById = async(id:string|undefined,user:User):Promise<User>=>{
 try {
 
     const updateData={
@@ -59,7 +59,7 @@ export const deleteUserById = async(id:string)=>{
 
 }
 
-export const getUserById = async (id: string|number)=>{
+export const getUserById = async (id: string|undefined)=>{
     try {
         const response = await apiClient.get(`${API_URL}/${id}`);
         return response.data;

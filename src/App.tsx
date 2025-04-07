@@ -9,19 +9,19 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Header from './components/Layout/Header';
 import Navbar from './components/Layout/Navbar';
 import BookDetails from './components/Books/BookDetails';
-import AddBookForm from './components/Books/AddBookForm';
+import AddBookForm from './components/Books/BookForm';
 import Categories from './components/Categories/Categories';
 import CategoryBooks from './components/Categories/CategoryBooks';
 import CategoryForm from './components/Categories/CategoryForm';
 import LoginPage from './components/Authentication/LoginPage';
-import AddUserForm from './components/Users/AddUserForm';
+import UserForm from './components/Users/UserForm';
 import UsersList from './components/Users/UsersList';
 import { AuthenticationProvider } from './components/Authentication/AuthenticationContext';
 import ProtectedRoute from './components/Authentication/ProtectedRoute';
 import BookList from './components/Books/BookListGrid';
 import { RoleProvider } from './components/Authentication/RoleContext';
 import AuthorsList from './components/Authors/AuthorsList';
-import AddAuthorForm from './components/Authors/AddAuthorForm';
+import AddAuthorForm from './components/Authors/AuthorForm';
 import AuthorDetails from './components/Authors/AuthorDetails';
 import AuthorBooks from './components/Authors/AuthorBooks';
 import PublisherDetails from './components/Publisher/PublisherDetails';
@@ -56,7 +56,7 @@ function App() {
               <Routes>
                 {/*public routes*/}
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<AddUserForm isSignup />} />
+                <Route path="/signup" element={<UserForm isSignup />} />
                 {/*protected routes*/}
                 <Route
                   path="/ebook"
@@ -136,7 +136,7 @@ function App() {
                   path="/ebook/users/form"
                   element={
                     <ProtectedRoute>
-                      <AddUserForm />
+                      <UserForm />
                     </ProtectedRoute>
                   }
                 />
@@ -144,7 +144,7 @@ function App() {
                   path="/ebook/users/:id"
                   element={
                     <ProtectedRoute>
-                      <AddUserForm />
+                      <UserForm />
                     </ProtectedRoute>
                   }
                 />

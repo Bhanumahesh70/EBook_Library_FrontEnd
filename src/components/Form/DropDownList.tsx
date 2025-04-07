@@ -4,13 +4,13 @@ interface InputFields {
   label: string;
   showList: boolean;
   handleShowList: () => void;
-  list: React.ReactNode;
+  listItems: React.ReactNode;
 }
 const DropDownList = ({
   label,
   showList,
   handleShowList,
-  list,
+  listItems,
 }: InputFields) => {
   return (
     <div className="mb-3">
@@ -29,7 +29,7 @@ const DropDownList = ({
           className={`dropdown-menu ${showList ? 'show' : ''}`}
           aria-labelledby="dropdownMenuButton"
         >
-          {list}
+          {listItems}
         </ul>
       </div>
     </div>
