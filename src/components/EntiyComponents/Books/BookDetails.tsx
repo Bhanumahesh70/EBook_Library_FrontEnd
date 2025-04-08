@@ -170,10 +170,10 @@ function BookDetails() {
                     to={`/ebook/books/${id}/edit`}
                     className="btn btn-primary"
                   >
-                    <i className="bi bi-pencil-square"></i> Edit Book
+                    <i className="bi bi-pencil-square"> Edit Book</i>
                   </Link>
                   <button className="btn btn-danger" onClick={confirmDelete}>
-                    <i className="bi bi-trash"></i> Delete Book
+                    <i className="bi bi-trash">Delete Book</i>
                   </button>
                 </div>
               </div>

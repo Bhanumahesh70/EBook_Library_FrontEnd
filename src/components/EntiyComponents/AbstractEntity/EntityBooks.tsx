@@ -17,12 +17,12 @@ const EntityBooks = ({ keyName, entityType, fetchBooks }: EntityBooksProps) => {
   React.useEffect(() => {
     fetchBooks(id).then((data) => setBooks(data));
     console.log(`Displaying books for ${entityType}: ${entityName}`);
-  }, [id]);
+  }, [id, fetchBooks, entityType]);
 
   return (
     <>
       <h1>{`Books by ${entityType}: ${entityName}`}</h1>
-      <div className="bookContainer">
+      <div className="">
         {books.length == 0 ? (
           <p>`Sorry, there are no books available for this ${entityType}!!`</p>
         ) : (
