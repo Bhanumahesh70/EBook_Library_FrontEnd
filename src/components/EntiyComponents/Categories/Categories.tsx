@@ -15,39 +15,36 @@ const Categories = () => {
   }, []);
 
   return (
-    <>
-      {categories.map((category) => (
-        <div
-          key={category.id}
-          className="card bookCard"
-          style={{ width: '18rem' }}
-        >
-          <img src="..." className="card-img-top" alt="..." />
-          <div className="card-body">
-            <h5 className="card-title">{category.categoryName}</h5>
-            <p className="card-text">{category.description}</p>
-            <Link
-              to={`${category.id}/books`}
-              state={{ categoryName: category.categoryName }}
-              className="linkButton btn btn-primary"
-            >
-              Books
-            </Link>
-            {role === 'ROLE_ADMIN' ? (
-              <Link
-                to={`/ebook/${category.id}/edit`}
-                state={{ category: category }}
-                className="linkButton btn btn-primary"
-              >
-                Edit
-              </Link>
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
-      ))}
-    </>
+    <div className="table-container">
+      <table className="table table-info table-striped table-hover">
+        <thead>
+          <tr className="table-primary">
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Books</th>
+          </tr>
+        </thead>
+        <tbody>
+          {categories.map((category, index) => (
+            <tr key={category.id || `category-${index}`}>
+              <th scope="row">{index + 1}</th>
+              <td data-label="Name">{category.categoryName}</td>
+              <td data-label="Description">{category.description}</td>
+              <td data-label="Books">
+                <Link
+                  to={`${category.id}/books`}
+                  state={{ categoryName: category?.categoryName }}
+                  className="btn btn-outline-primary"
+                >
+                  Books
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

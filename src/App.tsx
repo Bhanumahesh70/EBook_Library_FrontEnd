@@ -94,7 +94,7 @@ function App() {
                   path="/ebook/categories"
                   element={
                     <ProtectedRoute>
-                      <div className="bookContainer">
+                      <div className="">
                         <Categories />
                       </div>
                     </ProtectedRoute>
