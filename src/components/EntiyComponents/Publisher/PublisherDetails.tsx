@@ -5,7 +5,7 @@ import {
   getPublisherById,
 } from '../../../services/EntityServices/publisherService';
 import PublisherImage from '../../../assets/Publisher.png';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Publisher } from '../../../services/types';
 
 function PublisherDetails() {

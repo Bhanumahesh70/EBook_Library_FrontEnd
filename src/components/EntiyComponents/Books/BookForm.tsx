@@ -62,7 +62,7 @@ const BookForm = () => {
     console.log(`${label} data: `, data);
   };
 
-  const CustomUseEffect = (
+  const customUseEffect = (
     id: string | undefined,
     setEntity: React.Dispatch<React.SetStateAction<Book>>
   ) => {
@@ -257,6 +257,7 @@ const BookForm = () => {
       addEntity={addBook}
       urlToNavitageAwayFromForm="/ebook"
       renderFields={renderBookFeilds}
+      customUseEffect={customUseEffect}
     />
   );
 };

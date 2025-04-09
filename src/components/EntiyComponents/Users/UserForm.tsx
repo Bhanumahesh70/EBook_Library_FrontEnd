@@ -124,19 +124,23 @@ const UserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
   };
 
   return (
-    <EntityForm<User>
-      defaultEntity={defaultUser}
-      getEntityById={getUserById}
-      entityName={'User'}
-      updateEntity={updateUserById}
-      addEntity={addUser}
-      urlToNavitageAwayFromForm="/ebook/users"
-      customNavigateUrl={isSignup ? '/login' : undefined}
-      renderFields={renderUserFeilds}
-      customHandleChange={handleOnChange}
-      customFormHeading={isSignup ? formHeader : undefined}
-      customTextForModal={isSignup ? 'Your Signup Is Successfull!!' : undefined}
-    />
+    <>
+      <EntityForm<User>
+        defaultEntity={defaultUser}
+        getEntityById={getUserById}
+        entityName={'User'}
+        updateEntity={updateUserById}
+        addEntity={addUser}
+        urlToNavitageAwayFromForm="/ebook/users"
+        customNavigateUrl={isSignup ? '/login' : undefined}
+        renderFields={renderUserFeilds}
+        customHandleChange={handleOnChange}
+        customFormHeading={isSignup ? formHeader : undefined}
+        customTextForModal={
+          isSignup ? 'Your Signup Is Successfull!!' : undefined
+        }
+      />
+    </>
   );
 };
 
