@@ -73,13 +73,16 @@ const BookForm = () => {
       console.log('Getting books by id');
       getBooksById(id).then((data) => {
         setEntity(data);
+        setAuthorDetails(data.authorsDetails);
+        setCategoryDetails(data.categoriesDetails);
+        setPublisherDetails(data.publisherDetails);
       });
     } else {
-      fetchAndSet('authors', getAuthors, setAllAuthors);
-      fetchAndSet('categories', getCategories, setAllCategories);
-      fetchAndSet('publishers', getPublishers, setAllPublishers);
       setEntity(defaultBook);
     }
+    fetchAndSet('authors', getAuthors, setAllAuthors);
+    fetchAndSet('categories', getCategories, setAllCategories);
+    fetchAndSet('publishers', getPublishers, setAllPublishers);
   };
 
   const handleToggleList = (

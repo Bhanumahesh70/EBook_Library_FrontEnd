@@ -29,14 +29,18 @@ export async function handleFormSubmit<T>({e, isEditing, entity ,id,updateFuncti
     }
 }
 
-export function handleInputOnChange<T>(e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>, setEntity: (value: React.SetStateAction<T>) => void, customKey?:keyof T) {
+export function handleInputOnChange<T>(e: React.ChangeEvent<any>, setEntity: (value: React.SetStateAction<T>) => void, customKey?:keyof T) {
     console.log(e);
     const { id, value, type } = e.target;
     if(type==="checkbox" || type ==="radio"){
         const checked = (e.target as HTMLInputElement).checked;
         if(!checked) return
     }
+    if (typeof value === 'object') {
+      console.log('Handling complex value:', value);
+    }
     const key = customKey ?? (id as keyof T);  
+    console.log('Updating entity with key:', key, 'and value:', value);
     setEntity((prevData) => ({ ...prevData, [key]: value }));
   }
   
