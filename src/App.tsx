@@ -26,6 +26,7 @@ import AuthorDetails from './components/EntiyComponents/Authors/AuthorDetails';
 import AuthorBooks from './components/EntiyComponents/Authors/AuthorBooks';
 import PublisherDetails from './components/EntiyComponents/Publisher/PublisherDetails';
 import PublisherBooks from './components//EntiyComponents/Publisher/PublisherBooks';
+import PublisherForm from './components/EntiyComponents/Publisher/PublisherForm';
 
 type LayoutProps = {
   children: ReactNode;
@@ -185,6 +186,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <AuthorBooks />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/ebook/publishers/form"
+                  element={
+                    <ProtectedRoute>
+                      <PublisherForm />
                     </ProtectedRoute>
                   }
                 />

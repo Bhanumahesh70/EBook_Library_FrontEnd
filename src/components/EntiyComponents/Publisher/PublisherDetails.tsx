@@ -37,6 +37,8 @@ function PublisherDetails() {
       customButtonClickAction={viewBooks}
       details={publisherDetails()}
       onEntityLoad={setPublisher}
+      includeEditButton={true}
+      editClickUrl={`/ebook/publishers/form`}
     />
   );
 }

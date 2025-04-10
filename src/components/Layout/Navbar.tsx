@@ -1,17 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuthentication } from '../Authentication/AuthenticationContext';
 import { useRole } from '../Authentication/RoleContext';
+import NavBarDropDown from '../Form/NavBarDropDown';
 const Navbar = () => {
   const [openNavButton, setOpenNavButton] = React.useState(false);
-  const [openDropdown, setOpenDropdown] = React.useState(false);
-
+  const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
   const { setIsAuthenticated } = useAuthentication();
   const { role } = useRole();
+  const navigate = useNavigate();
 
-  function handleDropDownClick() {
-    setOpenDropdown((prev) => !prev);
+  function handleDropDownClick(name: string) {
+    setOpenDropdown((prev) => (prev === name ? null : name));
   }
+
   function handleNavButtonClick() {
     setOpenNavButton((prev) => !prev);
   }
@@ -19,6 +21,62 @@ const Navbar = () => {
     setIsAuthenticated(false);
   }
   console.log(`role is : ${role}`);
+
+  const entityDropDownList = (
+    entityName: string,
+    viewUrl: string,
+    formUrl: string
+  ) => {
+    return (
+      <>
+        <li>
+          <Link
+            to={viewUrl}
+            className="dropdown-item"
+            onClick={() => handleDropDownClick('entityName')}
+          >
+            View {entityName}
+          </Link>
+        </li>
+        <li>
+          <Link
+            to={formUrl}
+            className="dropdown-item"
+            onClick={() => handleDropDownClick('entityName')}
+          >
+            Add {entityName}
+          </Link>
+        </li>
+      </>
+    );
+  };
+  const booksDropdownList = () => {
+    return entityDropDownList('Books', `/ebook`, `/ebook/books`);
+  };
+  const categoriesDropdownList = () => {
+    return entityDropDownList(
+      'Category',
+      `/ebook/categories`,
+      `/ebook/categories/form`
+    );
+  };
+  const publishersDropdownList = () => {
+    return entityDropDownList(
+      'Publishers',
+      `/ebook/publishers`,
+      `/ebook/publishers/form`
+    );
+  };
+  const authorsDropdownList = () => {
+    return entityDropDownList(
+      'Authors',
+      `/ebook/authors`,
+      `/ebook/authors/form`
+    );
+  };
+  const usersDropdownList = () => {
+    return entityDropDownList('Users', `/ebook/users`, `/ebook/users/form`);
+  };
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark  ">
@@ -52,87 +110,64 @@ const Navbar = () => {
                 </Link>
               </li>
               {role === 'ROLE_ADMIN' ? (
-                <li className="nav-item">
-                  <Link to={`/ebook/books`} className="nav-link">
-                    Add Book
-                  </Link>
-                </li>
+                <NavBarDropDown
+                  label="Books"
+                  openDropdown={openDropdown === 'Books'}
+                  handleDropDownClick={() => handleDropDownClick('Books')}
+                  renderDropDownListItems={booksDropdownList()}
+                />
               ) : (
                 <></>
               )}
-              <li className="nav-item">
-                <Link to={`/ebook/categories`} className="nav-link">
-                  Categories
-                </Link>
-              </li>
               {role === 'ROLE_ADMIN' ? (
+                <NavBarDropDown
+                  label="Authors"
+                  openDropdown={openDropdown === 'Authors'}
+                  handleDropDownClick={() => handleDropDownClick('Authors')}
+                  renderDropDownListItems={authorsDropdownList()}
+                />
+              ) : (
                 <li className="nav-item">
-                  <Link to={`/ebook/users`} className="nav-link">
-                    Users
+                  <Link to={`/ebook/authors`} className="nav-link">
+                    Authors
                   </Link>
                 </li>
-              ) : (
-                <></>
               )}
-              <li className="nav-item">
-                <Link to={`/ebook/authors`} className="nav-link">
-                  Authors
-                </Link>
-              </li>
               {role === 'ROLE_ADMIN' ? (
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="navbarDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    onClick={handleDropDownClick}
-                  >
-                    Admin
-                  </a>
-                  <ul
-                    className={`dropdown-menu  ${openDropdown ? 'show' : ''}`}
-                  >
-                    <li>
-                      <Link
-                        to={`/ebook/categories/form`}
-                        className="dropdown-item"
-                        onClick={handleDropDownClick}
-                      >
-                        Add Category
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={`/ebook/users/form`}
-                        className="dropdown-item"
-                        onClick={handleDropDownClick}
-                      >
-                        Add User
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={`/ebook/authors/form`}
-                        className="dropdown-item"
-                        onClick={handleDropDownClick}
-                      >
-                        Add Author
-                      </Link>
-                    </li>
-                    <li>
-                      <hr className="dropdown-divider" />
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
+                <NavBarDropDown
+                  label="Category"
+                  openDropdown={openDropdown === 'Category'}
+                  handleDropDownClick={() => handleDropDownClick('Category')}
+                  renderDropDownListItems={categoriesDropdownList()}
+                />
+              ) : (
+                <li className="nav-item">
+                  <Link to={`/ebook/categories`} className="nav-link">
+                    Categories
+                  </Link>
                 </li>
+              )}
+              {role === 'ROLE_ADMIN' ? (
+                <NavBarDropDown
+                  label="Publishers"
+                  openDropdown={openDropdown === 'Publishers'}
+                  handleDropDownClick={() => handleDropDownClick('Publishers')}
+                  renderDropDownListItems={publishersDropdownList()}
+                />
+              ) : (
+                <li className="nav-item">
+                  <Link to={`/ebook/publishers`} className="nav-link">
+                    Publishers
+                  </Link>
+                </li>
+              )}
+              {role === 'ROLE_ADMIN' ? (
+                <NavBarDropDown
+                  label="Users"
+                  openDropdown={openDropdown === 'Users'}
+                  handleDropDownClick={() => handleDropDownClick('Users')}
+                  renderDropDownListItems={usersDropdownList()}
+                />
               ) : (
                 <></>
               )}
