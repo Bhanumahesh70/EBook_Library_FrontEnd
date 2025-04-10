@@ -7,11 +7,12 @@ import {
 import PublisherImage from '../../../assets/Publisher.png';
 import { useNavigate } from 'react-router-dom';
 import { Publisher } from '../../../services/types';
+import { useRole } from '../../Authentication/RoleContext';
 
 function PublisherDetails() {
   const [publisher, setPublisher] = React.useState<Publisher | null>(null);
-
   const navigate = useNavigate();
+  const { role } = useRole();
   function viewBooks() {
     console.log('Navigating with publisher name:', publisher?.name);
     navigate(`/ebook/publishers/${publisher?.id}/books`, {
@@ -37,7 +38,7 @@ function PublisherDetails() {
       customButtonClickAction={viewBooks}
       details={publisherDetails()}
       onEntityLoad={setPublisher}
-      includeEditButton={true}
+      includeEditButton={role === `ROLE_ADMIN`}
       editClickUrl={`/ebook/publishers/form`}
     />
   );

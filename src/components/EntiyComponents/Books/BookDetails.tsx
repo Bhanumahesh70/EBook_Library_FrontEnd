@@ -15,11 +15,12 @@ import {
   CategoriesDetails,
   PublisherDetails,
 } from '../../../services/types';
+import { useRole } from '../../Authentication/RoleContext';
 
 function BookDetails() {
   const [book, setBook] = React.useState<Book | null>(null);
   const navigate = useNavigate();
-
+  const { role } = useRole();
   const categoryElements = (categories: CategoriesDetails[] | undefined) => {
     if (!categories) {
       return;
@@ -91,9 +92,9 @@ function BookDetails() {
       getEnityById={getBooksById}
       deleteEntityById={deleteBookById}
       entityName="Book"
-      includeEditButton={true}
+      includeEditButton={role === `ROLE_ADMIN`}
       editClickUrl={`/ebook/books/${book?.id}/edit`}
-      includeDeleteButton={true}
+      includeDeleteButton={role === `ROLE_ADMIN`}
       details={BookDetails(book)}
       onEntityLoad={setBook}
     />

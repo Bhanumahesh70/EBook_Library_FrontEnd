@@ -5,12 +5,11 @@ import { Author } from '../../../services/types';
 
 const AuthorsList = () => {
   const [authors, setAuthors] = React.useState<Author[]>([]);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     getAuthors().then((data) => setAuthors(data));
   }, []);
-
-  const navigate = useNavigate();
   function handleClick(id: string) {
     console.log('Navigating to edit author with id:', id);
     navigate(`/ebook/authors/${id}`);

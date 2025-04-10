@@ -7,10 +7,13 @@ import {
 import AuthorImage from '../../../assets/Author.jpeg';
 import { Author } from '../../../services/types';
 import { useNavigate } from 'react-router-dom';
+import { useRole } from '../../Authentication/RoleContext';
 
 function AuthorDetails() {
   const [author, setAuthor] = React.useState<Author | null>(null);
   const navigate = useNavigate();
+  const { role } = useRole();
+
   function viewBooks() {
     console.log('Navigating with author name:', author?.name);
     navigate(`/ebook/authors/${author?.id}/books`, {
@@ -36,6 +39,8 @@ function AuthorDetails() {
       customButtonClickAction={viewBooks}
       details={authorDetails()}
       onEntityLoad={setAuthor}
+      includeEditButton={role === `ROLE_ADMIN`}
+      editClickUrl={`/ebook/authors/form`}
     />
   );
 }

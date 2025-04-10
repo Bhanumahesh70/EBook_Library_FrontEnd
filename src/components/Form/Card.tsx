@@ -125,7 +125,7 @@ const Card = <T,>({
                       className="btn btn-primary"
                       onClick={customButtonClickAction}
                     >
-                      {customButtonText}
+                      <i className="bi bi-trash">{customButtonText}</i>
                     </button>
                   )}
                   {includeEditButton && (
@@ -133,12 +133,12 @@ const Card = <T,>({
                       className="btn btn-primary"
                       onClick={handleEditButtonClick}
                     >
-                      <i className="bi bi-pencil-square">Edit {entityName} </i>
+                      <i className="bi bi-pencil-square">Edit {entityName}</i>
                     </button>
                   )}
                   {includeDeleteButton && (
                     <button className="btn btn-danger" onClick={confirmDelete}>
-                      <i className="bi bi-trash">Delete {entityName}</i>
+                      <i className="bi bi-trash">Delete</i>
                     </button>
                   )}
                 </div>
