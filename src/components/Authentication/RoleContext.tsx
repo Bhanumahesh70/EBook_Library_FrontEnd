@@ -1,5 +1,4 @@
 import React, { useContext, ReactNode } from 'react';
-import { AuthenticationProvider } from './AuthenticationContext';
 
 interface RoleType {
   role: String;

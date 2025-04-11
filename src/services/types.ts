@@ -10,6 +10,10 @@ export type PublisherDetails={
     id: string;
     name: string;
 }
+export type BookDetails={
+    id: string;
+    name: string;
+}
 export type Book=  {
     id: string;
     title: string;
@@ -40,7 +44,7 @@ export type Publisher = {
     address: string;
     email: string;
     phoneNumber: string;
-    bookIds: number[];
+    bookIds: string[];
   };
 
   export  type Author = {
@@ -49,7 +53,7 @@ export type Publisher = {
     bio: string;
     nationality: string;
     birthDate: string;
-    bookIds: string[];
+    bookDetails: BookDetails[];
 };
 
 export type User=  {

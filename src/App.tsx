@@ -20,6 +20,7 @@ import { AuthenticationProvider } from './components/Authentication/Authenticati
 import ProtectedRoute from './components/Authentication/ProtectedRoute';
 import BookList from './components/EntiyComponents/Books/BookListGrid';
 import { RoleProvider } from './components/Authentication/RoleContext';
+import { BooksIdsProvider } from './components/EntiyComponents/AbstractEntity/BooksIdsContext';
 import AuthorsList from './components/EntiyComponents/Authors/AuthorsList';
 import AddAuthorForm from './components/EntiyComponents/Authors/AuthorForm';
 import AuthorDetails from './components/EntiyComponents/Authors/AuthorDetails';
@@ -53,178 +54,180 @@ function App() {
     <>
       <AuthenticationProvider>
         <RoleProvider>
-          <Router>
-            <Layout>
-              <Routes>
-                {/*public routes*/}
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<UserForm isSignup />} />
-                {/*protected routes*/}
-                <Route
-                  path="/ebook"
-                  element={
-                    <ProtectedRoute>
-                      <BookList booksProp={[]} isAllbooks={true} />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/books"
-                  element={
-                    <ProtectedRoute>
-                      <BookForm />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/books/:id"
-                  element={
-                    <ProtectedRoute>
-                      <BookDetails />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/books/:id/edit"
-                  element={
-                    <ProtectedRoute>
-                      <BookForm />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/categories"
-                  element={
-                    <ProtectedRoute>
-                      <div className="">
-                        <Categories />
-                      </div>
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/categories/:id/books"
-                  element={
-                    <ProtectedRoute>
-                      <CategoryBooks />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/categories/form"
-                  element={
-                    <ProtectedRoute>
-                      <CategoryForm />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/categories/:id/edit"
-                  element={
-                    <ProtectedRoute>
-                      <CategoryForm />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/users"
-                  element={
-                    <ProtectedRoute>
-                      <UsersList />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/users/form"
-                  element={
-                    <ProtectedRoute>
-                      <UserForm />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/users/:id"
-                  element={
-                    <ProtectedRoute>
-                      <UserForm />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/authors"
-                  element={
-                    <ProtectedRoute>
-                      <AuthorsList />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/authors/:id"
-                  element={
-                    <ProtectedRoute>
-                      <AddAuthorForm />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/authors/form"
-                  element={
-                    <ProtectedRoute>
-                      <AddAuthorForm />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/authors/:id/details"
-                  element={
-                    <ProtectedRoute>
-                      <AuthorDetails />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/authors/:id/books"
-                  element={
-                    <ProtectedRoute>
-                      <AuthorBooks />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/publishers/form"
-                  element={
-                    <ProtectedRoute>
-                      <PublisherForm />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/publishers/:id"
-                  element={
-                    <ProtectedRoute>
-                      <PublisherDetails />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/publishers/:id/books"
-                  element={
-                    <ProtectedRoute>
-                      <PublisherBooks />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ebook/publishers"
-                  element={
-                    <ProtectedRoute>
-                      <PublihsersList />
-                    </ProtectedRoute>
-                  }
-                />
-              </Routes>
-            </Layout>
-          </Router>
+          <BooksIdsProvider>
+            <Router>
+              <Layout>
+                <Routes>
+                  {/*public routes*/}
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/signup" element={<UserForm isSignup />} />
+                  {/*protected routes*/}
+                  <Route
+                    path="/ebook"
+                    element={
+                      <ProtectedRoute>
+                        <BookList booksProp={[]} isAllbooks={true} />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/books"
+                    element={
+                      <ProtectedRoute>
+                        <BookForm />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/books/:id"
+                    element={
+                      <ProtectedRoute>
+                        <BookDetails />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/books/:id/edit"
+                    element={
+                      <ProtectedRoute>
+                        <BookForm />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/categories"
+                    element={
+                      <ProtectedRoute>
+                        <div className="">
+                          <Categories />
+                        </div>
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/categories/:id/books"
+                    element={
+                      <ProtectedRoute>
+                        <CategoryBooks />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/categories/form"
+                    element={
+                      <ProtectedRoute>
+                        <CategoryForm />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/categories/:id/edit"
+                    element={
+                      <ProtectedRoute>
+                        <CategoryForm />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/users"
+                    element={
+                      <ProtectedRoute>
+                        <UsersList />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/users/form"
+                    element={
+                      <ProtectedRoute>
+                        <UserForm />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/users/:id"
+                    element={
+                      <ProtectedRoute>
+                        <UserForm />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/authors"
+                    element={
+                      <ProtectedRoute>
+                        <AuthorsList />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/authors/:id"
+                    element={
+                      <ProtectedRoute>
+                        <AddAuthorForm />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/authors/form"
+                    element={
+                      <ProtectedRoute>
+                        <AddAuthorForm />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/authors/:id/details"
+                    element={
+                      <ProtectedRoute>
+                        <AuthorDetails />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/authors/:id/books"
+                    element={
+                      <ProtectedRoute>
+                        <AuthorBooks />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/publishers/form"
+                    element={
+                      <ProtectedRoute>
+                        <PublisherForm />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/publishers/:id"
+                    element={
+                      <ProtectedRoute>
+                        <PublisherDetails />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/publishers/:id/books"
+                    element={
+                      <ProtectedRoute>
+                        <PublisherBooks />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/publishers"
+                    element={
+                      <ProtectedRoute>
+                        <PublihsersList />
+                      </ProtectedRoute>
+                    }
+                  />
+                </Routes>
+              </Layout>
+            </Router>
+          </BooksIdsProvider>
         </RoleProvider>
       </AuthenticationProvider>
     </>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import BookImage from '../../../assets/Book.jpg';
 import { getBooks } from '../../../services/EntityServices/bookService';
 import { Book, AuthorsDetails } from '../../../services/types';
+import { useBooksIds } from '../AbstractEntity/BooksIdsContext';
 
 interface BooksProp {
   booksProp: Book[];
@@ -11,6 +12,8 @@ interface BooksProp {
 
 function BookList({ booksProp, isAllbooks }: BooksProp) {
   const [books, setBooks] = React.useState<Book[]>(booksProp || []);
+  const { setBooksIds } = useBooksIds();
+
   console.log('booksProp:', booksProp);
   console.log('Books:', books);
 
@@ -18,6 +21,13 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     console.log('Refreshing books...');
     const books = await getBooks();
     setBooks(books);
+    const booksIds = books.map((book) => book.id);
+    const booksNames = books.map((book) => book.title);
+    const booksDetails = books.map((book) => {
+      return { id: book.id, name: book.title };
+    });
+    setBooksIds(booksDetails);
+    console.log('booksIds:', booksIds);
     return books;
   };
 

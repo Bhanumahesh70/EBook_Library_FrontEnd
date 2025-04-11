@@ -40,7 +40,7 @@ function AuthorDetails() {
       details={authorDetails()}
       onEntityLoad={setAuthor}
       includeEditButton={role === `ROLE_ADMIN`}
-      editClickUrl={`/ebook/authors/form`}
+      editClickUrl={`/ebook/authors/${author?.id}`}
     />
   );
 }

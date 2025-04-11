@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import TextInputField from '../../Form/TextInputField';
 import DropDownList from '../../Form/DropDownList';
 import EntityForm from '../../Form/EntityForm';
-
 import {
   Book,
   Category,
@@ -21,7 +21,6 @@ import { getAuthors } from '../../../services/EntityServices/authorService';
 import { getPublishers } from '../../../services/EntityServices/publisherService';
 import { getCategories } from '../../../services/EntityServices/categoryService';
 import ListItems from '../../Form/ListItems';
-
 const BookForm = () => {
   const defaultBook: Book = {
     id: ' ',
@@ -97,30 +96,45 @@ const BookForm = () => {
   ) => {
     const authorsList = () => {
       return (
-        <ListItems
-          items={allAuthors}
-          selectItem={selectAuthor}
-          urlTemplate={(id) => `/ebook/authors/${id}/details`}
-        />
+        <>
+          <Link to={'/ebook/authors/form'} className="dropdown-item">
+            Add New Author
+          </Link>
+          <ListItems
+            items={allAuthors}
+            selectItem={selectAuthor}
+            urlTemplate={(id) => `/ebook/authors/${id}/details`}
+          />
+        </>
       );
     };
     const categoriesList = () => {
       return (
-        <ListItems
-          items={allCategories}
-          selectItem={selectCategory}
-          urlTemplate={(id) => `/ebook/categories/${id}/details`}
-        />
+        <>
+          <Link to={'/ebook/categories/form'} className="dropdown-item">
+            Add New Category
+          </Link>
+          <ListItems
+            items={allCategories}
+            selectItem={selectCategory}
+            urlTemplate={(id) => `/ebook/categories/${id}/details`}
+          />
+        </>
       );
     };
 
     const publishersList = () => {
       return (
-        <ListItems
-          items={allPublishers}
-          selectItem={selectPublisher}
-          urlTemplate={(id) => `/ebook/publishers/${id}/details`}
-        />
+        <>
+          <Link to={'/ebook/publishers/form'} className="btn dropdown-item">
+            Add New Publisher
+          </Link>
+          <ListItems
+            items={allPublishers}
+            selectItem={selectPublisher}
+            urlTemplate={(id) => `/ebook/publishers/${id}/details`}
+          />
+        </>
       );
     };
     const selectAuthor = (author: Author) => {
