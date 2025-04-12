@@ -1,5 +1,5 @@
 import { EntityService } from './EntityService';
-import { User, Book } from "../types";
+import { User, BorrowedBook } from "../types";
 
 const entityService = new EntityService<User>('/ebook/users');
 export const getUsers = entityService.getAllItems;
@@ -7,8 +7,8 @@ export const getUserById = entityService.getItemById;
 export const addUser = entityService.addItem;
 export const updateUserById = entityService.updateItem;
 export const deleteUserById = entityService.deleteItemById;
-export const getBooksForPublisherWithId = (id: String | undefined) =>
-  entityService.getRelatedEntityItemsForThisEntityWithId<Book>(id, 'books');
+export const getBorrowedBooksForUserWithId = (id: String | undefined) =>
+  entityService.getRelatedEntityItemsForThisEntityWithId<BorrowedBook>(id, 'borrowedBooks');
   
 /*
 

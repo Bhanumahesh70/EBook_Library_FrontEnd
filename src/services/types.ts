@@ -12,7 +12,7 @@ export type PublisherDetails={
 }
 export type BookDetails={
     id: string;
-    name: string;
+    title: string;
 }
 export type Book=  {
     id: string;
@@ -66,4 +66,13 @@ export type User=  {
     role:string;
 
   };
-  
+export type BorrowedBook = {
+    id: string;
+    borrowedDate: Date;
+    returnDate: Date;
+    returnedOn? : Date;
+    status : string;
+    userId: string;
+    fineId : string;
+    bookDetails: BookDetails;
+}

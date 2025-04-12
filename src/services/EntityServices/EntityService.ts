@@ -72,6 +72,7 @@ export class EntityService<T>{
         try {
             const response = await apiClient.get<R[]>(`${this.API_URL}/${id}/${relatedEntityName}`);
             console.log(`${this.API_URL} -> Related ${relatedEntityName} items are fetched for id: ${id}`);
+            console.log(`${relatedEntityName}: ${response.data}`);
             return response.data;
         } catch (error) {
             console.log(`${this.API_URL} ->Error in fetching related ${relatedEntityName} items for id: ${id}`);

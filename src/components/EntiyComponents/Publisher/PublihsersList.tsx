@@ -24,8 +24,8 @@ const PublihsersList = () => {
             <th scope="col">Name</th>
             <th scope="col">Address</th>
             <th scope="col">Email</th>
-            <th scope="col">Email</th>
             <th scope="col">PhoneNumber</th>
+            <th scope="col">Books</th>
             <th scope="col">Details</th>
           </tr>
         </thead>
