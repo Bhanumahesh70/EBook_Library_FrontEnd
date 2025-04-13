@@ -26,7 +26,7 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     const booksDetails = books.map((book) => {
       return { id: book.id, name: book.title };
     });
-    setBooksIds(booksDetails);
+    // setBooksIds(booksDetails);
     console.log('booksIds:', booksIds);
     return books;
   };
@@ -51,7 +51,7 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
       {' '}
       {books.map((book) => (
-        <div className="col-7 col-sm-5 col-md-4 col-lg-3">
+        <div className="col-7 col-sm-5 col-md-4 col-lg-3" key={book.id}>
           <div className="card shadow-lg h-100 border-0 book-card">
             <img
               src={BookImage}

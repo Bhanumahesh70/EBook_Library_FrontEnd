@@ -14,6 +14,11 @@ export type BookDetails={
     id: string;
     title: string;
 }
+export type UserDetails={
+    id: string;
+    name: string;
+}
+
 export type Book=  {
     id: string;
     title: string;
@@ -75,4 +80,14 @@ export type BorrowedBook = {
     userId: string;
     fineId : string;
     bookDetails: BookDetails;
+}
+
+export type Reservation = {
+
+    id:string;
+    reservationDate : Date;
+    status : string;
+    userDetails : UserDetails;
+    bookDetails: BookDetails;
+
 }

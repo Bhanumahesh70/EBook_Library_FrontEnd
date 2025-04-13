@@ -19,7 +19,7 @@ import UsersList from './components/EntiyComponents/Users/UsersList';
 import { AuthenticationProvider } from './components/Authentication/AuthenticationContext';
 import ProtectedRoute from './components/Authentication/ProtectedRoute';
 import BookList from './components/EntiyComponents/Books/BookListGrid';
-import { RoleProvider } from './components/Authentication/RoleContext';
+import { LoginUserProvider } from './components/Authentication/LoginUserContext';
 import { BooksIdsProvider } from './components/EntiyComponents/AbstractEntity/BooksIdsContext';
 import AuthorsList from './components/EntiyComponents/Authors/AuthorsList';
 import AddAuthorForm from './components/EntiyComponents/Authors/AuthorForm';
@@ -54,7 +54,7 @@ function App() {
   return (
     <>
       <AuthenticationProvider>
-        <RoleProvider>
+        <LoginUserProvider>
           <BooksIdsProvider>
             <Router>
               <Layout>
@@ -238,7 +238,7 @@ function App() {
               </Layout>
             </Router>
           </BooksIdsProvider>
-        </RoleProvider>
+        </LoginUserProvider>
       </AuthenticationProvider>
     </>
   );

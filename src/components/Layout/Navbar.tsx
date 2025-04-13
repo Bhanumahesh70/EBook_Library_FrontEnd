@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthentication } from '../Authentication/AuthenticationContext';
-import { useRole } from '../Authentication/RoleContext';
+import { useLoginUser } from '../Authentication/LoginUserContext';
 import NavBarDropDown from '../Form/NavBarDropDown';
 const Navbar = () => {
   const [openNavButton, setOpenNavButton] = React.useState(false);
   const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
   const { setIsAuthenticated } = useAuthentication();
-  const { role } = useRole();
+  const { loginUserDetails } = useLoginUser();
+  const role = loginUserDetails.role;
   const navigate = useNavigate();
 
   function handleDropDownClick(name: string) {
@@ -20,7 +21,7 @@ const Navbar = () => {
   function logout() {
     setIsAuthenticated(false);
   }
-  console.log(`role is : ${role}`);
+  console.log(`role is : ${loginUserDetails.role}`);
 
   const entityDropDownList = (
     entityName: string,

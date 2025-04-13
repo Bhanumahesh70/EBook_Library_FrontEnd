@@ -1,12 +1,12 @@
 import React from 'react';
 import { getCategories } from '../../../services/EntityServices/categoryService';
 import { Link } from 'react-router-dom';
-import { useRole } from '../../Authentication/RoleContext';
+import { useLoginUser } from '../../Authentication/LoginUserContext';
 import { Category } from '../../../services/types';
 
 const Categories = () => {
   const [categories, setCategories] = React.useState<Category[]>([]);
-  const { role } = useRole();
+  const { loginUserDetails } = useLoginUser();
 
   React.useEffect(() => {
     getCategories().then((data) => {

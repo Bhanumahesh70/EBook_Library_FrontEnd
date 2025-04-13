@@ -115,7 +115,7 @@ const Card = <T,>({
                 <hr />
 
                 {details.map((item) => (
-                  <p>
+                  <p key={item.label}>
                     <strong>{item.label}</strong> {item.value}
                   </p>
                 ))}

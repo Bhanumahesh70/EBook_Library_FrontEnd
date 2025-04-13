@@ -2,8 +2,11 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authenticateUser, ValidateUser } from '../../services/loginService';
 import { useAuthentication } from './AuthenticationContext';
-import { useRole } from './RoleContext';
-
+import { useLoginUser } from './LoginUserContext';
+interface LoginUserDetailsProps {
+  id: string | undefined;
+  role: String;
+}
 type AuthenticationRequest = {
   email: string;
   password: string;
@@ -15,7 +18,7 @@ type AuthenticationResponse = {
   role: string;
 };
 const LoginPage = () => {
-  const [authRequest, setAuthReq] = React.useState({
+  const [authRequest, setAuthReq] = React.useState<AuthenticationRequest>({
     email: '',
     password: '',
   });
@@ -26,7 +29,7 @@ const LoginPage = () => {
   const { setIsAuthenticated } = useAuthentication();
 
   //Access Role context
-  const { setRole } = useRole();
+  const { setLoginUserDetails } = useLoginUser();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setIsError(false);
@@ -38,10 +41,16 @@ const LoginPage = () => {
     event.preventDefault();
 
     try {
-      const authResp = await authenticateUser(authRequest);
+      const authResp: AuthenticationResponse = await authenticateUser(
+        authRequest
+      );
       console.log('User is authenticated', authResp);
       setIsAuthenticated(true);
-      setRole(authResp.role);
+      const loginUSerDetails: LoginUserDetailsProps = {
+        id: authResp.id,
+        role: authResp.role,
+      };
+      setLoginUserDetails(loginUSerDetails);
       localStorage.setItem('authToken', authResp.token);
       const validResp = await ValidateUser();
       navigate('/ebook');

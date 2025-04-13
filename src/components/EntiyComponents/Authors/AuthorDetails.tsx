@@ -7,12 +7,13 @@ import {
 import AuthorImage from '../../../assets/Author.jpeg';
 import { Author } from '../../../services/types';
 import { useNavigate } from 'react-router-dom';
-import { useRole } from '../../Authentication/RoleContext';
+import { useLoginUser } from '../../Authentication/LoginUserContext';
 
 function AuthorDetails() {
   const [author, setAuthor] = React.useState<Author | null>(null);
   const navigate = useNavigate();
-  const { role } = useRole();
+  const { loginUserDetails } = useLoginUser();
+  const role = loginUserDetails.role;
 
   function viewBooks() {
     console.log('Navigating with author name:', author?.name);

@@ -15,12 +15,13 @@ import {
   CategoriesDetails,
   PublisherDetails,
 } from '../../../services/types';
-import { useRole } from '../../Authentication/RoleContext';
+import { useLoginUser } from '../../Authentication/LoginUserContext';
 
 function BookDetails() {
   const [book, setBook] = React.useState<Book | null>(null);
   const navigate = useNavigate();
-  const { role } = useRole();
+  const { loginUserDetails } = useLoginUser();
+  const role = loginUserDetails.role;
   const categoryElements = (categories: CategoriesDetails[] | undefined) => {
     if (!categories) {
       return;

@@ -7,12 +7,13 @@ import {
 import PublisherImage from '../../../assets/Publisher.png';
 import { useNavigate } from 'react-router-dom';
 import { Publisher } from '../../../services/types';
-import { useRole } from '../../Authentication/RoleContext';
+import { useLoginUser } from '../../Authentication/LoginUserContext';
 
 function PublisherDetails() {
   const [publisher, setPublisher] = React.useState<Publisher | null>(null);
   const navigate = useNavigate();
-  const { role } = useRole();
+  const { loginUserDetails } = useLoginUser();
+  const role = loginUserDetails.role;
   function viewBooks() {
     console.log('Navigating with publisher name:', publisher?.name);
     navigate(`/ebook/publishers/${publisher?.id}/books`, {
