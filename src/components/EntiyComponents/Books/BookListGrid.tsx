@@ -2,8 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import BookImage from '../../../assets/Book.jpg';
 import { getBooks } from '../../../services/EntityServices/bookService';
-import { Book, AuthorsDetails } from '../../../services/types';
+import { Book, AuthorsDetails, Reservation } from '../../../services/types';
 import { useBooksIds } from '../AbstractEntity/BooksIdsContext';
+import { Modal, Button, Form } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { addReservation } from '../../../services/EntityServices/reservationService';
+import { useLoginUser } from '../../Authentication/LoginUserContext';
 
 interface BooksProp {
   booksProp: Book[];
@@ -13,6 +18,27 @@ interface BooksProp {
 function BookList({ booksProp, isAllbooks }: BooksProp) {
   const [books, setBooks] = React.useState<Book[]>(booksProp || []);
   const { setBooksIds } = useBooksIds();
+  const { loginUserDetails } = useLoginUser();
+  const defaultReservation: Reservation = {
+    id: '',
+    reservationDate: new Date(),
+    status: 'REQUESTED',
+    numberOfDays: '',
+    userDetails: {
+      id: loginUserDetails.id,
+      name: '',
+    },
+    bookDetails: {
+      id: '',
+      title: '',
+    },
+  };
+  const [reservation, setReservation] =
+    React.useState<Reservation>(defaultReservation);
+  const [selectedBook, setSelectedBook] = React.useState<Book | null>(null);
+  const [showModal, setShowModal] = React.useState(false);
+  const [numDays, setNumDays] = React.useState(0);
+  const [cost, setCost] = React.useState(0);
 
   console.log('booksProp:', booksProp);
   console.log('Books:', books);
@@ -47,6 +73,36 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
         ` ${authorDetail.name}${index < authorsDetails.length - 1 ? ',' : ''}`
     );
   };
+
+  const handleReserveClick = (book: Book) => {
+    setSelectedBook(book);
+    setShowModal(true);
+    setReservation((prev) => ({
+      ...prev,
+      bookDetails: {
+        id: book.id,
+        title: book.title,
+      },
+    }));
+  };
+
+  const handleConfirmReservation = () => {
+    setShowModal(false);
+    console.log('Creating a new reservation: ', reservation);
+    addReservation(reservation);
+  };
+
+  const calculateCost = (days: number) => {
+    return days > 30 ? days - 30 : 0;
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedBook(null);
+    setReservation(defaultReservation);
+    setCost(0);
+  };
+
   return (
     <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
       {' '}
@@ -76,14 +132,84 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
                 <strong>Published Year:</strong> {book.publicationYear}
               </li>
             </ul>
-            <div className="card-body text-center">
-              <Link to={`/ebook/books/${book.id}`} className="btn btn-primary">
+            <div className="card-body text-center cardButtonsContainer">
+              <Link
+                to={`/ebook/books/${book.id}`}
+                className="btn btn-primary cardButton"
+              >
                 <i className="bi bi-eye"></i> View Details
               </Link>
+              <button
+                className="btn btn-primary cardButton"
+                onClick={() => handleReserveClick(book)}
+              >
+                Reserve
+              </button>
             </div>
           </div>
         </div>
       ))}
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Reserve: {selectedBook?.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>
+            <strong>Author:</strong>{' '}
+            {authorElements(selectedBook?.authorsDetails || [])}
+          </p>
+          <p>
+            <strong>Language:</strong> {selectedBook?.language}
+          </p>
+
+          <Form.Group>
+            <Form.Label>Reservation Start Date</Form.Label>
+            <DatePicker
+              selected={
+                reservation.reservationDate ? reservation.reservationDate : null
+              }
+              onChange={(date: Date | null) =>
+                setReservation((prev) => ({
+                  ...prev,
+                  reservationDate: date || new Date(),
+                }))
+              }
+              minDate={new Date()}
+              dateFormat="yyyy-MM-dd"
+              className="form-control"
+              placeholderText="Select a start date"
+            />
+          </Form.Group>
+
+          <Form.Group className="mt-3">
+            <Form.Label>Number of Days</Form.Label>
+            <Form.Control
+              type="number"
+              min="1"
+              value={reservation.numberOfDays}
+              onChange={(e) => {
+                setReservation((prev) => ({
+                  ...prev,
+                  numberOfDays: e.target.value,
+                }));
+                setCost(calculateCost(Number(e.target.value)));
+              }}
+            />
+          </Form.Group>
+
+          <div className="mt-3">
+            <strong>Total Cost:</strong> ${cost}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleConfirmReservation}>
+            Confirm Reservation
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

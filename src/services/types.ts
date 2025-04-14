@@ -15,7 +15,7 @@ export type BookDetails={
     title: string;
 }
 export type UserDetails={
-    id: string;
+    id: string| undefined;
     name: string;
 }
 
@@ -83,11 +83,10 @@ export type BorrowedBook = {
 }
 
 export type Reservation = {
-
     id:string;
-    reservationDate : Date;
+    reservationDate : Date| null;
     status : string;
+    numberOfDays: string;
     userDetails : UserDetails;
     bookDetails: BookDetails;
-
 }
