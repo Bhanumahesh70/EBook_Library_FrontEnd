@@ -2,14 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import BookImage from '../../../assets/Book.jpg';
 import { getBooks } from '../../../services/EntityServices/bookService';
-import { Book, AuthorsDetails, Reservation } from '../../../services/types';
+import {
+  Book,
+  AuthorsDetails,
+  Reservation,
+  User,
+} from '../../../services/types';
 import { useBooksIds } from '../AbstractEntity/BooksIdsContext';
 import { Modal, Button, Form } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { addReservation } from '../../../services/EntityServices/reservationService';
 import { useLoginUser } from '../../Authentication/LoginUserContext';
-
+import { getUserById } from '../../../services/EntityServices/userService';
 interface BooksProp {
   booksProp: Book[];
   isAllbooks: boolean;
@@ -17,7 +22,7 @@ interface BooksProp {
 
 function BookList({ booksProp, isAllbooks }: BooksProp) {
   const [books, setBooks] = React.useState<Book[]>(booksProp || []);
-  const { setBooksIds } = useBooksIds();
+  const [user, setUser] = React.useState<User>();
   const { loginUserDetails } = useLoginUser();
   const defaultReservation: Reservation = {
     id: '',
@@ -57,6 +62,12 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     return books;
   };
 
+  const fetchUser = async <User,>() => {
+    const userdata = await getUserById(loginUserDetails.id);
+    console.log('Userdata is fetched :', userdata);
+    setUser(userdata);
+  };
+
   React.useEffect(() => {
     console.log('Inside useEffect. booksprop.length:', booksProp.length);
     console.log('isAllBooks:', isAllbooks);
@@ -65,6 +76,7 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     } else {
       refreshBooks();
     }
+    fetchUser();
   }, [booksProp]);
 
   const authorElements = (authorsDetails: AuthorsDetails[]) => {
@@ -86,10 +98,11 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     }));
   };
 
-  const handleConfirmReservation = () => {
+  const handleConfirmReservation = async () => {
     setShowModal(false);
     console.log('Creating a new reservation: ', reservation);
-    addReservation(reservation);
+    await addReservation(reservation);
+    await fetchUser();
   };
 
   const calculateCost = (days: number) => {
@@ -101,6 +114,38 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     setSelectedBook(null);
     setReservation(defaultReservation);
     setCost(0);
+  };
+  const displayReservationText = (status: string | null) => {
+    if (status === 'REQUESTED') {
+      return 'Requested';
+    } else if (status === 'APPROVED') {
+      return 'Reserved';
+    } else {
+      return 'Reserve';
+    }
+  };
+  const reservebuttonDisablement = (status: string | null) => {
+    if (status === 'REQUESTED') {
+      return true;
+    } else if (status === 'APPROVED') {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const getBookReservationStatus = (book: Book): string | null => {
+    if (!user?.reservationDetails) return null;
+
+    const reservations = user.reservationDetails
+      .filter((r) => r.bookId === book.id)
+      .sort(
+        (a, b) =>
+          new Date(b.reservationDate).getTime() -
+          new Date(a.reservationDate).getTime()
+      );
+
+    const latestReservation = reservations[0];
+    return latestReservation ? latestReservation.status : null;
   };
 
   return (
@@ -139,11 +184,15 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
               >
                 <i className="bi bi-eye"></i> View Details
               </Link>
+
               <button
                 className="btn btn-primary cardButton"
                 onClick={() => handleReserveClick(book)}
+                disabled={reservebuttonDisablement(
+                  getBookReservationStatus(book)
+                )}
               >
-                Reserve
+                {displayReservationText(getBookReservationStatus(book))}
               </button>
             </div>
           </div>

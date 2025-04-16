@@ -18,7 +18,12 @@ export type UserDetails={
     id: string| undefined;
     name: string;
 }
-
+export type ReservationDetails={
+    id: string;
+    bookId:string;
+    status : string;
+    reservationDate: Date
+}
 export type Book=  {
     id: string;
     title: string;
@@ -69,6 +74,7 @@ export type User=  {
     phoneNumber: string;
     address: string;
     role:string;
+    reservationDetails:ReservationDetails[];
 
   };
 export type BorrowedBook = {

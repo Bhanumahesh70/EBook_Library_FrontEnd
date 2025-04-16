@@ -7,7 +7,6 @@ import { Reservation } from '../../../services/types';
 import { Form, DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap';
 const ReservationsList = () => {
   const [reservations, setReservations] = React.useState<Reservation[]>([]);
-  const statuses = ['Approve', 'Reject'];
   const fetchReservations = async () => {
     const reservationsData = await getReservations();
     console.log('Reservation data is fetched: ', reservationsData);
@@ -32,7 +31,7 @@ const ReservationsList = () => {
     reservation: Reservation,
     newStatus: string
   ) => {
-    newStatus = newStatus === 'Approve' ? 'APPROVED' : 'REJECTED';
+    // newStatus = newStatus === 'Approve' ? 'APPROVED' : 'REJECTED';
     reservation.status = newStatus;
     const updatedReservation = await updateReservation(
       reservation.id,
