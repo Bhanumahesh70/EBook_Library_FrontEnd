@@ -14,6 +14,15 @@ const UsersList = () => {
   function handleClick(id: string) {
     navigate(`/ebook/users/${id}`);
   }
+  const displayUserRole = (role: string) => {
+    if (role === 'ROLE_USER') {
+      return 'USER';
+    } else if (role === 'ROLE_LIBRARIAN') {
+      return 'LIBRARIAN';
+    } else {
+      return 'ADMIN';
+    }
+  };
   return (
     <div className="table-container ">
       <table className="table table-info table-striped table-hover">
@@ -37,7 +46,7 @@ const UsersList = () => {
               <td data-label="Email">{user.email}</td>
               <td data-label="Phone Number">{user.phoneNumber}</td>
               <td data-label="Address">{user.address}</td>
-              <td data-label="Role">{user.role}</td>
+              <td data-label="Role">{displayUserRole(user.role)}</td>
               <td>
                 <Link
                   to={`${user.id}/books`}

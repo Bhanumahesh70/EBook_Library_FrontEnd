@@ -172,6 +172,15 @@ const Navbar = () => {
               ) : (
                 <></>
               )}
+              {role === 'ROLE_ADMIN' ? (
+                <li className="nav-item">
+                  <Link to={`/ebook/reservations`} className="nav-link">
+                    Reservations
+                  </Link>
+                </li>
+              ) : (
+                <></>
+              )}
 
               <li className="nav-item">
                 <button

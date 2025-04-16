@@ -404,3 +404,7 @@ h1{
 .cardButton{
   width: 8rem;
 }
+.custom-dropdown .dropdown-menu {
+  z-index: 1050;
+  position: absolute; 
+}

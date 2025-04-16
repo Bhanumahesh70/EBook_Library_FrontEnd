@@ -30,6 +30,7 @@ import PublisherBooks from './components//EntiyComponents/Publisher/PublisherBoo
 import PublisherForm from './components/EntiyComponents/Publisher/PublisherForm';
 import PublihsersList from './components/EntiyComponents/Publisher/PublihsersList';
 import UserBorrowedBooks from './components/EntiyComponents/Users/UserBorrowedBooks';
+import ReservationsList from './components/EntiyComponents/Reservations/ReservationsList';
 
 type LayoutProps = {
   children: ReactNode;
@@ -231,6 +232,14 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <PublihsersList />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ebook/reservations"
+                    element={
+                      <ProtectedRoute>
+                        <ReservationsList />
                       </ProtectedRoute>
                     }
                   />
