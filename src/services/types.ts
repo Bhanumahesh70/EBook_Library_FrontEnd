@@ -77,16 +77,6 @@ export type User=  {
     reservationDetails:ReservationDetails[];
 
   };
-export type BorrowedBook = {
-    id: string;
-    borrowedDate: Date;
-    returnDate: Date;
-    returnedOn? : Date;
-    status : string;
-    userId: string;
-    fineId : string;
-    bookDetails: BookDetails;
-}
 
 export type Reservation = {
     id:string;
@@ -95,4 +85,16 @@ export type Reservation = {
     numberOfDays: string;
     userDetails : UserDetails;
     bookDetails: BookDetails;
+}
+
+export type BorrowedBook = {
+    id : string;
+    borrowedDate: Date
+    returnDate: Date
+    returnedOn?: Date
+    status: string
+    totalCost: string
+    userDetails: UserDetails
+    bookDetails: BookDetails
+    fineId : string;
 }

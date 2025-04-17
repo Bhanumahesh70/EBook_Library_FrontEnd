@@ -46,7 +46,8 @@ const ReservationsList = () => {
     }
   };
   return (
-    <div className="table-container ">
+    <div className="table-container">
+      <h3 className="text-center my-3">Book Reservations</h3>
       <table className="table table-info table-striped table-hover">
         <thead>
           <tr className="table-primary">

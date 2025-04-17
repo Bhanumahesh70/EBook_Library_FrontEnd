@@ -181,6 +181,15 @@ const Navbar = () => {
               ) : (
                 <></>
               )}
+              {role === 'ROLE_ADMIN' ? (
+                <li className="nav-item">
+                  <Link to={`/ebook/borrowedBooks`} className="nav-link">
+                    Borrowed Books
+                  </Link>
+                </li>
+              ) : (
+                <></>
+              )}
 
               <li className="nav-item">
                 <button
