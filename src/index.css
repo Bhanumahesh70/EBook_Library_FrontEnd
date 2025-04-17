@@ -401,10 +401,14 @@ h1{
   
 }
 
+.list_flex_items{
+  display: flex;
+  gap:10px;
+  justify-content: center;
+  align-items: center;
+  height: 5vh;
+}
 .cardButton{
   width: 8rem;
 }
-.custom-dropdown .dropdown-menu {
-  z-index: 1050;
-  position: absolute; 
-}
+

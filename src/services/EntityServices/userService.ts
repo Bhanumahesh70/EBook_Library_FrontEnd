@@ -1,5 +1,5 @@
 import { EntityService } from './EntityService';
-import { User, BorrowedBook } from "../types";
+import { User, BorrowedBook, Reservation } from "../types";
 
 const entityService = new EntityService<User>('/ebook/users');
 export const getUsers = entityService.getAllItems;
@@ -9,7 +9,8 @@ export const updateUserById = entityService.updateItem;
 export const deleteUserById = entityService.deleteItemById;
 export const getBorrowedBooksForUserWithId = (id: String | undefined) =>
   entityService.getRelatedEntityItemsForThisEntityWithId<BorrowedBook>(id, 'borrowedBooks');
-  
+export const getReservationsForUserWithId = (id: String | undefined) =>
+  entityService.getRelatedEntityItemsForThisEntityWithId<Reservation>(id, 'reservations');
 /*
 
 export const updateUserById = async(id:string|undefined,user:User):Promise<User>=>{

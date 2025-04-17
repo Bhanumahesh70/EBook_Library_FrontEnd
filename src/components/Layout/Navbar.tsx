@@ -179,7 +179,14 @@ const Navbar = () => {
                   </Link>
                 </li>
               ) : (
-                <></>
+                <li className="nav-item">
+                  <Link
+                    to={`/ebook/users/${loginUserDetails.id}/reservations`}
+                    className="nav-link"
+                  >
+                    Reservations
+                  </Link>
+                </li>
               )}
               {role === 'ROLE_ADMIN' ? (
                 <li className="nav-item">
@@ -188,7 +195,14 @@ const Navbar = () => {
                   </Link>
                 </li>
               ) : (
-                <></>
+                <li className="nav-item">
+                  <Link
+                    to={`/ebook/users/${loginUserDetails.id}/books`}
+                    className="nav-link"
+                  >
+                    Borrowed Books
+                  </Link>
+                </li>
               )}
 
               <li className="nav-item">
