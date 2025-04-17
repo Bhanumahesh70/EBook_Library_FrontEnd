@@ -115,19 +115,29 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     setReservation(defaultReservation);
     setCost(0);
   };
-  const displayReservationText = (status: string | null) => {
-    if (status === 'REQUESTED') {
+  const displayReservationText = (
+    reservationStatus: string | null,
+    borrowStatus: string | null
+  ) => {
+    if (borrowStatus === 'BORROWED') {
+      return 'Borrowed';
+    } else if (reservationStatus === 'REQUESTED') {
       return 'Requested';
-    } else if (status === 'APPROVED') {
+    } else if (reservationStatus === 'APPROVED') {
       return 'Reserved';
     } else {
       return 'Reserve';
     }
   };
-  const reservebuttonDisablement = (status: string | null) => {
-    if (status === 'REQUESTED') {
+  const reservebuttonDisablement = (
+    reservationStatus: string | null,
+    borrowStatus: string | null
+  ) => {
+    if (borrowStatus === 'BORROWED' || borrowStatus === 'LATE') {
       return true;
-    } else if (status === 'APPROVED') {
+    } else if (reservationStatus === 'REQUESTED') {
+      return true;
+    } else if (reservationStatus === 'APPROVED') {
       return true;
     } else {
       return false;
@@ -146,6 +156,21 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
 
     const latestReservation = reservations[0];
     return latestReservation ? latestReservation.status : null;
+  };
+
+  const getBookBorrowStatus = (book: Book): string | null => {
+    if (!user?.borrowedBookDetails) return null;
+
+    const thisBorrowedBooks = user.borrowedBookDetails
+      .filter((b) => b.bookId === book.id)
+      .sort(
+        (a, b) =>
+          new Date(b.borrowedDate).getTime() -
+          new Date(a.borrowedDate).getTime()
+      );
+
+    const latestBorrowedBookDetails = thisBorrowedBooks[0];
+    return latestBorrowedBookDetails ? latestBorrowedBookDetails.status : null;
   };
 
   return (
@@ -189,10 +214,14 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
                 className="btn btn-primary cardButton"
                 onClick={() => handleReserveClick(book)}
                 disabled={reservebuttonDisablement(
-                  getBookReservationStatus(book)
+                  getBookReservationStatus(book),
+                  getBookBorrowStatus(book)
                 )}
               >
-                {displayReservationText(getBookReservationStatus(book))}
+                {displayReservationText(
+                  getBookReservationStatus(book),
+                  getBookBorrowStatus(book)
+                )}
               </button>
             </div>
           </div>

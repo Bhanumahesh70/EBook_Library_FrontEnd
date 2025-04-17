@@ -24,6 +24,12 @@ export type ReservationDetails={
     status : string;
     reservationDate: Date
 }
+export type BorrowedBookDetails = {
+    id: string;
+    status : string;
+    bookId:string;
+    borrowedDate: Date;
+}
 export type Book=  {
     id: string;
     title: string;
@@ -75,6 +81,7 @@ export type User=  {
     address: string;
     role:string;
     reservationDetails:ReservationDetails[];
+    borrowedBookDetails: BorrowedBookDetails[];
 
   };
 
