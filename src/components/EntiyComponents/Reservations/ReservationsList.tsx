@@ -16,6 +16,19 @@ const ReservationsList = () => {
     fetchReservations();
   }, []);
 
+  const [filters, setFilters] = React.useState({
+    userName: '',
+    bookTitle: '',
+    reservationDate: '',
+    status: '',
+  });
+
+  const [showFilters, setShowFilters] = React.useState({
+    userName: false,
+    bookTitle: false,
+    reservationDate: false,
+    status: false,
+  });
   const statusLabels: Record<string, String> = {
     REQUESTED: 'Select',
     APPROVED: 'Approve',
@@ -26,7 +39,41 @@ const ReservationsList = () => {
     APPROVED: ['APPROVED'],
     REJECTED: ['REJECTED'],
   };
+  const handleFilterChange = (e: React.ChangeEvent<any>) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
 
+  const toggleFilterInput = (filter: keyof typeof showFilters) => {
+    setShowFilters((prev) => ({ ...prev, [filter]: !prev[filter] }));
+  };
+  const filteredReservations = reservations
+    .filter((r) =>
+      filters.status
+        ? r.status.toLowerCase().includes(filters.status.toLowerCase())
+        : true
+    )
+    .filter((r) =>
+      filters.userName
+        ? r.userDetails.name
+            .toLowerCase()
+            .includes(filters.userName.toLowerCase())
+        : true
+    )
+    .filter((r) =>
+      filters.bookTitle
+        ? r.bookDetails.title
+            .toLowerCase()
+            .includes(filters.bookTitle.toLowerCase())
+        : true
+    )
+    .filter((r) =>
+      filters.reservationDate
+        ? new Date(r.reservationDate ?? 0)
+            .toLocaleDateString()
+            .includes(filters.reservationDate)
+        : true
+    );
   const handleStatusChange = async (
     reservation: Reservation,
     newStatus: string
@@ -52,15 +99,96 @@ const ReservationsList = () => {
         <thead>
           <tr className="table-primary">
             <th scope="col">#</th>
-            <th scope="col">User Name</th>
-            <th scope="col">Book Title</th>
-            <th scope="col">Reservation Date</th>
-            <th scope="col">Number of Days</th>
-            <th scope="col">Status</th>
+            <th>
+              User Name{' '}
+              <span
+                style={{ cursor: 'pointer' }}
+                onClick={() => toggleFilterInput('userName')}
+              >
+                🔍
+              </span>
+              {showFilters.userName && (
+                <Form.Control
+                  type="text"
+                  name="userName"
+                  size="sm"
+                  className="mt-1"
+                  placeholder="Search name"
+                  value={filters.userName}
+                  onChange={handleFilterChange}
+                />
+              )}
+            </th>
+            <th>
+              Book Title{' '}
+              <span
+                style={{ cursor: 'pointer' }}
+                onClick={() => toggleFilterInput('bookTitle')}
+              >
+                🔍
+              </span>
+              {showFilters.bookTitle && (
+                <Form.Control
+                  type="text"
+                  name="bookTitle"
+                  size="sm"
+                  className="mt-1"
+                  placeholder="Search title"
+                  value={filters.bookTitle}
+                  onChange={handleFilterChange}
+                />
+              )}
+            </th>
+            <th>
+              Reservation Date{' '}
+              <span
+                style={{ cursor: 'pointer' }}
+                onClick={() => toggleFilterInput('reservationDate')}
+              >
+                🔍
+              </span>
+              {showFilters.reservationDate && (
+                <Form.Control
+                  type="date"
+                  name="reservationDate"
+                  size="sm"
+                  className="mt-1"
+                  placeholder="MM/DD/YYYY"
+                  value={filters.reservationDate}
+                  onChange={handleFilterChange}
+                />
+              )}
+            </th>
+            <th>Number of Days</th>
+            <th>
+              Status{' '}
+              <span
+                style={{ cursor: 'pointer' }}
+                onClick={() => toggleFilterInput('status')}
+              >
+                🔍
+              </span>
+              {showFilters.status && (
+                <Form.Select
+                  name="status"
+                  size="sm"
+                  className="mt-1"
+                  value={filters.status}
+                  onChange={handleFilterChange}
+                >
+                  <option value="">All</option>
+                  <option value="REQUESTED">Requested</option>
+                  <option value="APPROVED">Approved</option>
+                  <option value="REJECTED">Rejected</option>
+                  <option value="ACTIVE">Active</option>
+                  <option value="CANCELED">Canceled</option>
+                </Form.Select>
+              )}
+            </th>
           </tr>
         </thead>
         <tbody>
-          {reservations.map((reservation, index) => (
+          {filteredReservations.map((reservation, index) => (
             <tr key={reservation.id}>
               <th scope="row">{index + 1}</th>
               <td>{reservation.userDetails.name}</td>

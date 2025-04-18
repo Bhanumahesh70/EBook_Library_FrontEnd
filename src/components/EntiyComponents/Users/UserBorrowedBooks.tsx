@@ -1,7 +1,7 @@
 import React from 'react';
 import { BorrowedBook } from '../../../services/types';
 import { getBorrowedBooksForUserWithId } from '../../../services/EntityServices/userService';
-import { data, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const UserBorrowedBooks = () => {
   const [borrowedBooks, setBorrowedBooks] = React.useState<BorrowedBook[]>([]);
@@ -22,7 +22,9 @@ const UserBorrowedBooks = () => {
         <thead>
           <tr className="table-primary">
             <th scope="col">#</th>
-            <th scope="col">Title</th>
+            <th scope="col">
+              Title <span>🔍</span>
+            </th>
             <th scope="col">BorrowedDate</th>
             <th scope="col">ReturnDate</th>
             <th scope="col">Status</th>
