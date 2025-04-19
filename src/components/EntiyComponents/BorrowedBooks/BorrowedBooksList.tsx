@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { BorrowedBook } from '../../../services/types';
 import { getBorrowedBooks } from '../../../services/EntityServices/borrowedBookService';
-import { Form } from 'react-bootstrap';
+import { useFilterSort } from '../../../services/useFilterSort';
+import FilterToggleInput from '../../Utilities/FilterToggleInput';
 const BorrowedBooksList = () => {
   const [borrowedBooks, setBorrowedBooks] = useState<BorrowedBook[]>([]);
-  const [showFilterInput, setShowFilterInput] = useState({
+
+  const [showFilterInput, setShowFilterInput] = useState<
+    Record<string, boolean>
+  >({
     userName: false,
     bookTitle: false,
-    BorrowedDate: false,
+    borrowedDate: false,
     returnDate: false,
     returnedOn: false,
     status: false,
   });
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<Record<string, any>>({
     userName: '',
     bookTitle: '',
-    BorrowedDate: '',
+    borrowedDate: '',
     returnDate: '',
     returnedOn: '',
     status: '',
   });
+
   const fetchBorrowedBooks = async () => {
     const data = await getBorrowedBooks();
     console.log('Fetched Borrowed Books:', data);
@@ -28,57 +33,49 @@ const BorrowedBooksList = () => {
   useEffect(() => {
     fetchBorrowedBooks();
   }, []);
-  const toggleFilterInput = (filter: keyof typeof showFilterInput) => {
-    setShowFilterInput((prev) => ({ ...prev, [filter]: !prev[filter] }));
+
+  const toggleFilterInput = (key: keyof typeof showFilterInput) => {
+    setShowFilterInput((prev) => ({ ...prev, [key]: !prev[key] }));
   };
+
   const handleFilterChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
-  const filteredBorrowedBooks = () => {
-    return borrowedBooks
-      .filter((b) =>
-        filters.userName
-          ? b.userDetails.name
-              .toLowerCase()
-              .includes(filters.userName.toLowerCase())
-          : true
-      )
-      .filter((b) =>
-        filters.bookTitle
-          ? b.bookDetails.title
-              .toLowerCase()
-              .includes(filters.bookTitle.toLowerCase())
-          : true
-      )
-      .filter((b) =>
-        filters.BorrowedDate
-          ? new Date(b.borrowedDate ?? 0)
-              .toLocaleDateString()
-              .includes(filters.BorrowedDate)
-          : true
-      )
-      .filter((b) =>
-        filters.returnDate
-          ? new Date(b.returnDate ?? 0)
-              .toLocaleDateString()
-              .includes(filters.returnDate)
-          : true
-      )
-      .filter((b) =>
-        filters.returnedOn
-          ? b.returnedOn &&
-            new Date(b.returnedOn)
-              .toLocaleDateString()
-              .includes(filters.returnedOn)
-          : true
-      )
-      .filter((b) =>
-        filters.status
-          ? b.status.toLowerCase().includes(filters.status.toLowerCase())
-          : true
-      );
+
+  const { sortedData, handleSort, sortConfig } = useFilterSort(
+    borrowedBooks,
+    filters,
+    setFilters,
+    {
+      userName: (b, value) =>
+        b.userDetails.name.toLowerCase().includes(value.toLowerCase()),
+      bookTitle: (b, value) =>
+        b.bookDetails.title.toLowerCase().includes(value.toLowerCase()),
+      borrowedDate: (b, value) =>
+        new Date(b.borrowedDate ?? 0).toLocaleDateString().includes(value),
+      returnDate: (b, value) =>
+        new Date(b.returnDate ?? 0).toLocaleDateString().includes(value),
+      returnedOn: (b, value) =>
+        new Date(b.returnedOn ?? 0).toLocaleDateString().includes(value),
+      status: (r, value) =>
+        r.status.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      userName: (b) => b.userDetails.name,
+      bookTitle: (b) => b.bookDetails.title,
+      borrowedDate: (b) => b.borrowedDate,
+      returnDate: (b) => b.returnDate,
+      returnedOn: (b) => b.returnedOn,
+      status: (b) => b.status,
+    }
+  );
+
+  const getSortIcon = (column: string) => {
+    if (!sortConfig || sortConfig.sortBy !== column) return ' ⇅';
+    return sortConfig.direction === 'asc' ? ' ⬆️' : ' ⬇️';
   };
+
   return (
     <div className="table-container">
       <h3 className="text-center my-3">Borrowed Books</h3>
@@ -86,129 +83,102 @@ const BorrowedBooksList = () => {
         <thead className="table-primary">
           <tr>
             <th>#</th>
-            <th>
-              User Name{' '}
-              <span
-                style={{ cursor: 'pointer' }}
-                onClick={() => toggleFilterInput('userName')}
-              >
-                🔍
-              </span>
-              {showFilterInput.userName && (
-                <Form.Control
-                  type="text"
-                  placeholder="Search Name"
-                  size="sm"
-                  name="userName"
-                  value={filters.userName}
-                  onChange={handleFilterChange}
-                ></Form.Control>
-              )}
+            <th
+              style={{ cursor: 'pointer' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSort('userName');
+              }}
+            >
+              User Name{getSortIcon('userName')}
+              <FilterToggleInput
+                show={showFilterInput.userName}
+                type={'text'}
+                value={filters.userName}
+                name={'userName'}
+                onChange={handleFilterChange}
+                onToggle={() => toggleFilterInput('userName')}
+                placeHolder="Search User Name"
+              />
             </th>
-            <th>
-              Book Title{' '}
-              <span
-                style={{ cursor: 'pointer' }}
-                onClick={() => toggleFilterInput('bookTitle')}
-              >
-                🔍
-              </span>
-              {showFilterInput.bookTitle && (
-                <Form.Control
-                  type="text"
-                  placeholder="Search Title"
-                  size="sm"
-                  name="bookTitle"
-                  value={filters.bookTitle}
-                  onChange={handleFilterChange}
-                ></Form.Control>
-              )}
+            <th
+              onClick={() => handleSort('bookTitle')}
+              style={{ cursor: 'pointer' }}
+            >
+              Book Title{getSortIcon('bookTitle')}
+              <FilterToggleInput
+                show={showFilterInput.bookTitle}
+                type={'text'}
+                value={filters.bookTitle}
+                name={'bookTitle'}
+                onChange={handleFilterChange}
+                onToggle={() => toggleFilterInput('bookTitle')}
+                placeHolder="Search Book Titile"
+              />
             </th>
-            <th>
-              Borrowed Date{' '}
-              <span
-                style={{ cursor: 'pointer' }}
-                onClick={() => toggleFilterInput('BorrowedDate')}
-              >
-                🔍
-              </span>
-              {showFilterInput.BorrowedDate && (
-                <Form.Control
-                  type="date"
-                  size="sm"
-                  name="BorrowedDate"
-                  value={filters.BorrowedDate}
-                  onChange={handleFilterChange}
-                />
-              )}
+            <th
+              onClick={() => handleSort('borrowedDate')}
+              style={{ cursor: 'pointer' }}
+            >
+              Borrowed Date{getSortIcon('borrowedDate')}
+              <FilterToggleInput
+                show={showFilterInput.borrowedDate}
+                type={'date'}
+                value={filters.borrowedDate}
+                name={'borrowedDate'}
+                onChange={handleFilterChange}
+                onToggle={() => toggleFilterInput('borrowedDate')}
+              />
             </th>
-            <th>
-              Return Date{' '}
-              <span
-                style={{ cursor: 'pointer' }}
-                onClick={() => toggleFilterInput('returnDate')}
-              >
-                🔍
-              </span>
-              {showFilterInput.returnDate && (
-                <Form.Control
-                  type="date"
-                  size="sm"
-                  name="returnDate"
-                  value={filters.returnDate}
-                  onChange={handleFilterChange}
-                />
-              )}
+            <th
+              onClick={() => handleSort('returnDate')}
+              style={{ cursor: 'pointer' }}
+            >
+              Return Date{getSortIcon('returnDate')}
+              <FilterToggleInput
+                show={showFilterInput.returnDate}
+                type={'date'}
+                value={filters.returnDate}
+                name={'returnDate'}
+                onChange={handleFilterChange}
+                onToggle={() => toggleFilterInput('returnDate')}
+              />
             </th>
-            <th>
-              Returned On{' '}
-              <span
-                style={{ cursor: 'pointer' }}
-                onClick={() => toggleFilterInput('returnedOn')}
-              >
-                🔍
-              </span>
-              {showFilterInput.returnedOn && (
-                <>
-                  <Form.Control
-                    type="date"
-                    size="sm"
-                    name="returnedOn"
-                    value={filters.returnedOn}
-                    onChange={handleFilterChange}
-                    placeholder=""
-                  />
-                </>
-              )}
+
+            <th
+              onClick={() => handleSort('returnedOn')}
+              style={{ cursor: 'pointer' }}
+            >
+              Returned On{getSortIcon('returnedOn')}
+              <FilterToggleInput
+                show={showFilterInput.returnedOn}
+                type={'date'}
+                value={filters.returnedOn}
+                name={'returnedOn'}
+                onChange={handleFilterChange}
+                onToggle={() => toggleFilterInput('returnedOn')}
+              />
             </th>
-            <th>
-              Status{' '}
-              <span
-                style={{ cursor: 'pointer' }}
-                onClick={() => toggleFilterInput('status')}
-              >
-                🔍
-              </span>
-              {showFilterInput.status && (
-                <Form.Select
-                  size="sm"
-                  name="status"
-                  value={filters.status}
-                  onChange={handleFilterChange}
-                >
-                  <option value="">All</option>
-                  <option value="BORROWED">Borrowed</option>
-                  <option value="RETURNED">Returned</option>
-                  <option value="OVERDUE">Overdue</option>
-                  <option value="CANCELED">Canceled</option>
-                </Form.Select>
-              )}
+            <th
+              onClick={() => handleSort('status')}
+              style={{ cursor: 'pointer' }}
+            >
+              Status{getSortIcon('status')}
+              <FilterToggleInput
+                show={showFilterInput.status}
+                type={'select'}
+                value={filters.status}
+                name={'status'}
+                onChange={handleFilterChange}
+                onToggle={() => toggleFilterInput('status')}
+                options={['BORROWED', 'RETURNED', 'OVERDUE', 'CANCELED']}
+              />
             </th>
             <th>Total Cost</th>
           </tr>
         </thead>
         <tbody>
-          {filteredBorrowedBooks().map((borrowedBook, index) => (
+          {sortedData.map((borrowedBook, index) => (
             <tr key={borrowedBook.id}>
               <td>{index + 1}</td>
               <td>{borrowedBook.userDetails.name}</td>
