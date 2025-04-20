@@ -3,9 +3,11 @@ import { BorrowedBook } from '../../../services/types';
 import { getBorrowedBooks } from '../../../services/EntityServices/borrowedBookService';
 import { useFilterSort } from '../../../services/useFilterSort';
 import FilterToggleInput from '../../Utilities/FilterToggleInput';
+import { useGlobalSearch } from '../../Utilities/GlobalSearchContext';
+
 const BorrowedBooksList = () => {
   const [borrowedBooks, setBorrowedBooks] = useState<BorrowedBook[]>([]);
-
+  const { globalSearch } = useGlobalSearch();
   const [showFilterInput, setShowFilterInput] = useState<
     Record<string, boolean>
   >({
@@ -43,15 +45,29 @@ const BorrowedBooksList = () => {
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
+  const globallyFilteredData = borrowedBooks.filter((b) => {
+    const search = globalSearch.toLocaleLowerCase();
+    return (
+      b.userDetails.name.toLowerCase().includes(search) ||
+      b.bookDetails.title.toLowerCase().includes(search) ||
+      (b.borrowedDate &&
+        new Date(b.borrowedDate).toLocaleDateString().includes(search)) ||
+      (b.returnDate &&
+        new Date(b.returnDate).toLocaleDateString().includes(search)) ||
+      (b.returnedOn &&
+        new Date(b.returnedOn).toLocaleDateString().includes(search)) ||
+      b.status.toLowerCase().includes(search)
+    );
+  });
   const { sortedData, handleSort, sortConfig } = useFilterSort(
     borrowedBooks,
     filters,
     setFilters,
     {
       userName: (b, value) =>
-        b.userDetails.name.toLowerCase().includes(value.toLowerCase()),
+        b.userDetails?.name?.toLowerCase().includes(value.toLowerCase()),
       bookTitle: (b, value) =>
-        b.bookDetails.title.toLowerCase().includes(value.toLowerCase()),
+        b.bookDetails?.title?.toLowerCase().includes(value.toLowerCase()),
       borrowedDate: (b, value) =>
         new Date(b.borrowedDate ?? 0).toLocaleDateString().includes(value),
       returnDate: (b, value) =>
@@ -79,6 +95,13 @@ const BorrowedBooksList = () => {
   return (
     <div className="table-container">
       <h3 className="text-center my-3">Borrowed Books</h3>
+      <input
+        type="text"
+        className="form-control mb-3"
+        placeholder="Search anything..."
+        value={globalSearch}
+        // onChange={(e) => setGlobalSearch(e.target.value)}
+      />
       <table className="table table-info table-striped table-hover table-bordered">
         <thead className="table-primary">
           <tr>

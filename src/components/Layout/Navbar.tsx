@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuthentication } from '../Authentication/AuthenticationContext';
 import { useLoginUser } from '../Authentication/LoginUserContext';
 import NavBarDropDown from '../Form/NavBarDropDown';
+import { useGlobalSearch } from '../Utilities/GlobalSearchContext';
 const Navbar = () => {
   const [openNavButton, setOpenNavButton] = React.useState(false);
   const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
@@ -10,6 +11,7 @@ const Navbar = () => {
   const { loginUserDetails } = useLoginUser();
   const role = loginUserDetails.role;
   const navigate = useNavigate();
+  const { globalSearch, setGlobalSearch } = useGlobalSearch();
 
   function handleDropDownClick(name: string) {
     setOpenDropdown((prev) => (prev === name ? null : name));
@@ -219,8 +221,9 @@ const Navbar = () => {
                 <input
                   className="form-control me-2"
                   type="search"
-                  placeholder="Search"
+                  placeholder="Search anything"
                   aria-label="Search"
+                  onChange={(e) => setGlobalSearch(e.target.value)}
                 />
                 <button
                   className="btn btn-outline-success my-2 my-sm-0"
