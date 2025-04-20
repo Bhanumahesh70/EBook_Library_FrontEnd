@@ -60,22 +60,31 @@ const BorrowedBooksList = () => {
     );
   });
   const { sortedData, handleSort, sortConfig } = useFilterSort(
-    borrowedBooks,
+    globallyFilteredData,
     filters,
     setFilters,
     {
-      userName: (b, value) =>
-        b.userDetails?.name?.toLowerCase().includes(value.toLowerCase()),
-      bookTitle: (b, value) =>
-        b.bookDetails?.title?.toLowerCase().includes(value.toLowerCase()),
-      borrowedDate: (b, value) =>
-        new Date(b.borrowedDate ?? 0).toLocaleDateString().includes(value),
-      returnDate: (b, value) =>
-        new Date(b.returnDate ?? 0).toLocaleDateString().includes(value),
-      returnedOn: (b, value) =>
-        new Date(b.returnedOn ?? 0).toLocaleDateString().includes(value),
-      status: (r, value) =>
-        r.status.toLowerCase().includes(value.toLowerCase()),
+      userName: (b) =>
+        b.userDetails?.name
+          ?.toLowerCase()
+          .includes(filters.userName.toLowerCase()),
+      bookTitle: (b) =>
+        b.bookDetails?.title
+          ?.toLowerCase()
+          .includes(filters.bookTitle.toLowerCase()),
+      borrowedDate: (b) =>
+        new Date(b.borrowedDate ?? 0)
+          .toLocaleDateString()
+          .includes(filters.borrowedDate),
+      returnDate: (b) =>
+        new Date(b.returnDate ?? 0)
+          .toLocaleDateString()
+          .includes(filters.returnDate),
+      returnedOn: (b) =>
+        new Date(b.returnedOn ?? 0)
+          .toLocaleDateString()
+          .includes(filters.returnedOn),
+      status: (r) => r.status.toLowerCase().includes(filters.toLowerCase()),
     },
     {
       userName: (b) => b.userDetails.name,
