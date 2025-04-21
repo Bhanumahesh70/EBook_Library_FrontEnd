@@ -1,50 +1,75 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Category } from '../../../services/types';
 import { getCategories } from '../../../services/EntityServices/categoryService';
 import { Link } from 'react-router-dom';
-import { useLoginUser } from '../../Authentication/LoginUserContext';
-import { Category } from '../../../services/types';
+import EntityTable from '../AbstractEntity/EntityTable';
+import { Column } from '../../../services/types';
 
 const Categories = () => {
-  const [categories, setCategories] = React.useState<Category[]>([]);
-  const { loginUserDetails } = useLoginUser();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [showFilterInput, setShowFilterInput] = useState<
+    Record<string, boolean>
+  >({
+    categoryName: false,
+    description: false,
+  });
 
-  React.useEffect(() => {
+  const [filters, setFilters] = useState<Record<string, any>>({
+    categoryName: '',
+    description: '',
+  });
+
+  useEffect(() => {
     getCategories().then((data) => {
       setCategories(data);
     });
   }, []);
 
+  const columns: Column<Category>[] = [
+    {
+      key: 'categoryName',
+      label: 'Name',
+      type: 'text',
+      includeFilter: true,
+      includeSort: true,
+      getValue: (item) => item.categoryName,
+      filterFn: (item, value) =>
+        item.categoryName.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'description',
+      label: 'Description',
+      type: 'text',
+      getValue: (item) => item.description,
+      filterFn: (item, value) =>
+        item.description.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'books',
+      label: 'Books',
+      type: 'text',
+      getValue: (item) => 'Books',
+      render: (item) => (
+        <Link
+          to={`${item.id}/books`}
+          state={{ categoryName: item?.categoryName }}
+          className="btn btn-outline-primary"
+        >
+          Books
+        </Link>
+      ),
+    },
+  ];
+
   return (
-    <div className="table-container">
-      <table className="table table-info table-striped table-hover">
-        <thead>
-          <tr className="table-primary">
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Books</th>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.map((category, index) => (
-            <tr key={category.id || `category-${index}`}>
-              <th scope="row">{index + 1}</th>
-              <td data-label="Name">{category.categoryName}</td>
-              <td data-label="Description">{category.description}</td>
-              <td data-label="Books">
-                <Link
-                  to={`${category.id}/books`}
-                  state={{ categoryName: category?.categoryName }}
-                  className="btn btn-outline-primary"
-                >
-                  Books
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <EntityTable
+      data={categories}
+      columns={columns}
+      filters={filters}
+      setFilters={setFilters}
+      showFilterInput={showFilterInput}
+      setShowFilterInput={setShowFilterInput}
+    />
   );
 };
 

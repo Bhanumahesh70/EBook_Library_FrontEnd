@@ -114,4 +114,7 @@ export interface Column<T> {
     filterFn?: (item: T, filterValue: any) => boolean;
     render?: (item: T) => React.ReactNode;
     options?: string[];
+    includeFilter?: boolean;
+    includeSort?: boolean;
   }
+

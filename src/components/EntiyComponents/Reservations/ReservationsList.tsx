@@ -66,6 +66,8 @@ const ReservationsList = () => {
       key: 'username',
       label: 'Username',
       type: 'text',
+      includeFilter: true,
+      includeSort: true,
       getValue: (item: Reservation) => item.userDetails?.name ?? '',
       filterFn: (item, value) =>
         item.userDetails?.name?.toLowerCase().includes(value.toLowerCase()),
@@ -74,6 +76,8 @@ const ReservationsList = () => {
       key: 'bookTitle',
       label: 'Book Title',
       type: 'text',
+      includeFilter: true,
+      includeSort: true,
       getValue: (item: Reservation) => item.bookDetails.title ?? '',
       filterFn: (item, value) =>
         item.bookDetails.title.toLowerCase().includes(value.toLowerCase()),
@@ -82,6 +86,8 @@ const ReservationsList = () => {
       key: 'reservatedDate',
       label: 'Reservation Date',
       type: 'text',
+      includeFilter: true,
+      includeSort: true,
       getValue: (item: Reservation) =>
         item.reservationDate
           ? new Date(item.reservationDate).toLocaleDateString()
@@ -104,6 +110,8 @@ const ReservationsList = () => {
       key: 'numberOfDays',
       label: 'Number of Days Date',
       type: 'text',
+      includeFilter: true,
+      includeSort: true,
       getValue: (item: Reservation) => item.numberOfDays,
     },
 
@@ -111,6 +119,8 @@ const ReservationsList = () => {
       key: 'status',
       label: 'Status',
       type: 'select',
+      includeFilter: true,
+      includeSort: true,
       options: ['REQUESTED', 'APPROVED', 'REJECTED', 'ACTIVE', 'CANCELED'],
       getValue: (item: Reservation) => item.status,
       filterFn: (item: Reservation, value: string) =>

@@ -14,6 +14,8 @@ interface Column<T> {
   filterFn?: (item: T, filterValue: any) => boolean;
   render?: (item: T) => React.ReactNode;
   options?: string[];
+  includeFilter?: boolean;
+  includeSort?: boolean;
 }
 interface EntityTableProps<T extends TProps> {
   data: T[];
@@ -106,17 +108,19 @@ const EntityTable = <T extends TProps>({
                 style={{ cursor: 'pointer' }}
               >
                 {column.label}
-                {getSortIcon(column.key)}
-                <FilterToggleInput
-                  show={showFilterInput[column.key]}
-                  type={column.type}
-                  name={column.key}
-                  value={filters[column.key]}
-                  onChange={handleFilterChange}
-                  onToggle={() => toggleFilterInput(column.key)}
-                  placeHolder={`Search ${column.label}`}
-                  options={column.options}
-                />
+                {column.includeSort && getSortIcon(column.key)}
+                {column.includeFilter && (
+                  <FilterToggleInput
+                    show={showFilterInput[column.key]}
+                    type={column.type}
+                    name={column.key}
+                    value={filters[column.key]}
+                    onChange={handleFilterChange}
+                    onToggle={() => toggleFilterInput(column.key)}
+                    placeHolder={`Search ${column.label}`}
+                    options={column.options}
+                  />
+                )}
               </th>
             ))}
           </tr>

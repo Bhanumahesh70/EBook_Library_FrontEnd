@@ -44,6 +44,8 @@ const AuthorsList = () => {
       key: 'name',
       label: 'Name',
       type: 'text',
+      includeFilter: true,
+      includeSort: true,
       getValue: (item: Author) => item.name ?? '',
       filterFn: (item, value) =>
         item.name?.toLowerCase().includes(value.toLowerCase()),
@@ -52,6 +54,8 @@ const AuthorsList = () => {
       key: 'nationality',
       label: 'Nationality',
       type: 'text',
+      includeFilter: true,
+      includeSort: true,
       getValue: (item: Author) => item.nationality ?? '',
       filterFn: (item, value) =>
         item.nationality?.toLowerCase().includes(value.toLowerCase()),
@@ -60,6 +64,8 @@ const AuthorsList = () => {
       key: 'birthDate',
       label: 'Birth Date',
       type: 'text',
+      includeFilter: true,
+      includeSort: true,
       getValue: (item: Author) =>
         item.birthDate ? new Date(item.birthDate).toLocaleDateString() : 'N/A',
       filterFn: (item, value) => {
@@ -67,6 +73,7 @@ const AuthorsList = () => {
 
         const itemDate = new Date(item.birthDate);
         if (isNaN(itemDate.getTime())) return false;
+
         // If input is partial digits (year or partial year)
         if (/^\d{1,4}$/.test(value)) {
           return itemDate.getFullYear().toString().includes(value);
