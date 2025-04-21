@@ -4,19 +4,9 @@ import {
   getReservations,
   updateReservation,
 } from '../../../services/EntityServices/reservationService';
-import { useFilterSort } from '../../../services/useFilterSort';
-import FilterToggleInput from '../../Utilities/FilterToggleInput';
-import { useGlobalSearch } from '../../Utilities/GlobalSearchContext';
 import EntityTable from '../AbstractEntity/EntityTable';
-interface Column<T> {
-  label: string;
-  key: string;
-  type: 'text' | 'date' | 'select';
-  getValue: (item: T) => any;
-  filterFn?: (item: T, filterValue: any) => boolean;
-  render?: (item: T) => React.ReactNode;
-  options?: string[];
-}
+import { Column } from '../../../services/types';
+
 const ReservationsList = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
@@ -91,16 +81,24 @@ const ReservationsList = () => {
     {
       key: 'reservatedDate',
       label: 'Reservation Date',
-      type: 'date',
+      type: 'text',
       getValue: (item: Reservation) =>
         item.reservationDate
           ? new Date(item.reservationDate).toLocaleDateString()
           : 'N/A',
-      filterFn: (item, value) =>
-        !value ||
-        new Date(item.reservationDate ?? 0)
-          .toLocaleDateString()
-          .includes(value),
+      filterFn: (item, value) => {
+        if (!value) return true;
+
+        const itemDate = new Date(item.reservationDate ?? 0);
+        if (isNaN(itemDate.getTime())) return false;
+
+        // If input is partial digits (year or partial year)
+        if (/^\d{1,4}$/.test(value)) {
+          return itemDate.getFullYear().toString().includes(value);
+        }
+
+        return itemDate.toLocaleDateString().includes(value);
+      },
     },
     {
       key: 'numberOfDays',

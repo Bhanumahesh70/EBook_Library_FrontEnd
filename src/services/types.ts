@@ -105,3 +105,13 @@ export type BorrowedBook = {
     bookDetails: BookDetails
     fineId : string;
 }
+
+export interface Column<T> {
+    label: string;
+    key: string;
+    type: 'text' | 'date' | 'select';
+    getValue: (item: T) => any;
+    filterFn?: (item: T, filterValue: any) => boolean;
+    render?: (item: T) => React.ReactNode;
+    options?: string[];
+  }

@@ -47,7 +47,7 @@ const EntityTable = <T extends TProps>({
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
-  console.log('Reservation data:', data);
+  console.log('Data:', data);
   const globallyFilteredData = data.filter((item) =>
     columns.some((column) =>
       String(column.getValue(item))
@@ -59,8 +59,15 @@ const EntityTable = <T extends TProps>({
   const filterFunctions = Object.fromEntries(
     columns.map((column) => [
       column.key,
-      (item: T) =>
-        !column.filterFn || column.filterFn(item, filters[column.key] || ''),
+      (item: T) => {
+        console.log('column.key:', column.key);
+        console.log(
+          !column.filterFn || column.filterFn(item, filters[column.key] || '')
+        );
+        return (
+          !column.filterFn || column.filterFn(item, filters[column.key] || '')
+        );
+      },
     ])
   );
   const sortFunctions = Object.fromEntries(

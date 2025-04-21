@@ -11,6 +11,7 @@ export const useFilterSort = <T>(
     setFilters:React.Dispatch<React.SetStateAction<Record<string, any>>>,
     FilterFunction:Record<string,(item: T) => boolean>,
     sortAccessors: SortAccessor<T>)=>{
+
     const [sortConfig, setSortConfig] = useState<sortConfig>(null);
 
     const filteredData = data.filter((item)=> 
