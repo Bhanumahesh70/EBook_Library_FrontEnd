@@ -1,234 +1,154 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Reservation } from '../../../services/types';
 import {
   getReservations,
   updateReservation,
 } from '../../../services/EntityServices/reservationService';
-import { Reservation } from '../../../services/types';
-import { Form, DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap';
+import { useFilterSort } from '../../../services/useFilterSort';
+import FilterToggleInput from '../../Utilities/FilterToggleInput';
+import { useGlobalSearch } from '../../Utilities/GlobalSearchContext';
+import EntityTable from '../AbstractEntity/EntityTable';
+interface Column<T> {
+  label: string;
+  key: string;
+  type: 'text' | 'date' | 'select';
+  getValue: (item: T) => any;
+  filterFn?: (item: T, filterValue: any) => boolean;
+  render?: (item: T) => React.ReactNode;
+  options?: string[];
+}
 const ReservationsList = () => {
-  const [reservations, setReservations] = React.useState<Reservation[]>([]);
-  const fetchReservations = async () => {
-    const reservationsData = await getReservations();
-    console.log('Reservation data is fetched: ', reservationsData);
-    setReservations(reservationsData);
-  };
-  React.useEffect(() => {
-    fetchReservations();
-  }, []);
+  const [reservations, setReservations] = useState<Reservation[]>([]);
 
-  const [filters, setFilters] = React.useState({
-    userName: '',
-    bookTitle: '',
-    reservationDate: '',
-    status: '',
-  });
-
-  const [showFilters, setShowFilters] = React.useState({
+  const [showFilterInput, setShowFilterInput] = useState<
+    Record<string, boolean>
+  >({
     userName: false,
     bookTitle: false,
     reservationDate: false,
     status: false,
   });
-  const statusLabels: Record<string, String> = {
+
+  const [filters, setFilters] = useState<Record<string, any>>({
+    userName: '',
+    bookTitle: '',
+    reservationDate: '',
+    status: '',
+  });
+  const statusLabels: Record<string, string> = {
     REQUESTED: 'Select',
     APPROVED: 'Approve',
     REJECTED: 'Reject',
   };
+
   const nextStatusOptions: Record<string, string[]> = {
     REQUESTED: ['REQUESTED', 'APPROVED', 'REJECTED'],
     APPROVED: ['APPROVED'],
     REJECTED: ['REJECTED'],
   };
-  const handleFilterChange = (e: React.ChangeEvent<any>) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: value }));
+
+  const fetchReservations = async () => {
+    const data = await getReservations();
+    console.log('Fetched Reservations:', data);
+    setReservations(data);
   };
 
-  const toggleFilterInput = (filter: keyof typeof showFilters) => {
-    setShowFilters((prev) => ({ ...prev, [filter]: !prev[filter] }));
-  };
-  const filteredReservations = reservations
-    .filter((r) =>
-      filters.status
-        ? r.status.toLowerCase().includes(filters.status.toLowerCase())
-        : true
-    )
-    .filter((r) =>
-      filters.userName
-        ? r.userDetails.name
-            .toLowerCase()
-            .includes(filters.userName.toLowerCase())
-        : true
-    )
-    .filter((r) =>
-      filters.bookTitle
-        ? r.bookDetails.title
-            .toLowerCase()
-            .includes(filters.bookTitle.toLowerCase())
-        : true
-    )
-    .filter((r) =>
-      filters.reservationDate
-        ? new Date(r.reservationDate ?? 0)
-            .toLocaleDateString()
-            .includes(filters.reservationDate)
-        : true
-    );
+  useEffect(() => {
+    fetchReservations();
+  }, []);
+
   const handleStatusChange = async (
     reservation: Reservation,
     newStatus: string
   ) => {
-    // newStatus = newStatus === 'Approve' ? 'APPROVED' : 'REJECTED';
     reservation.status = newStatus;
-    const updatedReservation = await updateReservation(
-      reservation.id,
-      reservation
-    );
-    if (updatedReservation) {
+    const updated = await updateReservation(reservation.id, reservation);
+    if (updated) {
       setReservations((prev) =>
-        prev.map((res) =>
-          res.id === reservation.id ? { ...res, status: newStatus } : res
+        prev.map((r) =>
+          r.id === reservation.id ? { ...r, status: newStatus } : r
         )
       );
     }
   };
-  return (
-    <div className="table-container">
-      <h3 className="text-center my-3">Book Reservations</h3>
-      <table className="table table-info table-striped table-hover">
-        <thead>
-          <tr className="table-primary">
-            <th scope="col">#</th>
-            <th>
-              User Name{' '}
-              <span
-                style={{ cursor: 'pointer' }}
-                onClick={() => toggleFilterInput('userName')}
-              >
-                🔍
-              </span>
-              {showFilters.userName && (
-                <Form.Control
-                  type="text"
-                  name="userName"
-                  size="sm"
-                  className="mt-1"
-                  placeholder="Search name"
-                  value={filters.userName}
-                  onChange={handleFilterChange}
-                />
-              )}
-            </th>
-            <th>
-              Book Title{' '}
-              <span
-                style={{ cursor: 'pointer' }}
-                onClick={() => toggleFilterInput('bookTitle')}
-              >
-                🔍
-              </span>
-              {showFilters.bookTitle && (
-                <Form.Control
-                  type="text"
-                  name="bookTitle"
-                  size="sm"
-                  className="mt-1"
-                  placeholder="Search title"
-                  value={filters.bookTitle}
-                  onChange={handleFilterChange}
-                />
-              )}
-            </th>
-            <th>
-              Reservation Date{' '}
-              <span
-                style={{ cursor: 'pointer' }}
-                onClick={() => toggleFilterInput('reservationDate')}
-              >
-                🔍
-              </span>
-              {showFilters.reservationDate && (
-                <Form.Control
-                  type="date"
-                  name="reservationDate"
-                  size="sm"
-                  className="mt-1"
-                  placeholder="MM/DD/YYYY"
-                  value={filters.reservationDate}
-                  onChange={handleFilterChange}
-                />
-              )}
-            </th>
-            <th>Number of Days</th>
-            <th>
-              Status{' '}
-              <span
-                style={{ cursor: 'pointer' }}
-                onClick={() => toggleFilterInput('status')}
-              >
-                🔍
-              </span>
-              {showFilters.status && (
-                <Form.Select
-                  name="status"
-                  size="sm"
-                  className="mt-1"
-                  value={filters.status}
-                  onChange={handleFilterChange}
-                >
-                  <option value="">All</option>
-                  <option value="REQUESTED">Requested</option>
-                  <option value="APPROVED">Approved</option>
-                  <option value="REJECTED">Rejected</option>
-                  <option value="ACTIVE">Active</option>
-                  <option value="CANCELED">Canceled</option>
-                </Form.Select>
-              )}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredReservations.map((reservation, index) => (
-            <tr key={reservation.id}>
-              <th scope="row">{index + 1}</th>
-              <td>{reservation.userDetails.name}</td>
-              <td>{reservation.bookDetails.title}</td>
-              <td>
-                {' '}
-                {reservation.reservationDate
-                  ? new Date(reservation.reservationDate).toLocaleDateString()
-                  : 'N/A'}
-              </td>
-              <td>{reservation.numberOfDays}</td>
+  const columns: Column<Reservation>[] = [
+    {
+      key: 'username',
+      label: 'Username',
+      type: 'text',
+      getValue: (item: Reservation) => item.userDetails?.name ?? '',
+      filterFn: (item, value) =>
+        item.userDetails?.name?.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'bookTitle',
+      label: 'Book Title',
+      type: 'text',
+      getValue: (item: Reservation) => item.bookDetails.title ?? '',
+      filterFn: (item, value) =>
+        item.bookDetails.title.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'reservatedDate',
+      label: 'Reservation Date',
+      type: 'date',
+      getValue: (item: Reservation) =>
+        item.reservationDate
+          ? new Date(item.reservationDate).toLocaleDateString()
+          : 'N/A',
+      filterFn: (item, value) =>
+        !value ||
+        new Date(item.reservationDate ?? 0)
+          .toLocaleDateString()
+          .includes(value),
+    },
+    {
+      key: 'numberOfDays',
+      label: 'Number of Days Date',
+      type: 'text',
+      getValue: (item: Reservation) => item.numberOfDays,
+    },
 
-              <td className="cardButtonsContainer">
-                {reservation.status}
-                {reservation.status === 'REQUESTED' ? (
-                  <Form.Select
-                    value={reservation.status}
-                    onChange={(e) =>
-                      handleStatusChange(reservation, e.target.value)
-                    }
-                  >
-                    {nextStatusOptions[reservation.status].map((status) => (
-                      <option
-                        key={status}
-                        value={status}
-                        className="DropDownListItems "
-                      >
-                        {statusLabels[status] || status}
-                      </option>
-                    ))}
-                  </Form.Select>
-                ) : (
-                  <></>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    {
+      key: 'status',
+      label: 'Status',
+      type: 'select',
+      options: ['REQUESTED', 'APPROVED', 'REJECTED', 'ACTIVE', 'CANCELED'],
+      getValue: (item: Reservation) => item.status,
+      filterFn: (item: Reservation, value: string) =>
+        value === '' || item.status === value,
+      render: (item: Reservation) =>
+        item.status === 'REQUESTED' ? (
+          <>
+            {item.status}
+            <select
+              value={item.status}
+              onChange={(e) => handleStatusChange(item, e.target.value)}
+              className="form-select form-select-sm mt-1"
+            >
+              {nextStatusOptions[item.status].map((status) => (
+                <option key={status} value={status}>
+                  {statusLabels[status] || status}
+                </option>
+              ))}
+            </select>
+          </>
+        ) : (
+          <>{item.status}</>
+        ),
+    },
+  ];
+  return (
+    <>
+      <EntityTable
+        data={reservations}
+        columns={columns}
+        filters={filters}
+        setFilters={setFilters}
+        showFilterInput={showFilterInput}
+        setShowFilterInput={setShowFilterInput}
+      />
+    </>
   );
 };
 

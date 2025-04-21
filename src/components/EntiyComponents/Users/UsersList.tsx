@@ -25,7 +25,7 @@ const UsersList = () => {
   };
   return (
     <div className="table-container ">
-      <table className="table table-info table-striped table-hover">
+      <table className="table table-info table-striped table-hover table-bordered">
         <thead>
           <tr className="table-primary">
             <th scope="col">#</th>
