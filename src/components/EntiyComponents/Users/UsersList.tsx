@@ -101,7 +101,11 @@ const UsersList = () => {
       type: 'text',
       getValue: () => 'Books',
       render: (item: User) => (
-        <Link to={`${item.id}/books`} className="btn btn-outline-primary">
+        <Link
+          to={`${item.id}/books`}
+          state={{ userName: item.name }}
+          className="btn btn-outline-primary"
+        >
           View
         </Link>
       ),
@@ -114,6 +118,7 @@ const UsersList = () => {
       render: (item: User) => (
         <Link
           to={`/ebook/users/${item.id}`}
+          state={{ userName: item.name }}
           className="btn btn-outline-primary"
         >
           Edit
