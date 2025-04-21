@@ -147,6 +147,7 @@ const BorrowedBooksList = () => {
       setFilters={setFilters}
       showFilterInput={showFilterInput}
       setShowFilterInput={setShowFilterInput}
+      initialSortConfig={{ sortBy: 'borrowedDate', direction: 'desc' }}
     />
   );
 };

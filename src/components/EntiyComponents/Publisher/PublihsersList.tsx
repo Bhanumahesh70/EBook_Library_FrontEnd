@@ -1,65 +1,110 @@
-import React from 'react';
-import { getPublishers } from '../../../services/EntityServices/publisherService';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { Publisher } from '../../../services/types';
+import { getPublishers } from '../../../services/EntityServices/publisherService';
+import EntityTable from '../AbstractEntity/EntityTable';
+import { Column } from '../../../services/types';
+import { Link } from 'react-router-dom';
 
-const PublihsersList = () => {
-  const [publishers, setPublishers] = React.useState<Publisher[]>([]);
-  const navigate = useNavigate();
+const PublishersList = () => {
+  const [publishers, setPublishers] = useState<Publisher[]>([]);
 
-  React.useEffect(() => {
+  const [showFilterInput, setShowFilterInput] = useState<
+    Record<string, boolean>
+  >({
+    name: false,
+    address: false,
+    email: false,
+    phoneNumber: false,
+  });
+
+  const [filters, setFilters] = useState<Record<string, any>>({
+    name: '',
+    address: '',
+    email: '',
+    phoneNumber: '',
+  });
+
+  useEffect(() => {
     getPublishers().then((data) => setPublishers(data));
   }, []);
 
-  function handleClick(id: string) {
-    console.log('Navigating to edit Pubsliher with id:', id);
-    navigate(`/ebook/publishers/${id}`);
-  }
+  const columns: Column<Publisher>[] = [
+    {
+      key: 'name',
+      label: 'Name',
+      type: 'text',
+      includeFilter: true,
+      includeSort: true,
+      getValue: (item) => item.name ?? '',
+      filterFn: (item, value) =>
+        item.name?.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'address',
+      label: 'Address',
+      type: 'text',
+      includeFilter: true,
+      includeSort: true,
+      getValue: (item) => item.address ?? '',
+      filterFn: (item, value) =>
+        item.address?.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'email',
+      label: 'Email',
+      type: 'text',
+
+      getValue: (item) => item.email ?? '',
+      filterFn: (item, value) =>
+        item.email?.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'phoneNumber',
+      label: 'Phone Number',
+      type: 'text',
+
+      getValue: (item) => item.phoneNumber ?? '',
+      filterFn: (item, value) =>
+        item.phoneNumber?.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'books',
+      label: 'Books',
+      type: 'text',
+      getValue: () => 'Books',
+      render: (item) => (
+        <Link
+          to={`${item.id}/books`}
+          state={{ publisherName: item?.name }}
+          className="btn btn-outline-primary"
+        >
+          Book
+        </Link>
+      ),
+    },
+    {
+      key: 'details',
+      label: 'Details',
+      type: 'text',
+      getValue: () => 'view',
+      render: (item) => (
+        <Link to={`${item.id}`} className="btn btn-outline-primary">
+          view
+        </Link>
+      ),
+    },
+  ];
+
   return (
-    <div className="table-container">
-      <table className="table table-info table-striped table-hover">
-        <thead>
-          <tr className="table-primary">
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Address</th>
-            <th scope="col">Email</th>
-            <th scope="col">PhoneNumber</th>
-            <th scope="col">Books</th>
-            <th scope="col">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {publishers.map((publisher, index) => (
-            <tr key={publisher.id || `author-${index}`}>
-              <th scope="row">{index + 1}</th>
-              <td data-label="Name">{publisher.name}</td>
-              <td data-label="Address">{publisher.address}</td>
-              <td data-label="Email">{publisher.email}</td>
-              <td data-label="PhoneNumber">{publisher.phoneNumber}</td>
-              <td data-label="publishers">
-                <Link
-                  to={`${publisher.id}/books`}
-                  state={{ publisherName: publisher?.name }}
-                  className="btn btn-outline-primary"
-                >
-                  Books
-                </Link>
-              </td>
-              <td data-label="details">
-                <Link
-                  to={`${publisher.id}`}
-                  className="btn btn-outline-primary"
-                >
-                  view
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <EntityTable
+      data={publishers}
+      columns={columns}
+      filters={filters}
+      setFilters={setFilters}
+      showFilterInput={showFilterInput}
+      setShowFilterInput={setShowFilterInput}
+    />
   );
 };
 
-export default PublihsersList;
+export default PublishersList;

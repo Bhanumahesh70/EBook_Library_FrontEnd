@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useFilterSort } from '../../../services/useFilterSort';
 import FilterToggleInput from '../../Utilities/FilterToggleInput';
 import { useGlobalSearch } from '../../Utilities/GlobalSearchContext';
-
+import { SortConfig } from '../../../services/useFilterSort';
 interface TProps {
   id: string;
 }
@@ -27,6 +27,7 @@ interface EntityTableProps<T extends TProps> {
     React.SetStateAction<Record<string, boolean>>
   >;
   heading?: string;
+  initialSortConfig?: SortConfig;
 }
 
 const EntityTable = <T extends TProps>({
@@ -37,6 +38,7 @@ const EntityTable = <T extends TProps>({
   showFilterInput,
   setShowFilterInput,
   heading,
+  initialSortConfig,
 }: EntityTableProps<T>) => {
   const { globalSearch } = useGlobalSearch();
 
@@ -80,7 +82,8 @@ const EntityTable = <T extends TProps>({
     filters,
     setFilters,
     filterFunctions,
-    sortFunctions
+    sortFunctions,
+    initialSortConfig
   );
   console.log('sorted data:', sortedData);
   const getSortIcon = (column: string) => {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export type sortConfig = {
+export type SortConfig = {
     sortBy: string;
     direction: 'asc' | 'desc';
 }|null;
@@ -10,9 +10,10 @@ export const useFilterSort = <T>(
     data:T[], filters :Record<string, any>, 
     setFilters:React.Dispatch<React.SetStateAction<Record<string, any>>>,
     FilterFunction:Record<string,(item: T) => boolean>,
-    sortAccessors: SortAccessor<T>)=>{
+    sortAccessors: SortAccessor<T>,
+    initialSortConfig: SortConfig = null)=>{
 
-    const [sortConfig, setSortConfig] = useState<sortConfig>(null);
+    const [sortConfig, setSortConfig] = useState<SortConfig>(initialSortConfig);
 
     const filteredData = data.filter((item)=> 
         Object.keys(FilterFunction).every((key)=> 

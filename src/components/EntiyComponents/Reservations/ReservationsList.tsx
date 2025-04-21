@@ -83,7 +83,7 @@ const ReservationsList = () => {
         item.bookDetails.title.toLowerCase().includes(value.toLowerCase()),
     },
     {
-      key: 'reservatedDate',
+      key: 'reservationDate',
       label: 'Reservation Date',
       type: 'text',
       includeFilter: true,
@@ -156,6 +156,7 @@ const ReservationsList = () => {
         setFilters={setFilters}
         showFilterInput={showFilterInput}
         setShowFilterInput={setShowFilterInput}
+        initialSortConfig={{ sortBy: 'reservationDate', direction: 'desc' }}
       />
     </>
   );
