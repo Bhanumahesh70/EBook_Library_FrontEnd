@@ -149,6 +149,7 @@ const ReservationsList = () => {
   return (
     <>
       <EntityTable
+        heading="Reservations "
         data={reservations}
         columns={columns}
         filters={filters}

@@ -140,6 +140,7 @@ const BorrowedBooksList = () => {
 
   return (
     <EntityTable
+      heading="Borrowed Books"
       data={borrowedBooks}
       columns={columns}
       filters={filters}

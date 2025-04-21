@@ -1,75 +1,137 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { getUsers } from '../../../services/EntityServices/userService';
 import { useNavigate, Link } from 'react-router-dom';
-import { User } from '../../../services/types';
+import { User, Column } from '../../../services/types';
+import EntityTable from '../AbstractEntity/EntityTable';
 
 const UsersList = () => {
-  const [users, setUsers] = React.useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const navigate = useNavigate();
 
-  React.useEffect(() => {
+  const [showFilterInput, setShowFilterInput] = useState<
+    Record<string, boolean>
+  >({
+    name: false,
+    email: false,
+    phoneNumber: false,
+    address: false,
+    role: false,
+  });
+
+  const [filters, setFilters] = useState<Record<string, any>>({
+    name: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
+    role: '',
+  });
+
+  useEffect(() => {
     getUsers().then((data) => setUsers(data));
   }, []);
 
-  const navigate = useNavigate();
-  function handleClick(id: string) {
-    navigate(`/ebook/users/${id}`);
-  }
   const displayUserRole = (role: string) => {
-    if (role === 'ROLE_USER') {
-      return 'USER';
-    } else if (role === 'ROLE_LIBRARIAN') {
-      return 'LIBRARIAN';
-    } else {
-      return 'ADMIN';
+    switch (role) {
+      case 'ROLE_USER':
+        return 'USER';
+      case 'ROLE_LIBRARIAN':
+        return 'LIBRARIAN';
+      case 'ROLE_ADMIN':
+        return 'ADMIN';
+      default:
+        return role;
     }
   };
+
+  const columns: Column<User>[] = [
+    {
+      key: 'name',
+      label: 'Name',
+      type: 'text',
+      includeFilter: true,
+      includeSort: true,
+      getValue: (item) => item.name ?? '',
+      filterFn: (item, value) =>
+        item.name?.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'email',
+      label: 'Email',
+      type: 'text',
+      includeFilter: true,
+      includeSort: true,
+      getValue: (item) => item.email ?? '',
+      filterFn: (item, value) =>
+        item.email?.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'phoneNumber',
+      label: 'Phone Number',
+      type: 'text',
+      includeFilter: true,
+      includeSort: true,
+      getValue: (item) => item.phoneNumber ?? '',
+      filterFn: (item, value) =>
+        item.phoneNumber?.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'address',
+      label: 'Address',
+      type: 'text',
+      includeFilter: true,
+      includeSort: true,
+      getValue: (item) => item.address ?? '',
+      filterFn: (item, value) =>
+        item.address?.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'role',
+      label: 'Role',
+      type: 'select',
+      includeFilter: true,
+      includeSort: true,
+      options: ['USER', 'LIBRARIAN', 'ADMIN'],
+      getValue: (item) => displayUserRole(item.role),
+      filterFn: (item, value) =>
+        displayUserRole(item.role).toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'books',
+      label: 'Borrowed Books',
+      type: 'text',
+      getValue: () => 'Books',
+      render: (item: User) => (
+        <Link to={`${item.id}/books`} className="btn btn-outline-primary">
+          View
+        </Link>
+      ),
+    },
+    {
+      key: 'edit',
+      label: 'Edit User',
+      type: 'text',
+      getValue: () => 'Edit',
+      render: (item: User) => (
+        <Link
+          to={`/ebook/users/${item.id}`}
+          className="btn btn-outline-primary"
+        >
+          Edit
+        </Link>
+      ),
+    },
+  ];
+
   return (
-    <div className="table-container ">
-      <table className="table table-info table-striped table-hover table-bordered">
-        <thead>
-          <tr className="table-primary">
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone Number</th>
-            <th scope="col">Address</th>
-            <th scope="col">Role</th>
-            <th scope="col">Borrowed Books</th>
-            <th scope="col">Edit User</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={user.id}>
-              <th scope="row">{index + 1}</th>
-              <td data-label="Name">{user.name}</td>
-              <td data-label="Email">{user.email}</td>
-              <td data-label="Phone Number">{user.phoneNumber}</td>
-              <td data-label="Address">{user.address}</td>
-              <td data-label="Role">{displayUserRole(user.role)}</td>
-              <td>
-                <Link
-                  to={`${user.id}/books`}
-                  //state={{ publisherName: publisher?.name }}
-                  className="btn btn-outline-primary"
-                >
-                  Books
-                </Link>
-              </td>
-              <td>
-                <Link
-                  to={`/ebook/users/form`}
-                  //state={{ publisherName: publisher?.name }}
-                  className="btn btn-outline-primary"
-                >
-                  Edit
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <EntityTable
+      heading="Users "
+      data={users}
+      columns={columns}
+      filters={filters}
+      setFilters={setFilters}
+      showFilterInput={showFilterInput}
+      setShowFilterInput={setShowFilterInput}
+    />
   );
 };
 

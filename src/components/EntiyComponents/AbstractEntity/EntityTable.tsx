@@ -91,13 +91,7 @@ const EntityTable = <T extends TProps>({
   return (
     <div className="table-container">
       <h3 className="text-center my-3">{heading}</h3>
-      <input
-        type="text"
-        className="form-control mb-3"
-        placeholder="Search anything..."
-        value={globalSearch}
-        readOnly
-      />
+
       <table className="table table-info table-striped table-hover table-bordered">
         <thead className="table-primary">
           <tr>
