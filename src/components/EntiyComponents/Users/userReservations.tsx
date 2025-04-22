@@ -1,78 +1,126 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Reservation } from '../../../services/types';
+import { useParams } from 'react-router-dom';
 import { getReservationsForUserWithId } from '../../../services/EntityServices/userService';
 import { updateReservation } from '../../../services/EntityServices/reservationService';
-import { useParams } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
+import EntityTable from '../AbstractEntity/EntityTable';
+import { Column } from '../../../services/types';
+
 const UserReservations = () => {
-  const [reservations, setReservations] = React.useState<Reservation[]>([]);
+  const [reservations, setReservations] = useState<Reservation[]>([]);
   const { id } = useParams<{ id: string }>();
 
+  const [filters, setFilters] = useState<Record<string, any>>({
+    bookTitle: '',
+    reservationDate: '',
+    status: '',
+  });
+
+  const [showFilterInput, setShowFilterInput] = useState<
+    Record<string, boolean>
+  >({
+    bookTitle: false,
+    reservationDate: false,
+    status: false,
+  });
+
   const fetchReservations = async () => {
-    const reservationsData = await getReservationsForUserWithId(id);
-    console.log('User Reservations: ', reservationsData);
-    setReservations(reservationsData);
+    if (id) {
+      const data = await getReservationsForUserWithId(id);
+      console.log('User Reservations:', data);
+      setReservations(data);
+    }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchReservations();
-  }, []);
-  const handleReservationCancel = (reservation: Reservation) => {
-    reservation.status = 'CANCELED';
-    updateReservation(reservation.id, reservation);
-    console.log('reservation is updated sucessfully', reservation);
-    setReservations((prev) =>
-      prev.map((r) => (r.id === reservation.id ? (r = reservation) : r))
-    );
+  }, [id]);
+
+  const handleCancel = async (reservation: Reservation) => {
+    const updatedReservation = { ...reservation, status: 'CANCELED' };
+    const updated = await updateReservation(reservation.id, updatedReservation);
+    if (updated) {
+      setReservations((prev) =>
+        prev.map((r) => (r.id === reservation.id ? updatedReservation : r))
+      );
+    }
   };
+
+  const columns: Column<Reservation>[] = [
+    {
+      key: 'bookTitle',
+      label: 'Book Title',
+      type: 'text',
+      includeFilter: true,
+      includeSort: true,
+      getValue: (item: Reservation) => item.bookDetails.title ?? '',
+      filterFn: (item, value) =>
+        item.bookDetails.title.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      key: 'reservationDate',
+      label: 'Reservation Date',
+      type: 'text',
+      includeFilter: true,
+      includeSort: true,
+      getValue: (item: Reservation) =>
+        item.reservationDate
+          ? new Date(item.reservationDate).toLocaleDateString()
+          : 'N/A',
+      filterFn: (item, value) => {
+        if (!value) return true;
+        const itemDate = new Date(item.reservationDate ?? 0);
+        if (isNaN(itemDate.getTime())) return false;
+        if (/^\d{1,4}$/.test(value)) {
+          return itemDate.getFullYear().toString().includes(value);
+        }
+        return itemDate.toLocaleDateString().includes(value);
+      },
+    },
+    {
+      key: 'numberOfDays',
+      label: 'Number of Days',
+      type: 'text',
+
+      getValue: (item: Reservation) => item.numberOfDays,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      type: 'select',
+      includeFilter: true,
+      includeSort: true,
+      options: ['REQUESTED', 'APPROVED', 'REJECTED', 'ACTIVE', 'CANCELED'],
+      getValue: (item: Reservation) => item.status,
+      filterFn: (item, value) => value === '' || item.status === value,
+      render: (item: Reservation) =>
+        item.status === 'REQUESTED' ? (
+          <>
+            {item.status}{' '}
+            <button
+              className="btn btn-outline-primary btn-sm mt-1"
+              onClick={() => handleCancel(item)}
+            >
+              Cancel
+            </button>
+          </>
+        ) : (
+          item.status
+        ),
+    },
+  ];
+
   return (
-    <div className="table-container ">
-      <table className="table table-info table-striped table-hover">
-        <thead>
-          <tr className="table-primary">
-            <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Reservation Date</th>
-            <th scope="col">Number of Days</th>
-            <th scope="col">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reservations
-            .sort(
-              (a, b) =>
-                new Date(b.reservationDate ?? 0).getTime() -
-                new Date(a.reservationDate ?? 0).getTime()
-            )
-            .map((reservation, index) => (
-              <tr key={reservation.id}>
-                <th scope="row">{index + 1}</th>
-                <td>{reservation.bookDetails.title}</td>
-                <td>
-                  {reservation.reservationDate
-                    ? new Date(reservation.reservationDate).toLocaleDateString()
-                    : 'N/A'}
-                </td>
-                <td>{reservation.numberOfDays}</td>
-                <td className="list_flex_items">
-                  {reservation.status}
-                  {reservation.status === 'REQUESTED' ? (
-                    <Button
-                      variant="outline-primary"
-                      onClick={() => handleReservationCancel(reservation)}
-                    >
-                      Cancel
-                    </Button>
-                  ) : (
-                    <></>
-                  )}
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
+    <EntityTable
+      heading="Your Reservations"
+      data={reservations}
+      columns={columns}
+      filters={filters}
+      setFilters={setFilters}
+      showFilterInput={showFilterInput}
+      setShowFilterInput={setShowFilterInput}
+      initialSortConfig={{ sortBy: 'reservationDate', direction: 'desc' }}
+    />
   );
 };
 

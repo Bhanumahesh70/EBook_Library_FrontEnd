@@ -8,14 +8,12 @@ import {
   Reservation,
   User,
 } from '../../../services/types';
-import { useBooksIds } from '../AbstractEntity/BooksIdsContext';
 import { Modal, Button, Form } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { addReservation } from '../../../services/EntityServices/reservationService';
 import { useLoginUser } from '../../Authentication/LoginUserContext';
-import { getUserById } from '../../../services/EntityServices/userService';
-
+import { useGlobalSearch } from '../../Utilities/GlobalSearchContext';
 interface BooksProp {
   booksProp: Book[];
   isAllbooks: boolean;
@@ -43,8 +41,8 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     React.useState<Reservation>(defaultReservation);
   const [selectedBook, setSelectedBook] = React.useState<Book | null>(null);
   const [showModal, setShowModal] = React.useState(false);
-  const [numDays, setNumDays] = React.useState(0);
   const [cost, setCost] = React.useState(0);
+  const { globalSearch } = useGlobalSearch();
 
   console.log('booksProp:', booksProp);
   console.log('Books:', books);
@@ -54,21 +52,10 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     const books = await getBooks();
     setBooks(books);
     const booksIds = books.map((book) => book.id);
-    const booksNames = books.map((book) => book.title);
-    const booksDetails = books.map((book) => {
-      return { id: book.id, name: book.title };
-    });
     // setBooksIds(booksDetails);
     console.log('booksIds:', booksIds);
     return books;
   };
-
-  const fetchUser = async <User,>() => {
-    const userdata = await getUserById(loginUserDetails.id);
-    console.log('Userdata is fetched :', userdata);
-    setUser(userdata);
-  };
-
   React.useEffect(() => {
     console.log('Inside useEffect. booksprop.length:', booksProp.length);
     console.log('isAllBooks:', isAllbooks);
@@ -77,9 +64,20 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     } else {
       refreshBooks();
     }
-    fetchUser();
   }, [booksProp]);
 
+  const globallyFilteredData = books.filter((book) => {
+    return (
+      book.title.toLocaleLowerCase().includes(globalSearch.toLowerCase()) ||
+      book.authorsDetails.some((author) =>
+        author.name.toLocaleLowerCase().includes(globalSearch.toLowerCase())
+      ) ||
+      book.language.toLocaleLowerCase().includes(globalSearch.toLowerCase()) ||
+      book.publisherDetails.name
+        .toLocaleLowerCase()
+        .includes(globalSearch.toLowerCase())
+    );
+  });
   const authorElements = (authorsDetails: AuthorsDetails[]) => {
     return authorsDetails.map(
       (authorDetail, index) =>
@@ -103,7 +101,6 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     setShowModal(false);
     console.log('Creating a new reservation: ', reservation);
     await addReservation(reservation);
-    await fetchUser();
   };
 
   const calculateCost = (days: number) => {
@@ -177,7 +174,7 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
   return (
     <div className="row g-4 justify-content-center m-4 p-4 bookContainer">
       {' '}
-      {books.map((book) => (
+      {globallyFilteredData.map((book) => (
         <div className="col-7 col-sm-5 col-md-4 col-lg-3" key={book.id}>
           <div className="card shadow-lg h-100 border-0 book-card">
             <img
@@ -200,7 +197,7 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
                 <strong>Language:</strong> {book.language}
               </li>
               <li className="list-group-item">
-                <strong>Published Year:</strong> {book.publicationYear}
+                <strong>Publisher: </strong> {book.publisherDetails.name}
               </li>
             </ul>
             <div className="card-body text-center cardButtonsContainer">
