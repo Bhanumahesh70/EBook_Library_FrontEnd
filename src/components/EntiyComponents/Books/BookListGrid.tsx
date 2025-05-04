@@ -14,6 +14,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { addReservation } from '../../../services/EntityServices/reservationService';
 import { useLoginUser } from '../../Authentication/LoginUserContext';
 import { useGlobalSearch } from '../../Utilities/GlobalSearchContext';
+import { getUserById } from '../../../services/EntityServices/userService';
 interface BooksProp {
   booksProp: Book[];
   isAllbooks: boolean;
@@ -56,6 +57,11 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     console.log('booksIds:', booksIds);
     return books;
   };
+  const fetchUser = async <User,>() => {
+    const userdata = await getUserById(loginUserDetails.id);
+    console.log('Userdata is fetched :', userdata);
+    setUser(userdata);
+  };
   React.useEffect(() => {
     console.log('Inside useEffect. booksprop.length:', booksProp.length);
     console.log('isAllBooks:', isAllbooks);
@@ -64,6 +70,7 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     } else {
       refreshBooks();
     }
+    fetchUser();
   }, [booksProp]);
 
   const globallyFilteredData = books.filter((book) => {
@@ -101,6 +108,7 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     setShowModal(false);
     console.log('Creating a new reservation: ', reservation);
     await addReservation(reservation);
+    await fetchUser();
   };
 
   const calculateCost = (days: number) => {
