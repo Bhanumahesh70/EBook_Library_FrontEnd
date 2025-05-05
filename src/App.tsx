@@ -34,6 +34,7 @@ import ReservationsList from './components/EntiyComponents/Reservations/Reservat
 import BorrowedBooksList from './components/EntiyComponents/BorrowedBooks/BorrowedBooksList';
 import UserReservations from './components/EntiyComponents/Users/userReservations';
 import { GlobalSearchProvider } from './components/Utilities/GlobalSearchContext';
+import FinesList from './components/EntiyComponents/Fines/FineList';
 
 type LayoutProps = {
   children: ReactNode;
@@ -260,6 +261,14 @@ function App() {
                       element={
                         <ProtectedRoute>
                           <BorrowedBooksList />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/ebook/fines"
+                      element={
+                        <ProtectedRoute>
+                          <FinesList />
                         </ProtectedRoute>
                       }
                     />

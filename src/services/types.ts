@@ -30,6 +30,13 @@ export type BorrowedBookDetails = {
     bookId:string;
     borrowedDate: Date;
 }
+
+export type BorrowedBookDetails2 = {
+    id: string;
+    status : string;
+    borrowedDate: Date;
+    bookDetails: BookDetails;
+}
 export type Book=  {
     id: string;
     title: string;
@@ -100,12 +107,19 @@ export type BorrowedBook = {
     returnDate: Date
     returnedOn?: Date
     status: string
-    totalCost: string
+    bookBorrowCost: string
     userDetails: UserDetails
     bookDetails: BookDetails
     fineId : string;
 }
-
+export type Fine = {
+    id : string;
+    amount : string;
+    status : string;
+    paidDate: Date;
+    userDetails: UserDetails;
+    borrowedBookDetails: BorrowedBookDetails2;
+}
 export interface Column<T> {
     label: string;
     key: string;

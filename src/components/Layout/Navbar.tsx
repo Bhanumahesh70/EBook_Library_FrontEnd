@@ -206,7 +206,22 @@ const Navbar = () => {
                   </Link>
                 </li>
               )}
-
+              {role === 'ROLE_ADMIN' ? (
+                <li className="nav-item">
+                  <Link to={`/ebook/fines`} className="nav-link">
+                    Fines
+                  </Link>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <Link
+                    to={`/ebook/users/${loginUserDetails.id}/fines`}
+                    className="nav-link"
+                  >
+                    Fines
+                  </Link>
+                </li>
+              )}
               <li className="nav-item">
                 <button
                   className="btn btn-outline-danger my-2 my-sm-0"

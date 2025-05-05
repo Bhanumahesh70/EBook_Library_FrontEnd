@@ -115,12 +115,12 @@ const BorrowedBooksTable: React.FC<Props> = ({
         value === '' || item.status.toLowerCase().includes(value.toLowerCase()),
     },
     {
-      key: 'totalCost',
-      label: 'Total Cost',
+      key: 'bookBorrow',
+      label: 'Borrow Cost',
       type: 'text',
       includeFilter: true,
       includeSort: true,
-      getValue: (item) => `$${item.totalCost}`,
+      getValue: (item) => `$${item.bookBorrowCost}`,
     }
   );
 
