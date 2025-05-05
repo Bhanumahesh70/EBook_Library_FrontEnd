@@ -37,6 +37,11 @@ export type BorrowedBookDetails2 = {
     borrowedDate: Date;
     bookDetails: BookDetails;
 }
+export type FineDetails = {
+    amount : string;
+    status : string;
+    paidDate: Date;
+}
 export type Book=  {
     id: string;
     title: string;
@@ -111,6 +116,7 @@ export type BorrowedBook = {
     userDetails: UserDetails
     bookDetails: BookDetails
     fineId : string;
+    fineDetails : FineDetails
 }
 export type Fine = {
     id : string;

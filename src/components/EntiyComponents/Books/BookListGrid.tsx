@@ -125,30 +125,47 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     reservationStatus: string | null,
     borrowStatus: string | null
   ) => {
-    if (borrowStatus === 'BORROWED') {
-      return 'Borrowed';
-    } else if (reservationStatus === 'REQUESTED') {
-      return 'Requested';
-    } else if (reservationStatus === 'APPROVED') {
-      return 'Reserved';
-    } else {
-      return 'Reserve';
+    if (borrowStatus === 'BORROWED' || borrowStatus === 'LATE') {
+      return borrowStatus === 'BORROWED' ? 'Borrowed' : 'Late';
     }
+
+    if (reservationStatus === 'REQUESTED') {
+      return 'REQUESTED';
+    }
+    if (reservationStatus === 'APPROVED') {
+      if (borrowStatus !== null) {
+        return borrowStatus === 'RETURNED' ? 'Reserve' : 'Approved';
+      }
+      return 'Approved';
+    }
+
+    return 'Reserve';
   };
+
   const reservebuttonDisablement = (
     reservationStatus: string | null,
     borrowStatus: string | null
   ) => {
+    // Block if book is still borrowed or overdue
     if (borrowStatus === 'BORROWED' || borrowStatus === 'LATE') {
       return true;
-    } else if (reservationStatus === 'REQUESTED') {
-      return true;
-    } else if (reservationStatus === 'APPROVED') {
-      return true;
-    } else {
-      return false;
     }
+
+    // Block if there's a pending reservation (requested or approved),
+    // and no latest borrow with status RETURNED
+    if (reservationStatus === 'REQUESTED') {
+      return true;
+    }
+    if (reservationStatus === 'APPROVED') {
+      if (borrowStatus !== null) {
+        return borrowStatus === 'RETURNED' ? false : true;
+      }
+      return true;
+    }
+
+    return false;
   };
+
   const getBookReservationStatus = (book: Book): string | null => {
     if (!user?.reservationDetails) return null;
 
