@@ -95,7 +95,6 @@ export class EntityService<T>{
         }
     }
 
-
     actionMethod = async (Entitydata:T, actionPath: string):Promise<T>=>{
         try {
         
@@ -107,5 +106,19 @@ export class EntityService<T>{
                 throw error;
         }
     }
-
+    actionMethodByid = async (id:string | number, actionPath: string):Promise<T>=>{
+        try {
+        
+            const response = await apiClient.post<T>(`${this.API_URL}/${actionPath}`,id,{
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
+            console.log(`${this.API_URL}/${actionPath}-> is successfully`)
+            return response.data
+        } catch (error) {
+            console.log(`${this.API_URL}/${actionPath} -> Error in method. Error:`,error);
+                throw error;
+        }
+    }
 }

@@ -8,3 +8,8 @@ export const getFineById = entityService.getItemById;
 export const addFine = entityService.addItem;
 export const updateFine = entityService.updateItem;
 export const deleteFineById = entityService.deleteItemById;
+
+export const payFine = (fineId : string|number )=>{
+
+    entityService.actionMethodByid(fineId,"payFine");
+}

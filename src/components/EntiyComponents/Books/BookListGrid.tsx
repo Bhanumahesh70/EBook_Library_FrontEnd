@@ -130,7 +130,7 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     }
 
     if (reservationStatus === 'REQUESTED') {
-      return 'REQUESTED';
+      return 'Requested';
     }
     if (reservationStatus === 'APPROVED') {
       if (borrowStatus !== null) {

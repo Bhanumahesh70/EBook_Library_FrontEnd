@@ -3,6 +3,10 @@ import EntityTable from '../AbstractEntity/EntityTable';
 import { BorrowedBook, Column } from '../../../services/types';
 import { Button, Modal } from 'react-bootstrap';
 import { returnBorrowedBook } from '../../../services/EntityServices/borrowedBookService';
+import {
+  payFine,
+  getFineById,
+} from '../../../services/EntityServices/fineService';
 
 interface Props {
   heading: string;
@@ -25,7 +29,7 @@ function BorrowedBooksTable({
     userDetails: { id: '', name: '' },
     bookDetails: { id: '', title: '' },
     fineId: '',
-    fineDetails: { amount: '', status: '', paidDate: new Date() },
+    fineDetails: { id: '', amount: '', status: '', paidDate: new Date() },
   };
   const [borrowedBooks, setBorrowedBooks] = useState<BorrowedBook[]>([]);
   const [borrowedBook, setBorrowedBook] =
@@ -58,6 +62,8 @@ function BorrowedBooksTable({
   const returnBook = async (book: BorrowedBook) => {
     console.log('Returning book', book);
     await returnBorrowedBook(book);
+    //const fine = await getFineById(book.fineDetails.id);
+    await payFine(book.fineDetails.id);
     await fetchBorrowedBooks();
     setShowModal(false);
   };
@@ -197,7 +203,7 @@ function BorrowedBooksTable({
         <Modal.Body>
           {borrowedBook.fineDetails?.amount ? (
             <p>
-              <strong>Pay Due Amount: {totalAmount(borrowedBook)}</strong>
+              <strong>Pay Due Amount: {totalAmount(borrowedBook)}$</strong>
             </p>
           ) : (
             <>

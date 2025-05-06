@@ -38,6 +38,7 @@ export type BorrowedBookDetails2 = {
     bookDetails: BookDetails;
 }
 export type FineDetails = {
+    id: string;
     amount : string;
     status : string;
     paidDate: Date;
