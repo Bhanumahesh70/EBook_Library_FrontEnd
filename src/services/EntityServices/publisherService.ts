@@ -10,6 +10,7 @@ export const deletePublisherById = entityService.deleteItemById;
 export const getBooksForPublisherWithId = (id: String | undefined) =>
   entityService.getRelatedEntityItemsForThisEntityWithId<Book>(id, 'books');
 
+export const uploadImage =(formdata : FormData, id : string)=>{ entityService.uploadImage(formdata,id,"uploadImage")}
 /*
 // Update an existing publisher
 export const updatePublisher = async (

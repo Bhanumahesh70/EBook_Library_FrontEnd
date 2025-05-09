@@ -10,3 +10,4 @@ export const updateAuthorById = entityService.updateItem;
 export const deleteAuthorById =entityService.deleteItemById;
 export const getBooksForAuthorWithId = (id: String | undefined)=>entityService.getRelatedEntityItemsForThisEntityWithId<Book>(id,"books")
 
+export const uploadImage =(formdata : FormData, id : string)=>{ entityService.uploadImage(formdata,id,"uploadImage")}

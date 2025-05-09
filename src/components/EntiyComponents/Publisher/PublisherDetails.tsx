@@ -28,7 +28,7 @@ function PublisherDetails() {
   };
   return (
     <Card
-      image={PublisherImage}
+      image={publisher?.coverImageUrl || PublisherImage}
       alt="Publisher"
       title={publisher?.name}
       subtitle={publisher?.address}
@@ -40,7 +40,7 @@ function PublisherDetails() {
       details={publisherDetails()}
       onEntityLoad={setPublisher}
       includeEditButton={role === `ROLE_ADMIN`}
-      editClickUrl={`/ebook/publishers/form`}
+      editClickUrl={`/ebook/publishers/${publisher?.id}/form`}
     />
   );
 }

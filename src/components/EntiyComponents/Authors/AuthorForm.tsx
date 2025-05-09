@@ -7,6 +7,7 @@ import {
   getAuthorById,
   updateAuthorById,
   addAuthor,
+  uploadImage,
 } from '../../../services/EntityServices/authorService';
 import { useBooksIds } from '../AbstractEntity/BooksIdsContext';
 import ListItems from '../../Form/ListItems';
@@ -110,6 +111,7 @@ const AuthorForm = () => {
       addEntity={addAuthor}
       urlToNavitageAwayFromForm="/ebook/authors"
       renderFields={renderAuthorFeilds}
+      uploadImage={uploadImage}
     />
   );
 };

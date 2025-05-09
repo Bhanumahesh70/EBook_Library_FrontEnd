@@ -29,7 +29,7 @@ function AuthorDetails() {
   };
   return (
     <Card
-      image={AuthorImage}
+      image={author?.coverImageUrl || AuthorImage}
       alt="Author"
       title={author?.name}
       subtitle={author?.nationality}

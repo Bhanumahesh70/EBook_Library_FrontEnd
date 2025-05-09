@@ -217,6 +217,14 @@ function App() {
                       }
                     />
                     <Route
+                      path="/ebook/publishers/:id/form"
+                      element={
+                        <ProtectedRoute>
+                          <PublisherForm />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
                       path="/ebook/publishers/form"
                       element={
                         <ProtectedRoute>

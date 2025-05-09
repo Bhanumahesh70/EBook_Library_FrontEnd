@@ -121,4 +121,17 @@ export class EntityService<T>{
                 throw error;
         }
     }
+
+      uploadImage =async(formdata : FormData, id : string, uploadPath: string):Promise<T>=>{
+
+        try{
+            const response =  await apiClient.post(`${this.API_URL}/${id}/${uploadPath}`, formdata);
+          console.log('Image uploaded successfully');
+          return response.data
+        } catch (error) {
+          console.error('Failed to upload image:', error);
+          throw error;
+        }
+      
+      }
 }

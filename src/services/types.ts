@@ -75,6 +75,7 @@ export type Publisher = {
     email: string;
     phoneNumber: string;
     bookIds: string[];
+    coverImageUrl: string;
   };
 
   export  type Author = {
@@ -84,6 +85,7 @@ export type Publisher = {
     nationality: string;
     birthDate: string;
     bookDetails: BookDetails[];
+    coverImageUrl: string;
 };
 
 export type User=  {

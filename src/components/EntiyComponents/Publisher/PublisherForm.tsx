@@ -7,6 +7,7 @@ import {
   getPublisherById,
   updatePublisher,
   addPublisher,
+  uploadImage,
 } from '../../../services/EntityServices/publisherService';
 const PublisherForm = () => {
   const defaulPublisher: Publisher = {
@@ -16,6 +17,7 @@ const PublisherForm = () => {
     email: '',
     phoneNumber: '',
     bookIds: [],
+    coverImageUrl: '',
   };
   const renderPublisherFeilds = (
     publisher: Publisher,
@@ -64,6 +66,7 @@ const PublisherForm = () => {
       addEntity={addPublisher}
       urlToNavitageAwayFromForm="/ebook/publishers"
       renderFields={renderPublisherFeilds}
+      uploadImage={uploadImage}
     />
   );
 };

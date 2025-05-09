@@ -1,24 +1,12 @@
 import { EntityService } from "./EntityService";
 import { Book } from "../types";
-import apiClient from "../apiClient";
-
 const entityService = new EntityService<Book>("/ebook/books")
 export const getBooks = entityService.getAllItems;
 export const getBooksById = entityService.getItemById
 export const addBook = entityService.addItem;
 export const updateBook = entityService.updateItem;
 export const deleteBookById =entityService.deleteItemById
-
-export const uploadImage =async(formdata : FormData, bookId : string)=>{
-
-  try{
-    await apiClient.post(`/ebook/books/${bookId}/uploadImage`, formdata);
-    console.log('Image uploaded successfully');
-  } catch (error) {
-    console.error('Failed to upload image:', error);
-  }
-
-}
+export const uploadImage =(formdata : FormData, id : string)=>{ entityService.uploadImage(formdata,id,"uploadImage")}
 
 /*
 export const updateBook = async(id:string|undefined,book:Book):Promise<Book>=>{

@@ -8,7 +8,7 @@ interface HandelFormSubmitProps<T>{
     entityName:string;
     setIsError: (value: React.SetStateAction<boolean>) => void;
     setShowModal:(value: React.SetStateAction<boolean>) => void;
-    onAfterSubmit?: (entity: T, id: string | undefined) => Promise<void>;
+    onAfterSubmit: (entity: T, id: string | undefined) => Promise<void>;
 
 }
 export async function handleFormSubmit<T>({e, isEditing, entity ,id,updateFunction, addFunction, entityName,setIsError,setShowModal,onAfterSubmit}:HandelFormSubmitProps<T>){
@@ -23,7 +23,7 @@ export async function handleFormSubmit<T>({e, isEditing, entity ,id,updateFuncti
          submittedEntity = await addFunction(entity);
         console.log(`${entityName} added Successfully`, submittedEntity);
       }
-      if (onAfterSubmit && submittedEntity) {
+      if (submittedEntity) {
         console.log("calling onAfter Submit");
         await onAfterSubmit(submittedEntity, id);
       }
