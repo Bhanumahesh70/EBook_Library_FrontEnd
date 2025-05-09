@@ -128,15 +128,17 @@ const UsersList = () => {
   ];
 
   return (
-    <EntityTable
-      heading="Users "
-      data={users}
-      columns={columns}
-      filters={filters}
-      setFilters={setFilters}
-      showFilterInput={showFilterInput}
-      setShowFilterInput={setShowFilterInput}
-    />
+    <div className="table-section">
+      <EntityTable
+        heading="Users "
+        data={users}
+        columns={columns}
+        filters={filters}
+        setFilters={setFilters}
+        showFilterInput={showFilterInput}
+        setShowFilterInput={setShowFilterInput}
+      />
+    </div>
   );
 };
 

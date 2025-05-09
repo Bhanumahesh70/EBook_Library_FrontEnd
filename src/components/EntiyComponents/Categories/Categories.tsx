@@ -62,14 +62,17 @@ const Categories = () => {
   ];
 
   return (
-    <EntityTable
-      data={categories}
-      columns={columns}
-      filters={filters}
-      setFilters={setFilters}
-      showFilterInput={showFilterInput}
-      setShowFilterInput={setShowFilterInput}
-    />
+    <div className="table-section">
+      <EntityTable
+        heading="Categories "
+        data={categories}
+        columns={columns}
+        filters={filters}
+        setFilters={setFilters}
+        showFilterInput={showFilterInput}
+        setShowFilterInput={setShowFilterInput}
+      />
+    </div>
   );
 };
 

@@ -96,14 +96,17 @@ const PublishersList = () => {
   ];
 
   return (
-    <EntityTable
-      data={publishers}
-      columns={columns}
-      filters={filters}
-      setFilters={setFilters}
-      showFilterInput={showFilterInput}
-      setShowFilterInput={setShowFilterInput}
-    />
+    <div className="table-section">
+      <EntityTable
+        heading="Publihsers "
+        data={publishers}
+        columns={columns}
+        filters={filters}
+        setFilters={setFilters}
+        showFilterInput={showFilterInput}
+        setShowFilterInput={setShowFilterInput}
+      />
+    </div>
   );
 };
 

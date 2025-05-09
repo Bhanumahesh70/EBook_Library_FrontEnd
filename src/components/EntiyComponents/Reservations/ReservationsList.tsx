@@ -148,16 +148,18 @@ const ReservationsList = () => {
   ];
   return (
     <>
-      <EntityTable
-        heading="Reservations "
-        data={reservations}
-        columns={columns}
-        filters={filters}
-        setFilters={setFilters}
-        showFilterInput={showFilterInput}
-        setShowFilterInput={setShowFilterInput}
-        initialSortConfig={{ sortBy: 'reservationDate', direction: 'desc' }}
-      />
+      <div className="table-section">
+        <EntityTable
+          heading="Reservations "
+          data={reservations}
+          columns={columns}
+          filters={filters}
+          setFilters={setFilters}
+          showFilterInput={showFilterInput}
+          setShowFilterInput={setShowFilterInput}
+          initialSortConfig={{ sortBy: 'reservationDate', direction: 'desc' }}
+        />
+      </div>
     </>
   );
 };

@@ -4,11 +4,13 @@ import BorrowedBooksTable from './BorrowedBooksTable';
 
 const BorrowedBooksList = () => {
   return (
-    <BorrowedBooksTable
-      heading="All Borrowed Books"
-      dataFetcher={getBorrowedBooks}
-      includeUserColumn={true}
-    />
+    <div className="table-section">
+      <BorrowedBooksTable
+        heading="All Borrowed Books"
+        dataFetcher={getBorrowedBooks}
+        includeUserColumn={true}
+      />
+    </div>
   );
 };
 

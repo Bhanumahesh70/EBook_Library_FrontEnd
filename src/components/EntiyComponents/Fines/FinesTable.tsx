@@ -99,16 +99,18 @@ const FinesTable: React.FC<Props> = ({ heading, dataFetcher }) => {
   ];
 
   return (
-    <EntityTable
-      heading={heading}
-      data={fines}
-      columns={columns}
-      filters={filters}
-      setFilters={setFilters}
-      showFilterInput={showFilterInput}
-      setShowFilterInput={setShowFilterInput}
-      initialSortConfig={{ sortBy: 'borrowedDate', direction: 'desc' }}
-    />
+    <div className="table-section">
+      <EntityTable
+        heading={heading}
+        data={fines}
+        columns={columns}
+        filters={filters}
+        setFilters={setFilters}
+        showFilterInput={showFilterInput}
+        setShowFilterInput={setShowFilterInput}
+        initialSortConfig={{ sortBy: 'borrowedDate', direction: 'desc' }}
+      />
+    </div>
   );
 };
 

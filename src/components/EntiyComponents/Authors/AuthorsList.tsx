@@ -110,14 +110,17 @@ const AuthorsList = () => {
     },
   ];
   return (
-    <EntityTable
-      data={authors}
-      columns={columns}
-      filters={filters}
-      setFilters={setFilters}
-      showFilterInput={showFilterInput}
-      setShowFilterInput={setShowFilterInput}
-    />
+    <div className="table-section">
+      <EntityTable
+        heading="Authors "
+        data={authors}
+        columns={columns}
+        filters={filters}
+        setFilters={setFilters}
+        showFilterInput={showFilterInput}
+        setShowFilterInput={setShowFilterInput}
+      />
+    </div>
   );
 };
 
