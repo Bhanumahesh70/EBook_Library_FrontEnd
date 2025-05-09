@@ -8,17 +8,24 @@ interface HandelFormSubmitProps<T>{
     entityName:string;
     setIsError: (value: React.SetStateAction<boolean>) => void;
     setShowModal:(value: React.SetStateAction<boolean>) => void;
+    onAfterSubmit?: (entity: T, id: string | undefined) => Promise<void>;
+
 }
-export async function handleFormSubmit<T>({e, isEditing, entity ,id,updateFunction, addFunction, entityName,setIsError,setShowModal}:HandelFormSubmitProps<T>){
+export async function handleFormSubmit<T>({e, isEditing, entity ,id,updateFunction, addFunction, entityName,setIsError,setShowModal,onAfterSubmit}:HandelFormSubmitProps<T>){
     e.preventDefault();
+    let submittedEntity: T | undefined = undefined;
     try {
       if (isEditing) {
         if (!id) throw new Error(`ID is required for updating ${entityName}`);
-        const data = await updateFunction(id, entity);
-        console.log(`${entityName} updated Successfully`, data);
+         submittedEntity = await updateFunction(id, entity);
+        console.log(`${entityName} updated Successfully`, submittedEntity);
       } else {
-        const addedData = await addFunction(entity);
-        console.log(`${entityName} added Successfully`, addedData);
+         submittedEntity = await addFunction(entity);
+        console.log(`${entityName} added Successfully`, submittedEntity);
+      }
+      if (onAfterSubmit && submittedEntity) {
+        console.log("calling onAfter Submit");
+        await onAfterSubmit(submittedEntity, id);
       }
       setIsError(false);
     } catch (error) {

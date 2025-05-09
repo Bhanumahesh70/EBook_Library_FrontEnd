@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import TextInputField from '../../Form/TextInputField';
 import DropDownList from '../../Form/DropDownList';
 import EntityForm from '../../Form/EntityForm';
+import { Form } from 'react-bootstrap';
 import {
   Book,
   Category,
@@ -16,6 +17,7 @@ import {
   addBook,
   getBooksById,
   updateBook,
+  uploadImage,
 } from '../../../services/EntityServices/bookService';
 import { getAuthors } from '../../../services/EntityServices/authorService';
 import { getPublishers } from '../../../services/EntityServices/publisherService';
@@ -34,7 +36,12 @@ const BookForm = () => {
     authorsDetails: [],
     categoriesDetails: [],
     publisherDetails: { id: '', name: '' },
+    coverImageUrl: '',
   };
+
+  const [coverImage, setCoverImage] = React.useState<File | null>(null);
+  const [imagePreview, setImagePreview] = React.useState<string | null>(null);
+
   const [showAuthorList, setShowAuthorList] = React.useState(false);
   const [showCategoryList, setShowCategoryList] = React.useState(false);
   const [showPublisherList, setShowPublisherList] = React.useState(false);
@@ -90,6 +97,17 @@ const BookForm = () => {
     setter((prev) => !prev);
   };
 
+  const uploadCoverImage = async (bookId: string) => {
+    console.log('Uploading cover Image');
+    if (!coverImage) return;
+    const formData = new FormData();
+    formData.append('file', coverImage);
+    await uploadImage(formData, bookId);
+  };
+  const onAfterSubmit = async (book: Book, id?: string) => {
+    const bookId = id || book.id;
+    await uploadCoverImage(bookId);
+  };
   const renderBookFeilds = (
     book: Book,
     handleChange: (e: React.ChangeEvent<any>) => void
@@ -261,6 +279,29 @@ const BookForm = () => {
           value={book.publicationYear}
           onChange={handleChange}
         />
+        <Form.Group controlId="formCoverImage">
+          <Form.Label>Upload Cover Image</Form.Label>
+          <Form.Control
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const target = e.target as HTMLInputElement;
+              const file = target.files?.[0];
+              setCoverImage(file || null);
+              setImagePreview(file ? URL.createObjectURL(file) : null);
+            }}
+          />
+        </Form.Group>
+
+        {imagePreview && (
+          <div style={{ marginTop: '10px' }}>
+            <img
+              src={imagePreview}
+              alt="Preview"
+              style={{ maxWidth: '200px', height: 'auto', borderRadius: '5px' }}
+            />
+          </div>
+        )}
       </>
     );
   };
@@ -275,6 +316,7 @@ const BookForm = () => {
       urlToNavitageAwayFromForm="/ebook"
       renderFields={renderBookFeilds}
       customUseEffect={customUseEffect}
+      onAfterSubmit={onAfterSubmit}
     />
   );
 };

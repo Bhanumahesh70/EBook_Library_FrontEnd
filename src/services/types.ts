@@ -59,6 +59,7 @@ export type Book=  {
     //categoriesDTO: Category[];
     categoriesDetails: CategoriesDetails[]
     publisherDetails:PublisherDetails
+    coverImageUrl: string;
   };
 
 export  type Category={

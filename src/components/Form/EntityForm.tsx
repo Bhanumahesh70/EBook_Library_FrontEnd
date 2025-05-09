@@ -29,6 +29,7 @@ interface EntityFormProps<T> {
   ) => void;
   customNavigateUrl?: string;
   customTextForModal?: string;
+  onAfterSubmit?: (entity: T, id: string | undefined) => Promise<void>;
 }
 function EntityForm<T>({
   defaultEntity,
@@ -43,6 +44,7 @@ function EntityForm<T>({
   customUseEffect,
   customNavigateUrl,
   customTextForModal,
+  onAfterSubmit,
 }: EntityFormProps<T>) {
   const [entity, setEntity] = React.useState<T>(defaultEntity);
   const { id } = useParams();
@@ -76,6 +78,7 @@ function EntityForm<T>({
       entityName,
       setIsError,
       setShowModal: setShowFeedbackModel,
+      onAfterSubmit,
     });
   }
 

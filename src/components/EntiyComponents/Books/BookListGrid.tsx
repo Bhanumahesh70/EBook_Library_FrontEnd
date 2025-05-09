@@ -203,7 +203,7 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
         <div className="col-7 col-sm-5 col-md-4 col-lg-3" key={book.id}>
           <div className="card shadow-lg h-100 border-0 book-card">
             <img
-              src={BookImage}
+              src={book.coverImageUrl || BookImage}
               className="card-img-top book-img"
               alt={book.title}
             />
