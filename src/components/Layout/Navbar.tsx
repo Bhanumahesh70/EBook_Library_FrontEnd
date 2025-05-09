@@ -82,7 +82,7 @@ const Navbar = () => {
   };
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark  ">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark custom-navbar">
         <div className="container">
           <a className="navbar-brand" href="#">
             EBook
@@ -101,149 +101,131 @@ const Navbar = () => {
           </button>
 
           <div
-            className={`collapse navbar-collapse  ${
+            className={`collapse navbar-collapse ${
               openNavButton ? 'show' : ''
             }`}
             id="navbarSupportedContent"
           >
-            <ul className="navbar-nav mx-auto ">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item active">
                 <Link to={`/ebook`} className="nav-link">
                   Home
                 </Link>
               </li>
+
               {role === 'ROLE_ADMIN' ? (
-                <NavBarDropDown
-                  label="Books"
-                  openDropdown={openDropdown === 'Books'}
-                  handleDropDownClick={() => handleDropDownClick('Books')}
-                  renderDropDownListItems={booksDropdownList()}
-                />
+                <>
+                  <NavBarDropDown
+                    label="Books"
+                    openDropdown={openDropdown === 'Books'}
+                    handleDropDownClick={() => handleDropDownClick('Books')}
+                    renderDropDownListItems={booksDropdownList()}
+                  />
+                  <NavBarDropDown
+                    label="Authors"
+                    openDropdown={openDropdown === 'Authors'}
+                    handleDropDownClick={() => handleDropDownClick('Authors')}
+                    renderDropDownListItems={authorsDropdownList()}
+                  />
+                  <NavBarDropDown
+                    label="Category"
+                    openDropdown={openDropdown === 'Category'}
+                    handleDropDownClick={() => handleDropDownClick('Category')}
+                    renderDropDownListItems={categoriesDropdownList()}
+                  />
+                  <NavBarDropDown
+                    label="Publishers"
+                    openDropdown={openDropdown === 'Publishers'}
+                    handleDropDownClick={() =>
+                      handleDropDownClick('Publishers')
+                    }
+                    renderDropDownListItems={publishersDropdownList()}
+                  />
+                  <NavBarDropDown
+                    label="Users"
+                    openDropdown={openDropdown === 'Users'}
+                    handleDropDownClick={() => handleDropDownClick('Users')}
+                    renderDropDownListItems={usersDropdownList()}
+                  />
+                </>
               ) : (
-                <></>
+                <>
+                  <li className="nav-item">
+                    <Link to={`/ebook/authors`} className="nav-link">
+                      Authors
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={`/ebook/categories`} className="nav-link">
+                      Categories
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={`/ebook/publishers`} className="nav-link">
+                      Publishers
+                    </Link>
+                  </li>
+                </>
               )}
-              {role === 'ROLE_ADMIN' ? (
-                <NavBarDropDown
-                  label="Authors"
-                  openDropdown={openDropdown === 'Authors'}
-                  handleDropDownClick={() => handleDropDownClick('Authors')}
-                  renderDropDownListItems={authorsDropdownList()}
-                />
-              ) : (
-                <li className="nav-item">
-                  <Link to={`/ebook/authors`} className="nav-link">
-                    Authors
-                  </Link>
-                </li>
-              )}
-              {role === 'ROLE_ADMIN' ? (
-                <NavBarDropDown
-                  label="Category"
-                  openDropdown={openDropdown === 'Category'}
-                  handleDropDownClick={() => handleDropDownClick('Category')}
-                  renderDropDownListItems={categoriesDropdownList()}
-                />
-              ) : (
-                <li className="nav-item">
-                  <Link to={`/ebook/categories`} className="nav-link">
-                    Categories
-                  </Link>
-                </li>
-              )}
-              {role === 'ROLE_ADMIN' ? (
-                <NavBarDropDown
-                  label="Publishers"
-                  openDropdown={openDropdown === 'Publishers'}
-                  handleDropDownClick={() => handleDropDownClick('Publishers')}
-                  renderDropDownListItems={publishersDropdownList()}
-                />
-              ) : (
-                <li className="nav-item">
-                  <Link to={`/ebook/publishers`} className="nav-link">
-                    Publishers
-                  </Link>
-                </li>
-              )}
-              {role === 'ROLE_ADMIN' ? (
-                <NavBarDropDown
-                  label="Users"
-                  openDropdown={openDropdown === 'Users'}
-                  handleDropDownClick={() => handleDropDownClick('Users')}
-                  renderDropDownListItems={usersDropdownList()}
-                />
-              ) : (
-                <></>
-              )}
-              {role === 'ROLE_ADMIN' ? (
-                <li className="nav-item">
-                  <Link to={`/ebook/reservations`} className="nav-link">
-                    Reservations
-                  </Link>
-                </li>
-              ) : (
-                <li className="nav-item">
-                  <Link
-                    to={`/ebook/users/${loginUserDetails.id}/reservations`}
-                    className="nav-link"
-                  >
-                    Reservations
-                  </Link>
-                </li>
-              )}
-              {role === 'ROLE_ADMIN' ? (
-                <li className="nav-item">
-                  <Link to={`/ebook/borrowedBooks`} className="nav-link">
-                    Borrowed Books
-                  </Link>
-                </li>
-              ) : (
-                <li className="nav-item">
-                  <Link
-                    to={`/ebook/users/${loginUserDetails.id}/books`}
-                    className="nav-link"
-                  >
-                    Borrowed Books
-                  </Link>
-                </li>
-              )}
-              {role === 'ROLE_ADMIN' ? (
-                <li className="nav-item">
-                  <Link to={`/ebook/fines`} className="nav-link">
-                    Fines
-                  </Link>
-                </li>
-              ) : (
-                <li className="nav-item">
-                  <Link
-                    to={`/ebook/users/${loginUserDetails.id}/fines`}
-                    className="nav-link"
-                  >
-                    Fines
-                  </Link>
-                </li>
-              )}
+
               <li className="nav-item">
-                <button
-                  className="btn btn-outline-danger my-2 my-sm-0"
-                  onClick={logout}
+                <Link
+                  to={
+                    role === 'ROLE_ADMIN'
+                      ? `/ebook/reservations`
+                      : `/ebook/users/${loginUserDetails.id}/reservations`
+                  }
+                  className="nav-link"
                 >
-                  Logout
-                </button>
+                  Reservations
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to={
+                    role === 'ROLE_ADMIN'
+                      ? `/ebook/borrowedBooks`
+                      : `/ebook/users/${loginUserDetails.id}/books`
+                  }
+                  className="nav-link"
+                >
+                  Borrowed Books
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to={
+                    role === 'ROLE_ADMIN'
+                      ? `/ebook/fines`
+                      : `/ebook/users/${loginUserDetails.id}/fines`
+                  }
+                  className="nav-link"
+                >
+                  Fines
+                </Link>
               </li>
             </ul>
-            <div className="ms-auto">
-              <form className="form-inline my-2 my-lg-0 d-flex">
+
+            {/* Right-aligned Logout and Search */}
+            <div className="d-flex flex-wrap gap-2 justify-content-end w-100 mt-3 mt-md-0">
+              <button className="btn btn-outline-danger" onClick={logout}>
+                Logout
+              </button>
+              <form
+                className="d-flex flex-grow-1 flex-md-grow-0"
+                role="search"
+                style={{ gap: '8px', maxWidth: '300px', width: '100%' }}
+                onSubmit={(e) => e.preventDefault()}
+              >
                 <input
-                  className="form-control me-2"
+                  className="form-control"
                   type="search"
                   placeholder="Search anything"
                   aria-label="Search"
+                  style={{ flexGrow: 1 }}
                   onChange={(e) => setGlobalSearch(e.target.value)}
                 />
-                <button
-                  className="btn btn-outline-success my-2 my-sm-0"
-                  type="submit"
-                >
+                <button className="btn btn-outline-success" type="submit">
                   Search
                 </button>
               </form>
