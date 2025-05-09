@@ -1,5 +1,7 @@
 import { EntityService } from './EntityService';
-import { User, BorrowedBook, Reservation } from "../types";
+import { User, BorrowedBook, Reservation, 
+  Fine
+ } from "../types";
 
 const entityService = new EntityService<User>('/ebook/users');
 export const getUsers = entityService.getAllItems;
@@ -11,6 +13,8 @@ export const getBorrowedBooksForUserWithId = (id: String | undefined) =>
   entityService.getRelatedEntityItemsForThisEntityWithId<BorrowedBook>(id, 'borrowedBooks');
 export const getReservationsForUserWithId = (id: String | undefined) =>
   entityService.getRelatedEntityItemsForThisEntityWithId<Reservation>(id, 'reservations');
+export const getFinesForUserWithId = (id: String | undefined) =>
+  entityService.getRelatedEntityItemsForThisEntityWithId<Fine>(id, 'fines');
 /*
 
 export const updateUserById = async(id:string|undefined,user:User):Promise<User>=>{
