@@ -21,6 +21,7 @@ const AuthorForm = () => {
     nationality: '',
     birthDate: '',
     bookDetails: [],
+    coverImageUrl: '',
   };
   /*
  // const { booksDetails } = useBooksIds();

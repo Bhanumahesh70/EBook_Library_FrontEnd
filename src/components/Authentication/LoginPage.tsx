@@ -61,10 +61,10 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="loginDiv">
+    <div className="formHeader form-wrapper">
       <h1>Welcome to Ebook Website</h1>
-      <div className=" container mb-5 loginFrom">
-        <form onSubmit={handleSubmit}>
+      <div className=" container mb-5 formContainer">
+        <form className="entityform" onSubmit={handleSubmit}>
           <div className="mb-3 loginInvalidText">
             <p className="text-danger">
               {isError ? 'Invalid credentials' : ' '}

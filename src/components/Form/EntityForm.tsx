@@ -131,7 +131,7 @@ function EntityForm<T>({
     }
   };
   return (
-    <div className="formHeader">
+    <div className="formHeader form-wrapper">
       {customFormHeading ? (
         customFormHeading()
       ) : (
