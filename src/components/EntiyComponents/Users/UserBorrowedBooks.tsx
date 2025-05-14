@@ -10,7 +10,7 @@ const UserBorrowedBooks = () => {
 
   return (
     <BorrowedBooksTable
-      heading={`Books Borrowed by ${userName}`}
+      heading={`Books Borrowed`}
       dataFetcher={fetchBooks}
       includeUserColumn={false}
     />
