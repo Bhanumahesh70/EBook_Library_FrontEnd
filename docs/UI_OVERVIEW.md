@@ -57,9 +57,9 @@ This document showcases key UI screens from the **EBook Management Frontend** ap
 
 ### 🧰 Utilities & Features
 
-- [Feedback Modals](#feedback-modals)
-- [Data Filters & Sorting](#data-filter)
-- [Global Search](#global-search)
+- [Feedback Modals](#-feedback-modals)
+- [Data Filters & Sorting](#-data-filter)
+- [Global Search](#-global-search)
 
 ---
 
