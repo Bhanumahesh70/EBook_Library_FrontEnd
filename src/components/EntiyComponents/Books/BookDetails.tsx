@@ -81,7 +81,7 @@ function BookDetails() {
 
   return (
     <Card
-      image={BookImage}
+      image={book?.coverImageUrl || BookImage}
       alt={`${book?.title}`}
       title={book?.title}
       subtitle={

@@ -1,50 +1,104 @@
-# React + TypeScript + Vite
+# 📚 Ebook Management Frontend (React + TypeScript + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend of an **Ebook Management System**, developed using **React**, **TypeScript**, and **Vite**. It connects with a Spring Boot backend and supports authentication, book browsing, reservations, fines, and role-based access.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📑 Table of Contents
 
-## Expanding the ESLint configuration
+- [Features](#features)
+- [Detailed Code Overview](#-detailed-code-overview)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Setup Instructions](#setup-instructions)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## 📖 Detailed Code Overview
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+For a comprehensive breakdown of the frontend architecture and implementation details, refer to the following document in the [`docs/`](docs) folder:
+
+- [`CODE_OVERVIEW.md`](docs/CODE_OVERVIEW.md)
+
+---
+
+## ✨ Features
+
+- 📚 View and manage books, authors, categories, publishers, and book reservations
+- 👤 User Authentication Sign In
+- 🔐 Role-based access control using protected routes (Admin/User)
+- 💳 Borrow and return books with automated fine calculations
+- 📅 User-specific dashboards for reservations and borrowing
+- 🔍 Global search and filtering
+- 🧾 Fine tracking with dynamic status and cost
+- 🎨 Responsive and clean UI design with custom form components
+
+> ⚠️ **Note:** The above features include both admin and user functionalities. Admins can manage all entities, while regular users only see and interact with their own data (e.g., borrowed books, reservations, fines).
+
+---
+
+## 🛠️ Tech Stack
+
+- React 18 + TypeScript
+- Vite
+- React Router v6
+- Axios
+- Context API
+- CSS Modules or custom styles
+- VS Code + ESLint + Prettier
+
+---
+
+## 🗂️ Project Structure
+
+```
+src
+├── assets/                    # Static assets (images, icons, etc.)
+├── components/
+│   ├── Authentication         # Login, context, and route guards
+│   ├── EntityComponents/      # Domain-specific entities
+│   │   ├── Books/, Authors/,
+│   │       Categories/, Users/, Fines/, etc.
+│   ├── Form                   # Reusable form elements
+│   ├── Layout                 # Header, Navbar
+│   ├── Modals/                # Feedback and status modals
+│   └── Utilities/             # Filter, global search context
+├── services                   # API interaction logic
+├── App.tsx                    # App entry point with route definitions
+├── main.tsx                   # Main bootstrap
+└── index.css                  # Global styles
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## 🚀 Setup Instructions
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Steps
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Bhanumahesh70/EBook_Library_FrontEnd.git
+   cd EbookWebsite_FrontendReact
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Run the app:
+
+   ```bash
+   npm run dev
+   ```
+
+---
