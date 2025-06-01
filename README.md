@@ -6,12 +6,12 @@ This is the frontend of an **Ebook Management System**, developed using **React*
 
 ## 📑 Table of Contents
 
-- [Features](#features)
+- [Features](#-features)
 - [Detailed Code Overview](#-detailed-code-overview)
-- [User Interface of the application](#-user-interface-of-the-application)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Setup Instructions](#setup-instructions)
+- [User Interface of the application](#user-interface-of-the-application)
+- [Tech Stack](#️-tech-stack)
+- [Project Structure](#️-project-structure)
+- [Setup Instructions](#-setup-instructions)
 
 ---
 
