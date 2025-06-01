@@ -22,6 +22,14 @@ For a comprehensive breakdown of the frontend architecture and implementation de
 
 ---
 
+## User Interface of the application
+
+For an in-depth overview of the application's user interface — including core screens, layout design, navigation structure, and key visual components — refer to the following document in the [`docs/`](docs) folder:
+
+- [`UI_OVERVIEW.md`](docs/UI_OVERVIEW.md)
+
+---
+
 ## ✨ Features
 
 - 📚 View and manage books, authors, categories, publishers, and book reservations
