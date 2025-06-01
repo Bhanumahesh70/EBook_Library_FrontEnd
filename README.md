@@ -8,6 +8,7 @@ This is the frontend of an **Ebook Management System**, developed using **React*
 
 - [Features](#-features)
 - [Detailed Code Overview](#-detailed-code-overview)
+- [Backend of the Application](#backend-of-the-application)
 - [User Interface of the application](#user-interface-of-the-application)
 - [Tech Stack](#️-tech-stack)
 - [Project Structure](#️-project-structure)
@@ -20,6 +21,14 @@ This is the frontend of an **Ebook Management System**, developed using **React*
 For a comprehensive breakdown of the frontend architecture and implementation details, refer to the following document in the [`docs/`](docs) folder:
 
 - [`CODE_OVERVIEW.md`](docs/CODE_OVERVIEW.md)
+
+---
+
+## Backend of the Application
+
+Refer link below for SpringBoot backend of this application
+
+- [`EBook_Library_Backend`](https://github.com/Bhanumahesh70/EBook_Library_Backend.git)
 
 ---
 
