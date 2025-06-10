@@ -1,4 +1,4 @@
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getFinesForUserWithId } from '../../../services/EntityServices/userService';
 import FinesTable from '../Fines/FinesTable';
 

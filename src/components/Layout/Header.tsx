@@ -1,4 +1,3 @@
-import React from 'react';
 import BackGroungImage from '../../assets/BgHd2.jpg';
 
 const Header = () => {

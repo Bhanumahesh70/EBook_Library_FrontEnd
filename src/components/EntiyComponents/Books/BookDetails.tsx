@@ -1,12 +1,10 @@
 import React from 'react';
 import Card from '../../Form/Card';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   deleteBookById,
   getBooksById,
 } from '../../../services/EntityServices/bookService';
-import Modal from '../../Modals/Modal';
-import FeedBackModal from '../../Modals/FeedBackModal';
 import BookImage from '../../../assets/Book.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -19,7 +17,6 @@ import { useLoginUser } from '../../Authentication/LoginUserContext';
 
 function BookDetails() {
   const [book, setBook] = React.useState<Book | null>(null);
-  const navigate = useNavigate();
   const { loginUserDetails } = useLoginUser();
   const role = loginUserDetails.role;
   const categoryElements = (categories: CategoriesDetails[] | undefined) => {

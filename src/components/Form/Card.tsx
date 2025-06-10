@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from '../Modals/Modal';
 import FeedBackModal from '../Modals/FeedBackModal';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 interface CardProps<T> {
   image: string;
   alt: string;

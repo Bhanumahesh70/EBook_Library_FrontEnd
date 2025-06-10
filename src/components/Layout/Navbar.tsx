@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuthentication } from '../Authentication/AuthenticationContext';
 import { useLoginUser } from '../Authentication/LoginUserContext';
 import NavBarDropDown from '../Form/NavBarDropDown';
@@ -10,8 +10,8 @@ const Navbar = () => {
   const { setIsAuthenticated } = useAuthentication();
   const { loginUserDetails } = useLoginUser();
   const role = loginUserDetails.role;
-  const navigate = useNavigate();
-  const { globalSearch, setGlobalSearch } = useGlobalSearch();
+
+  const { setGlobalSearch } = useGlobalSearch();
 
   function handleDropDownClick(name: string) {
     setOpenDropdown((prev) => (prev === name ? null : name));

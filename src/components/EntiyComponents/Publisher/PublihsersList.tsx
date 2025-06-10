@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Publisher } from '../../../services/types';
 import { getPublishers } from '../../../services/EntityServices/publisherService';
 import EntityTable from '../AbstractEntity/EntityTable';

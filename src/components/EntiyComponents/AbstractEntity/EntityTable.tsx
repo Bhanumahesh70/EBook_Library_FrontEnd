@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useFilterSort } from '../../../services/useFilterSort';
 import FilterToggleInput from '../../Utilities/FilterToggleInput';
 import { useGlobalSearch } from '../../Utilities/GlobalSearchContext';
@@ -80,7 +80,7 @@ const EntityTable = <T extends TProps>({
   const { sortedData, handleSort, sortConfig } = useFilterSort(
     globallyFilteredData,
     filters,
-    setFilters,
+    //setFilters,
     filterFunctions,
     sortFunctions,
     initialSortConfig

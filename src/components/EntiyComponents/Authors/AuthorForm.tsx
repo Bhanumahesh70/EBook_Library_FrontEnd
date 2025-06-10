@@ -2,16 +2,13 @@ import React from 'react';
 import EntityForm from '../../Form/EntityForm';
 import TextInputField from '../../Form/TextInputField';
 import TextAreaField from '../../Form/TextAreaField';
-import { Author, BookDetails } from '../../../services/types';
+import { Author } from '../../../services/types';
 import {
   getAuthorById,
   updateAuthorById,
   addAuthor,
   uploadImage,
 } from '../../../services/EntityServices/authorService';
-import { useBooksIds } from '../AbstractEntity/BooksIdsContext';
-import ListItems from '../../Form/ListItems';
-import DropDownList from '../../Form/DropDownList';
 
 const AuthorForm = () => {
   const defaultAuthor: Author = {

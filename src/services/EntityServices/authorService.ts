@@ -1,4 +1,4 @@
-import apiClient from "../apiClient";
+
 import { Author, Book } from "../types";
 import { EntityService } from "./EntityService";
 

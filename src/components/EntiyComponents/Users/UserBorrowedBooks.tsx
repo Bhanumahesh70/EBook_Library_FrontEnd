@@ -1,11 +1,10 @@
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getBorrowedBooksForUserWithId } from '../../../services/EntityServices/userService';
 import BorrowedBooksTable from '../BorrowedBooks/BorrowedBooksTable';
 
 const UserBorrowedBooks = () => {
   const { id } = useParams<{ id: string }>();
-  const location = useLocation();
-  const userName = location.state?.userName;
+
   const fetchBooks = () => getBorrowedBooksForUserWithId(id);
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Reservation } from '../../../services/types';
 import { useParams } from 'react-router-dom';
 import { getReservationsForUserWithId } from '../../../services/EntityServices/userService';

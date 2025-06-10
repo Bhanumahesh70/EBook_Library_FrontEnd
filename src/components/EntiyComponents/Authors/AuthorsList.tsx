@@ -1,13 +1,13 @@
 import React from 'react';
 import { getAuthors } from '../../../services/EntityServices/authorService';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Author } from '../../../services/types';
 import EntityTable from '../AbstractEntity/EntityTable';
 import { Column } from '../../../services/types';
 
 const AuthorsList = () => {
   const [authors, setAuthors] = React.useState<Author[]>([]);
-  const navigate = useNavigate();
+
   const [showFilterInput, setShowFilterInput] = React.useState<
     Record<string, boolean>
   >({
@@ -25,6 +25,8 @@ const AuthorsList = () => {
   React.useEffect(() => {
     getAuthors().then((data) => setAuthors(data));
   }, []);
+
+  /*
   function handleClick(id: string) {
     console.log('Navigating to edit author with id:', id);
     navigate(`/ebook/authors/${id}`);
@@ -39,6 +41,7 @@ const AuthorsList = () => {
     const [year, month, day] = dateStr.split('-').map(Number);
     return new Date(year, month - 1, day); // Note: month is 0-indexed
   };
+  */
   const columns: Column<Author>[] = [
     {
       key: 'name',
@@ -86,7 +89,10 @@ const AuthorsList = () => {
       key: 'books',
       label: 'Books',
       type: 'text',
-      getValue: (item: Author) => 'Books',
+      getValue: (item: Author) => {
+        console.log(item);
+        return 'Books';
+      },
       render: (item: Author) => (
         <Link
           to={`${item.id}/books`}
@@ -101,7 +107,10 @@ const AuthorsList = () => {
       key: 'details',
       label: 'Details',
       type: 'text',
-      getValue: (item: Author) => 'details',
+      getValue: (item: Author) => {
+        console.log(item);
+        return 'details';
+      },
       render: (item: Author) => (
         <Link to={`${item.id}/details`} className="btn btn-outline-primary">
           view

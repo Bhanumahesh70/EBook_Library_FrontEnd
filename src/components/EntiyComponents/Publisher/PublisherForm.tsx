@@ -1,7 +1,6 @@
 import React from 'react';
 import EntityForm from '../../Form/EntityForm';
 import TextInputField from '../../Form/TextInputField';
-import TextAreaField from '../../Form/TextAreaField';
 import { Publisher } from '../../../services/types';
 import {
   getPublisherById,

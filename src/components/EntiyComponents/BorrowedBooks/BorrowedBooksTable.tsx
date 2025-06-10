@@ -3,10 +3,7 @@ import EntityTable from '../AbstractEntity/EntityTable';
 import { BorrowedBook, Column } from '../../../services/types';
 import { Button, Modal } from 'react-bootstrap';
 import { returnBorrowedBook } from '../../../services/EntityServices/borrowedBookService';
-import {
-  payFine,
-  getFineById,
-} from '../../../services/EntityServices/fineService';
+import { payFine } from '../../../services/EntityServices/fineService';
 
 interface Props {
   heading: string;

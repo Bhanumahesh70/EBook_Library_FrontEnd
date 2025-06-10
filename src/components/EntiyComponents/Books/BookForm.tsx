@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import TextInputField from '../../Form/TextInputField';
 import DropDownList from '../../Form/DropDownList';
 import EntityForm from '../../Form/EntityForm';
-import { Form } from 'react-bootstrap';
 import {
   Book,
   Category,
@@ -44,6 +43,7 @@ const BookForm = () => {
   const [allAuthors, setAllAuthors] = React.useState<Author[]>([]);
   const [allCategories, setAllCategories] = React.useState<Category[]>([]);
   const [allPublishers, setAllPublishers] = React.useState<Publisher[]>([]);
+
   const [categoryDetails, setCategoryDetails] = React.useState<
     CategoriesDetails[]
   >([]);
@@ -52,6 +52,10 @@ const BookForm = () => {
   );
   const [publisherDetails, setPublisherDetails] =
     React.useState<PublisherDetails | null>(null);
+
+  console.log(categoryDetails);
+  console.log(authorDetails);
+  console.log(publisherDetails);
 
   const fetchAndSet = async (
     label: string,

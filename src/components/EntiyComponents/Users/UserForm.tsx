@@ -18,6 +18,8 @@ const UserForm = ({ isSignup = false }: { isSignup?: boolean }) => {
     phoneNumber: '',
     address: '',
     role: 'ROLE_USER',
+    reservationDetails: [],
+    borrowedBookDetails: [],
   };
 
   function handleOnChange(

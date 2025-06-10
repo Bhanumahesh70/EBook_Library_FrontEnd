@@ -8,7 +8,7 @@ type SortAccessor<T> = Record<string, (item: T) => any>;
 
 export const useFilterSort = <T>(
     data:T[], filters :Record<string, any>, 
-    setFilters:React.Dispatch<React.SetStateAction<Record<string, any>>>,
+   // setFilters:React.Dispatch<React.SetStateAction<Record<string, any>>>,
     FilterFunction:Record<string,(item: T) => boolean>,
     sortAccessors: SortAccessor<T>,
     initialSortConfig: SortConfig = null)=>{

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { authenticateUser, ValidateUser } from '../../services/loginService';
+import { authenticateUser } from '../../services/loginService';
 import { useAuthentication } from './AuthenticationContext';
 import { useLoginUser } from './LoginUserContext';
 interface LoginUserDetailsProps {
@@ -41,9 +41,8 @@ const LoginPage = () => {
     event.preventDefault();
 
     try {
-      const authResp: AuthenticationResponse = await authenticateUser(
-        authRequest
-      );
+      const authResp: AuthenticationResponse =
+        await authenticateUser(authRequest);
       console.log('User is authenticated', authResp);
       setIsAuthenticated(true);
       const loginUSerDetails: LoginUserDetailsProps = {
@@ -52,7 +51,7 @@ const LoginPage = () => {
       };
       setLoginUserDetails(loginUSerDetails);
       localStorage.setItem('authToken', authResp.token);
-      const validResp = await ValidateUser();
+      //const validResp = await ValidateUser();
       navigate('/ebook');
     } catch (error) {
       setIsError(true);

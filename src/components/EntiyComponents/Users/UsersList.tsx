@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getUsers } from '../../../services/EntityServices/userService';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { User, Column } from '../../../services/types';
 import EntityTable from '../AbstractEntity/EntityTable';
 
 const UsersList = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const navigate = useNavigate();
 
   const [showFilterInput, setShowFilterInput] = useState<
     Record<string, boolean>

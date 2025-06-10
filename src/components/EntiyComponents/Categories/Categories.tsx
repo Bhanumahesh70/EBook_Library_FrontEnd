@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Category } from '../../../services/types';
 import { getCategories } from '../../../services/EntityServices/categoryService';
 import { Link } from 'react-router-dom';
@@ -48,7 +48,10 @@ const Categories = () => {
       key: 'books',
       label: 'Books',
       type: 'text',
-      getValue: (item) => 'Books',
+      getValue: (item) => {
+        console.log(item);
+        return 'Books';
+      },
       render: (item) => (
         <Link
           to={`${item.id}/books`}

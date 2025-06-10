@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import FeedBackModal from '../Modals/FeedBackModal';
 import { textInModal, handleModalClosing } from '../../services/modalUtilities';
 import {
@@ -52,7 +52,7 @@ function EntityForm<T>({
 
   const { id } = useParams();
   const isEditing = Boolean(id);
-  const location = useLocation();
+
   const navigate = useNavigate();
   //const [showModal, setShowModal] = React.useState(false);
   const [showFeedbackModal, setShowFeedbackModel] = React.useState(false);

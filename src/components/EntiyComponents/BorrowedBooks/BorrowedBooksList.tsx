@@ -1,4 +1,3 @@
-import React from 'react';
 import { getBorrowedBooks } from '../../../services/EntityServices/borrowedBookService';
 import BorrowedBooksTable from './BorrowedBooksTable';
 

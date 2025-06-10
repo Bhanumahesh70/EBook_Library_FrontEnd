@@ -1,4 +1,4 @@
-import axios from "axios"
+
 import apiClient from "../apiClient";
 
 export class EntityService<T>{

@@ -57,7 +57,7 @@ function BookList({ booksProp, isAllbooks }: BooksProp) {
     console.log('booksIds:', booksIds);
     return books;
   };
-  const fetchUser = async <User,>() => {
+  const fetchUser = async () => {
     const userdata = await getUserById(loginUserDetails.id);
     console.log('Userdata is fetched :', userdata);
     setUser(userdata);
